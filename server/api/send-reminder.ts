@@ -1,8 +1,8 @@
 
 export default defineEventHandler(async(event) => {
     
-    const accountSid = 'AC76cee0b652e3b0adf303fd7d1449bc74';
-    const authToken = 'd38005e50c50b5b870caa8bb05b0a5ea';
+    const accountSid = config.env.TWILIO_accountSid;
+    const authToken = config.env.TWILIO_authToken;
     const client = require('twilio')(accountSid, authToken);
     client.messages
         .create({
