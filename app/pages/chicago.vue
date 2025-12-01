@@ -75,12 +75,16 @@ onMounted(async ()=>{
 
 <template>
   <div class="container mx-auto"> 
+    <UPageHeader
+        title="Upcoming Events"
+        description="Here are all the shows in Chicago this week!"
+        class="mb-4"
+      />
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%]">
         <UProgress v-model="value"/>
     </div>
     <div v-else v-for="show in allShows" :key="show.title">
       <EventCard :show="show"/>   
-      <br />
     </div>
   </div>
 </template>

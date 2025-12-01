@@ -19,10 +19,13 @@ export const useAggregatedShows = () => {
           });
 
 
-
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const weekFromNow = new Date();
+        weekFromNow.setDate(weekFromNow.getDate() + 7);
         allShows.value = withParsedDates?.sort(
             (a, b) => a?.parsedDate?.getTime() - b?.parsedDate?.getTime()
-          );
+          ).filter((show) => show.parsedDate >= today && show.parsedDate <= weekFromNow);
          
           return allShows;
 

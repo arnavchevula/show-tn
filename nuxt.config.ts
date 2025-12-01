@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/ui'],
   css: ['~/assets/css/main.css'],
+  colorMode: {
+    preference: 'dark', // Can be 'system', 'light', or 'dark'
+    fallback: 'dark',     // Fallback if preference cannot be determined
+    classSuffix: '',      // Optional: if you want to use a specific class for color mode
+  },
   nitro: {
     runtimeConfig: {
       twilioRecoverCode: 'U5AF1WBKQ3RZ61RHY2VVDPAB', 

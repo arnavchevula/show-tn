@@ -4,25 +4,20 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [{
-  label: 'Docs',
-  to: '/docs/getting-started',
+  label: 'Home',
+  to: '/',
   icon: 'i-lucide-book-open',
-  active: route.path.startsWith('/docs/getting-started')
 }, {
-  label: 'Components',
-  to: '/docs/components',
+  label: 'Shows',
+  to: '/chicago',
   icon: 'i-lucide-box',
-  active: route.path.startsWith('/docs/components')
-}, {
-  label: 'Figma',
-  icon: 'i-simple-icons-figma',
-  to: 'https://go.nuxt.com/figma-ui',
-  target: '_blank'
-}, {
-  label: 'Releases',
+  active: route.path.startsWith('/chicago')
+},{
+  label: 'About Us',
+  to: '/about',
   icon: 'i-lucide-rocket',
-  to: 'https://github.com/nuxt/ui/releases',
-  target: '_blank'
+  active: route.path.startsWith('/about')
+
 }])
 </script>
 
@@ -41,7 +36,7 @@ const items = computed<NavigationMenuItem[]>(() => [{
         <UButton
           color="neutral"
           variant="ghost"
-          to="https://github.com/nuxt/ui"
+          to="https://github.com/arnavchevula/show-tn/tree/master"
           target="_blank"
           icon="i-simple-icons-github"
           aria-label="GitHub"

@@ -6,7 +6,7 @@
   </script>
 
 <template>
-    <div class="border-b-red-200 border-b">
+    <div class="border-b-red-200 border-b pb-4 mb-4">
     <p class="text-xs">{{ props.show?.header }}</p>
     <h1 class="text-2xl">{{ props.show?.title }}</h1>
     <p class="text-xs">{{ props.show?.support }}</p>
