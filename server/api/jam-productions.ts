@@ -1,5 +1,6 @@
 import { load } from 'cheerio';
-import puppeteer from 'puppeteer-core';
+import puppeteerCore from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import chromium from '@sparticuz/chromium';
 import type { Event } from '../../types/event.d.ts';
 import { DateParser } from './utils/date.js';
@@ -21,12 +22,18 @@ export default defineEventHandler(async(event) => {
 
     try {
         // Launch the browser and open a new blank page.
-        const browser = await puppeteer.launch({
-            args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
-            headless: chromium.headless,
-        });
+        // Use regular puppeteer for local dev, puppeteer-core + chromium for production
+        const isProduction = process.env.PRODUCTION || process.env.AWS_LAMBDA_FUNCTION_NAME;
+        const browser = isProduction
+            ? await puppeteerCore.launch({
+                args: chromium.args,
+                executablePath: await chromium.executablePath(),
+                headless: chromium.headless,
+            })
+            : await puppeteer.launch({
+                executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+                headless: true,
+            });
         const page = await browser.newPage();
 
         // Navigate the page to a URL.
