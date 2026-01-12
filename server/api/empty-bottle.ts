@@ -1,5 +1,6 @@
 import { load } from 'cheerio';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import type { Event } from '../../types/event.d.ts';
 import { DateParser } from './utils/date';
 import { DBConnection } from '../db/db';
@@ -15,7 +16,12 @@ export default defineEventHandler(async(event) => {
     let shows:Event[] = [];
     try {
         // Launch the browser and open a new blank page.
-        const browser = await puppeteer.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+        const browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+        });
         const page = await browser.newPage();
 
         // Navigate the page to a URL.
