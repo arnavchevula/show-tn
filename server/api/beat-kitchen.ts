@@ -69,24 +69,26 @@ export default defineEventHandler(
             const image =  $(elm).find('.seetickets-list-view-event-image').attr('src');
 
             shows.push({
-                id: uuidv4(), 
-                header: header, 
-                title:title, 
+                id: uuidv4(),
+                header: header,
+                title:title,
                 venue: venue,
-                headliners: headliners, 
+                headliners: headliners,
                 support: support,
                 doorsTime: doorsTime,
-                showTime: showTime, 
+                showTime: showTime,
                 subtitle: subtitle,
                 age: age,
                 price: price,
                 genre: genre,
                 date: date,
                 parsedDate: parsedDate,
-                image: image
+                image: image,
+                source: 'beat-kitchen'
                 } as Event)
         });
         await browser.close();
+        await db.from('events').delete().eq('source', 'beat-kitchen');
         const { error } = await db.from('events').insert(shows) 
         console.log("db error:", error);
         return {

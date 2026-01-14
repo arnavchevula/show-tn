@@ -69,25 +69,27 @@ export default defineEventHandler(async(event) => {
             const image =  $(elm).find('.seetickets-list-view-event-image').attr('src');
             
             shows.push({
-                id: uuidv4(), 
-                header: header, 
-                title:title, 
+                id: uuidv4(),
+                header: header,
+                title:title,
                 venue: venue,
-                headliners: headliners, 
+                headliners: headliners,
                 support: support,
                 doorsTime: doorsTime,
-                showTime: showTime, 
+                showTime: showTime,
                 subtitle: subtitle,
                 age: age,
                 price: price,
                 genre: genre,
                 date: date,
                 parsedDate: parsedDate,
-                image:image
+                image: image,
+                source: 'subt'
 
                 } as SubtEvent)
         });
         await browser.close();
+        await db.from('events').delete().eq('source', 'subt');
         const { error } = await db.from('events').insert(shows) 
         console.log("error: ",error);
         return {

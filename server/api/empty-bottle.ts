@@ -52,24 +52,26 @@ export default defineEventHandler(async(event) => {
             const url = $(elm).find('a .buy-button').attr('href');
 
             shows.push({
-                id: uuidv4(), 
-                header: header, 
-                title:title, 
+                id: uuidv4(),
+                header: header,
+                title:title,
                 venue: venue,
-                headliners: headliners, 
+                headliners: headliners,
                 support: support,
                 doorsTime: doorsTime,
-                showTime: showTime, 
+                showTime: showTime,
                 subtitle: subtitle,
                 date: date,
                 parsedDate: parsedDate,
                 age: '21+',
                 image: image,
-                url: url
+                url: url,
+                source: 'empty-bottle'
 
                 } as Event)
         }); 
         await browser.close();
+        await db.from('events').delete().eq('source', 'empty-bottle');
         const { error } = await db.from('events').insert(shows) 
         console.log("db error:", error);
         return {

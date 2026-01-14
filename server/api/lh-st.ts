@@ -74,14 +74,14 @@ export default defineEventHandler(async(event) => {
             const url = $(elm).find('a').attr('href');
 
             shows.push({
-                id: uuidv4(), 
-                header: header, 
-                title:title, 
+                id: uuidv4(),
+                header: header,
+                title:title,
                 venue: venue,
-                headliners: headliners, 
+                headliners: headliners,
                 support: support,
                 doorsTime: doorsTime,
-                showTime: showTime, 
+                showTime: showTime,
                 subtitle: subtitle,
                 age: age,
                 price: price,
@@ -89,11 +89,13 @@ export default defineEventHandler(async(event) => {
                 date: date,
                 parsedDate: parsedDate,
                 image: image,
-                url: url
+                url: url,
+                source: 'lh-st'
 
                 } as LHSTEvent)
         });
         await browser.close();
+        await db.from('events').delete().eq('source', 'lh-st');
         const { error } = await db.from('events').insert(shows) 
         console.log("db error:", error);
         return {

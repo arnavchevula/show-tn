@@ -18,7 +18,7 @@ export default async (req: Request) => {
 
   try {
     // Call your Nuxt API endpoint
-    const response = await $fetch(`${baseUrl}/api/lh-st`, {
+    const response = await $fetch(`${baseUrl}/api/beat-kitchen`, {
       method: "POST",
       body: {
         secret: process.env.NUXT_TASK_SECRET,

@@ -59,24 +59,26 @@ export default defineEventHandler(async(event) => {
             const image = $(elm).find('img .thumb').attr('src');
             const url = $(elm).find('tickets onsalenow').attr('href');
             shows.push({
-                id: uuidv4(), 
-                header: header, 
-                title:title, 
+                id: uuidv4(),
+                header: header,
+                title:title,
                 venue: venue,
-                headliners: headliners, 
-                support: support, 
+                headliners: headliners,
+                support: support,
                 doorsTime: doorsTime,
-                showTime: showTime, 
+                showTime: showTime,
                 subtitle: subtitle,
                 age: age,
                 price: price,
                 date: date,
                 parsedDate: parsedDate,
                 image: image,
-                url:url
+                url: url,
+                source: 'jam-productions'
                 } as Event)
         });
         await browser.close();
+        await db.from('events').delete().eq('source', 'jam-productions');
         const { error } = await db.from('events').insert(shows) 
         console.log("db error:", error);
         return {
