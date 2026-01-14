@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     runtimeConfig: {
+      taskSecret: null,
       twilioRecoverCode: 'U5AF1WBKQ3RZ61RHY2VVDPAB', 
       supabaseUrl: 'https://zylpuvjzvdyzfedpqqqh.supabase.co',
       supabaseKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5bHB1dmp6dmR5emZlZHBxcXFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4ODc3OTgsImV4cCI6MjA3ODQ2Mzc5OH0.C0vSNceaiUKdASequxfd4olYkXrIWx0FOTnURjUUDIM'
@@ -20,7 +21,7 @@ export default defineNuxtConfig({
     },
     scheduledTasks: {
       // Run `cms:update` task every minute
-      '15 * * * *': ['cms:update']
+      '51 * * * *': ['cms:update']
     }
   }
 })

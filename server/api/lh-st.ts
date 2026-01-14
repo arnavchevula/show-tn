@@ -35,7 +35,8 @@ export default defineEventHandler(async(event) => {
     try {
         // Launch the browser and open a new blank page.
         const isProduction = process.env.PRODUCTION || process.env.AWS_LAMBDA_FUNCTION_NAME;
-        const browser = isProduction
+        console.log("isProd: ",isProduction);
+        const browser = isProduction === 'true'
             ? await puppeteerCore.launch({
                 args: chromium.args,
                 executablePath: await chromium.executablePath(),
@@ -45,6 +46,7 @@ export default defineEventHandler(async(event) => {
                 executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
                 headless: true,
             });
+
         const page = await browser.newPage();
 
         // Navigate the page to a URL.
