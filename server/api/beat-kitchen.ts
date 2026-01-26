@@ -11,21 +11,21 @@ import { v4 as uuidv4 } from 'uuid';
 export default defineEventHandler(
     async(event) => {
     console.log("beat kitchen")
-    const body = await readBody(event);
-    const secretKey = useRuntimeConfig().taskSecret;
-    if (!secretKey) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: "Secret must be set",
-      });
-    }
+    // const body = await readBody(event);
+    // const secretKey = useRuntimeConfig().taskSecret;
+    // if (!secretKey) {
+    //   throw createError({
+    //     statusCode: 500,
+    //     statusMessage: "Secret must be set",
+    //   });
+    // }
   
-    if (body.secret !== secretKey) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized",
-      });
-    }
+    // if (body.secret !== secretKey) {
+    //   throw createError({
+    //     statusCode: 401,
+    //     statusMessage: "Unauthorized",
+    //   });
+    // }
     let shows:Event[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();
@@ -33,7 +33,7 @@ export default defineEventHandler(
     try {
         // Launch the browser and open a new blank page.
         const isProduction = process.env.PRODUCTION || process.env.AWS_LAMBDA_FUNCTION_NAME;
-        const browser = isProduction
+        const browser = isProduction === 'true'
             ? await puppeteerCore.launch({
                 args: chromium.args,
                 executablePath: await chromium.executablePath(),

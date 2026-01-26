@@ -8,7 +8,9 @@
 4. **No date-based organization** - frontend just loops through all shows
 5. **No filtering/sorting logic**
 6. **Not grabbing tonights event from empty bottle**
+6. **Not grabbing tonights event from thalia hall**
 7. **Need to grab images when web scraping**
+8. **possible name: show-tonight or marquee.io**
 
 ## Best Practice Recommendations
 

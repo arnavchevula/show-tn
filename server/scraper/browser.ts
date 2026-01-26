@@ -1,0 +1,28 @@
+import puppeteer, { Browser } from 'puppeteer';                                                                                                                                                               
+import puppeteerCore from 'puppeteer-core';                                                                                                                                                                   
+import chromium from '@sparticuz/chromium';                                                                                                                                                                   
+                                                                                                                                                                                                              
+export async function launchBrowser(): Promise<Browser> {                                                                                                                                                     
+  const isProduction = process.env.PRODUCTION === 'true'                                                                                                                                                      
+    || !!process.env.AWS_LAMBDA_FUNCTION_NAME;                                                                                                                                                                
+                                                                                                                                                                                                              
+  if (isProduction) {                                                                                                                                                                                         
+    return await puppeteerCore.launch({                                                                                                                                                                       
+      args: chromium.args,                                                                                                                                                                                    
+      executablePath: await chromium.executablePath(),                                                                                                                                                        
+      headless: chromium.headless,                                                                                                                                                                            
+    }) as Browser;                                                                                                                                                                                            
+  }                                                                                                                                                                                                           
+                                                                                                                                                                                                              
+  return await puppeteer.launch({                                                                                                                                                                             
+    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',                                                                                                                           
+    headless: true,                                                                                                                                                                                           
+  });                                                                                                                                                                                                         
+}                                                                                                                                                                                                             
+                                                                                                                                                                                                              
+export async function getPageHtml(browser: Browser, url: string): Promise<string> {                                                                                                                           
+  const page = await browser.newPage();                                                                                                                                                                       
+  await page.goto(url, { waitUntil: 'networkidle2' });                                                                                                                                                        
+  const html = await page.content();                                                                                                                                                                          
+  return html;                                                                                                                                                                                                
+}        

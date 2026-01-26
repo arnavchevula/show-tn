@@ -24,7 +24,7 @@ export default defineEventHandler(async(event) => {
         // Launch the browser and open a new blank page.
         // Use regular puppeteer for local dev, puppeteer-core + chromium for production
         const isProduction = process.env.PRODUCTION || process.env.AWS_LAMBDA_FUNCTION_NAME;
-        const browser = isProduction
+        const browser = isProduction === 'true'
             ? await puppeteerCore.launch({
                 args: chromium.args,
                 executablePath: await chromium.executablePath(),

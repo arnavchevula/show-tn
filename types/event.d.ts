@@ -10,13 +10,16 @@ export {
             price?: string
             venue: string
             doorsTime: string
-            showTime: string
+            showTime: string    
             age?: string
             genre?: string
             image?: string
-            support?: string,
+            support?: string
             headliners?:string
             url?: url
+            day?:string
+            month?:string
+            description?:string
         }
     }
 }

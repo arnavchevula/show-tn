@@ -7,8 +7,8 @@ VENUE LIST
   Park West, The Vic, The Riviera (Done)
   Sleeping Village
   Concord Music Hall 
-  Thalia Hall
-  Empty Bottle (Done)
+  Thalia Hall (Done, need to scrape tonights show indiviually)
+  Empty Bottle (Done, need to scrape tonights show indiviually)
   The Hideout
   Fallen Log 
   Chop Shop

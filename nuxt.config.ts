@@ -19,9 +19,9 @@ export default defineNuxtConfig({
     experimental: {
       tasks: true
     },
-    scheduledTasks: {
-      // Run `cms:update` task every minute
-      '51 * * * *': ['cms:update']
-    }
+    // scheduledTasks: {
+    //   // Run `cms:update` task every minute
+    //   '51 * * * *': ['cms:update']
+    // }
   }
 })
