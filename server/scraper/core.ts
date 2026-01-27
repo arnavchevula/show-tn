@@ -8,13 +8,11 @@ import { DBConnection } from "../db/db";
 
 
 export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> { 
-    console.log("scrape venue");                                                                                                                             
     const browser = await launchBrowser();                                                                                                                                                                      
                                                                                                                                                                                                                 
     try {                                                                                                                                                                                                       
       const html = await getPageHtml(browser, config.url);                                                                                                                                                      
       const events = extractEvents(html, config);     
-      console.log("return back to scrapeVenue",events.length);                                                                                                                                                          
       await saveEvents(events, config.name);                                                                                                                                                                    
                                                                                                                                                                                                                 
       return { content: events, status: 'success', count: events.length };                                                                                                                                      
@@ -26,11 +24,9 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   }                                                                                                                                                                                                             
                                                                                                                                                                                                                 
   function extractEvents(html: string, config: VenueConfig): Event[] {       
-    console.log("extract events")                                                                                                                                   
     const $ = load(html);                                                                                                                                                                               
     const dateParser = new DateParser();                                                                                                                                                                        
     const events: Event[] = [];                                                                                                                                                                                 
-    console.log(config);                                                                                                                                                                                    
     $(config.selectors.eventList).each((i, elm) => {                                                                                                                                                                                    
         events.push({                                                                                                                                                                                           
           id: uuidv4(),                                                                                                                                                                                         
@@ -50,7 +46,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
           url: $(elm).find(config.selectors.url).attr('href')?.trim()
         });                                                                                                                                                                                                     
       });                                                                                                                                                                                                       
-      console.log("end of extraction",events.length);
     return events;                                                                                                                                                                                              
   }                                                                                                                                                                                                             
   function extractImage($: any, elm: any, config: VenueConfig):      
@@ -71,6 +66,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
         const month = $(elm).find(config.selectors.month).text().trim()
         const day = $(elm).find(config.selectors.day).text().trim()
         const dateString = `${month} ${day}`;
+        console.log(dateString)
         return dateParser.parseRawDate(dateString);
     }
     else if (config.selectors.combinedDateAndTime) {
@@ -79,9 +75,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       const month = combinedDateAndTimeArr[1];
       const day = combinedDateAndTimeArr[2];
       const dateString = `${month} ${day}`;
-      console.log(combinedDateAndTime);
-      console.log(combinedDateAndTimeArr);
-      console.log("dateString: ", dateString);
       return dateParser.parseRawDate(dateString);    
       }
     const dateString = $(elm).find(config.selectors.date).text().trim();
@@ -122,16 +115,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       }
       title = title.trim();
     }
+    console.log(title);
     return title;
   }
   async function saveEvents(events: Event[], source: string): Promise<void> {      
                                                                                                                                  
     const db = new DBConnection().connect();    
-    const tableName = process.env.DB_NAME || 'events-qa'  
-    console.log("tableName: ", tableName);     
-    console.log("source: ", source);            
+    const tableName = process.env.DB_NAME || 'events-qa'           
     await db.from(tableName).delete().eq('source', source);                                                                                                                                                      
-    const{error, data} = await db.from(tableName).insert(events);     
-    console.log("error: ", error);
-    console.log("data: ", data);                                                                                                                                                                
+    const{error} = await db.from(tableName).insert(events);
+    console.log("db error:", error);                                                                                                                                                                   
   }                                

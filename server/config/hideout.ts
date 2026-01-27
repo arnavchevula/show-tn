@@ -18,8 +18,8 @@ export const hideoutConfig: VenueConfig = {
         url: '',
         header: 'h3',
         subtitle: '',
-        month:'.event-month',
-        day:'.event-day'
+        month:'.show-image-poster-wrapper .event-month',
+        day:'.show-image-poster-wrapper .event-day'
     } as SelectorConfig,
     imageExtractor: 'src',
 }
