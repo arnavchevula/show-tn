@@ -127,7 +127,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   async function saveEvents(events: Event[], source: string): Promise<void> {      
                                                                                                                                  
     const db = new DBConnection().connect();    
-    const tableName = process.env.TABLE_NAME || 'events-qa'  
+    const tableName = process.env.DB_NAME || 'events-qa'  
     console.log("tableName: ", tableName);     
     console.log("source: ", source);            
     await db.from(tableName).delete().eq('source', source);                                                                                                                                                      

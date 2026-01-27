@@ -11,6 +11,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@netlify/functions@^5.1.2",
         "npm:@nuxt/ui@^4.1.0",
         "npm:@sparticuz/chromium@141",
         "npm:@supabase/supabase-js@^2.81.1",
