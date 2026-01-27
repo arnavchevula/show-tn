@@ -97,14 +97,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
     if (config.selectors.venue) {
       return $(elm).find(config.selectors.venue).text().trim()
     }
-    return config.name;
+    return config.displayName;
   }
 
   function extractHeader($: any, elm: any, config: VenueConfig) {
     if (config.selectors.header) {
       return $(elm).find(config.selectors.header).text().trim()
     }
-    return `${config.name} presents: `;
+    return `${config.displayName} presents: `;
   }
 
   function extractTitle($: any, elm: any, config: VenueConfig): string {

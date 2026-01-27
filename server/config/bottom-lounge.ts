@@ -7,7 +7,6 @@ export const bottomLounge: VenueConfig = {
     selectors: {
         eventList: '.tw-plugin-upcoming-event-list .container .tw-section',
         title: '.tw-name',
-        venue: '.tw-venue-name',
         date: '.tw-date-time',
         doorsTime: '',
         showTime: '',

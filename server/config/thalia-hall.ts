@@ -2,7 +2,7 @@ import { VenueConfig, SelectorConfig } from "../scraper/types";
 
 export const thaliaHallConfig: VenueConfig = {
     name: 'thalia-hall',
-    displayName: 'Thalia-Hall',
+    displayName: 'Thalia Hall',
     url: 'https://www.thaliahallchicago.com/',
     selectors: {
     eventList: '#widget-full-feed .eb-item',
