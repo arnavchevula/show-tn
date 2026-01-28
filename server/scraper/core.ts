@@ -43,7 +43,9 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
           parsedDate: extractDate($, elm, config, dateParser),
           age: $(elm).find(config.selectors.age).text().trim() || '21+',
           image: extractImage($,elm,config),
-          url: $(elm).find(config.selectors.url).attr('href')?.trim()
+          url: $(elm).find(config.selectors.url).attr('href')?.trim(), 
+          genre: $(elm).find(config.selectors.genre).text().trim(),
+          description: $(elm).find(config.selectors.description).text().trim()
         });                                                                                                                                                                                                     
       });                                                                                                                                                                                                       
     return events;                                                                                                                                                                                              
@@ -66,7 +68,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
         const month = $(elm).find(config.selectors.month).text().trim()
         const day = $(elm).find(config.selectors.day).text().trim()
         const dateString = `${month} ${day}`;
-        console.log(dateString)
+        console.log("date: ",dateString)
         return dateParser.parseRawDate(dateString);
     }
     else if (config.selectors.combinedDateAndTime) {
@@ -115,7 +117,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       }
       title = title.trim();
     }
-    console.log(title);
+    console.log("title: ",title);
     return title;
   }
   async function saveEvents(events: Event[], source: string): Promise<void> {      
