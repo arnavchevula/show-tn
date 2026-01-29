@@ -11,6 +11,9 @@
 6. **Not grabbing tonights event from thalia hall**
 7. **Need to grab images when web scraping**
 8. **possible name: show-tonight or marquee.io**
+9. **resident advisor api, can get a bunch of venues that way** (https://apify.com/augeas/resident-advisor/api)
+10. **could also scrape dice, eventbrite** 
+
 
 ## Best Practice Recommendations
 

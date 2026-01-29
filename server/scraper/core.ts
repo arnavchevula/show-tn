@@ -18,16 +18,17 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       return { content: events, status: 'success', count: events.length };                                                                                                                                      
     } catch (error) {                                                                                                                                                                                           
       return { content: null, status: 'error', message: error.message };                                                                                                                                        
-    } finally {                                                                                                                                                                                                 
+    } finally {                                                                                                                                                                                                  
       await browser.close();                                                                                                                                                                                    
     }                                                                                                                                                                                                           
   }                                                                                                                                                                                                             
                                                                                                                                                                                                                 
   function extractEvents(html: string, config: VenueConfig): Event[] {       
-    const $ = load(html);                                                                                                                                                                               
+    const $ = load(html);   
     const dateParser = new DateParser();                                                                                                                                                                        
     const events: Event[] = [];                                                                                                                                                                                 
-    $(config.selectors.eventList).each((i, elm) => {                                                                                                                                                                                    
+    $(config.selectors.eventList).each((i, elm) => {        
+      console.log("inside")   
         events.push({                                                                                                                                                                                           
           id: uuidv4(),                                                                                                                                                                                         
           title: extractTitle($, elm, config),                                                                                                                                             
@@ -68,7 +69,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
         const month = $(elm).find(config.selectors.month).text().trim()
         const day = $(elm).find(config.selectors.day).text().trim()
         const dateString = `${month} ${day}`;
-        console.log("date: ",dateString)
         return dateParser.parseRawDate(dateString);
     }
     else if (config.selectors.combinedDateAndTime) {
@@ -79,7 +79,9 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       const dateString = `${month} ${day}`;
       return dateParser.parseRawDate(dateString);    
       }
+      
     const dateString = $(elm).find(config.selectors.date).text().trim();
+    console.log("date: ",dateString)
     return dateParser.parseRawDate(dateString);    
  
   }
