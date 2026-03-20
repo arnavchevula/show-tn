@@ -1,13 +1,13 @@
 import { VenueConfig, SelectorConfig } from "../scraper/types";
 
-export const claraConfig: VenueConfig = {
-    name: 'clara',
-    displayName: 'Clara',
-    url: 'https://www.clarachicago.com/events',
+export const avondaleMusicHall: VenueConfig = {
+    name: 'avondale-music-hall',
+    displayName: 'Avondale Music Hall',
+    url: 'https://www.avondalemusichall.com/events-1',
     selectors: {
-        eventList: '[data-hook="event-list-item"]',
-        title: '[data-hook="ev-list-item-title"]',
-        date: '[data-hook="ev-date"]',
+        eventList: '[data-hook="events-card"]',
+        title: '[data-hook="title"]',
+        date: '[data-hook="short-date"]',
         venue: '',
         doorsTime: '',
         showTime: '',

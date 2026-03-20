@@ -18,34 +18,34 @@
   17. Cafe Mustache
   18. Color Club (dice widget)
   19. ~~The Salt Shed~~
-  20. Cobra Lounge
+  20. Cobra Lounge (dice widget)
   21. ~~Book Club~~
-  22. House of Blues
-  23. Hard Rock Cafe
+  22. House of Blues (wip)
+  23. Hard Rock Cafe (closed)
   24. Chicago Theatre
   25. ~~Coles~~
   26. The Burlington (website is trash)
-  27. ___Avondale Music Hall___ 
-  28. ___Smoke & Mirrors___
+  27. ~~Avondale Music Hall~~ 
+  28. Smoke & Mirrors (dice widget)
   29. ~~California Clipper~~
   30. Constellation
   31. Martyrs (website is trash)
-  32. Clara (WIP)
-  33. Easy Does It 
+  32. ~~Clara~~
+  33. Easy Does It (no event list on website)
   34. Lemon (need to use Dice api for this)
-  35. Tortoise Supper Club
-  36. Gallery Cabaret
+  35. Tortoise Supper Club (no event list)
+  36. Gallery Cabaret (no event list, just jam list)
   37. ~~SmartBar~~
   38. ~~Podlasie~~ 
-  39. aliveOne
+  39. aliveOne (calendar, going to need a custom scraper)
   40. Hungry Brain
   41. Montrose Saloon
-  42. The Green Mill
-  43. Andys Jazz Club
-  44. Rosas Lounge
-  45. Kingston Mines
+  42. The Green Mill (calendar)
+  43. Andys Jazz Club (calendar)
+  44. Rosas Lounge (maybe... weird format)
+  45. Kingston Mines (calendar)
   46. Buddy Guy Legends
-  47. Jazz Showcase
+  47. Jazz Showcase (calendar)
 
   Coles, Gman Tavern, Bookclub and Smartbar all were created by the same author it seems
   Empty Bottle, Thalia Hall and Salt Shed also seem to be created by the same author 

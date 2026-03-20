@@ -18,8 +18,8 @@ const links = ref([
 
 <template>
   <UPageHero
-    title="Let's go to a show!"
-    description="Looking for live music in Chicago? Here is a list of events this week collected from all the venues across the city. Whether you want to see a DIY punk show or an arena size pop tour, we have it all!"
+    title="Support your local scene."
+    description="Aren't you tired of missing all your favorite bands? Bored on a Wednesday night? Want to switch it up from hitting the bars in Wrigley and Logan? Get cultured now. Here is a list of shows & events happening this week in Chicago"
     :links="links"
   />
 </template>

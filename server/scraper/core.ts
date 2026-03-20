@@ -25,30 +25,36 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
                                                                                                                                                                                                                 
   function extractEvents(html: string, config: VenueConfig): Event[] {       
     const $ = load(html);   
+    console.log(html);
     const dateParser = new DateParser();                                                                                                                                                                        
     const events: Event[] = [];                                                                                                                                                                                 
-    $(config.selectors.eventList).each((i, elm) => {        
-      console.log("inside")   
-        events.push({                                                                                                                                                                                           
-          id: uuidv4(),                                                                                                                                                                                         
-          title: extractTitle($, elm, config),                                                                                                                                             
-          date: extractDate($, elm, config, dateParser),                                                                                                                                                                                                                                                                                                
-          source: config.name,                 
-          header: extractHeader($, elm, config),
-          venue: extractVenue($, elm, config),
-          headliners: $(elm).find(config.selectors.headliners).text().trim(),
-          support: $(elm).find(config.selectors.support).text().trim(),
-          doorsTime: extractShowTime($, elm, config),
-          showTime: $(elm).find(config.selectors.showTime).text().trim(),
-          subtitle: $(elm).find(config.selectors.subtitle).text().trim(),
-          parsedDate: extractDate($, elm, config, dateParser),
-          age: $(elm).find(config.selectors.age).text().trim() || '21+',
-          image: extractImage($,elm,config),
-          url: $(elm).find(config.selectors.url).attr('href')?.trim(), 
-          genre: $(elm).find(config.selectors.genre).text().trim(),
-          description: $(elm).find(config.selectors.description).text().trim()
-        });                                                                                                                                                                                                     
-      });                                                                                                                                                                                                       
+      
+      try {
+        $(config.selectors.eventList).each((i, elm) => {        
+            events.push({                                                                                                                                                                                           
+              id: uuidv4(),                                                                                                                                                                                         
+              title: extractTitle($, elm, config),                                                                                                                                             
+              date: extractDate($, elm, config, dateParser),                                                                                                                                                                                                                                                                                                
+              source: config.name,                 
+              header: extractHeader($, elm, config),
+              venue: extractVenue($, elm, config),
+              headliners: $(elm).find(config.selectors.headliners).text().trim(),
+              support: $(elm).find(config.selectors.support).text().trim(),
+              doorsTime: extractShowTime($, elm, config),
+              showTime: $(elm).find(config.selectors.showTime).text().trim(),
+              subtitle: $(elm).find(config.selectors.subtitle).text().trim(),
+              parsedDate: extractDate($, elm, config, dateParser),
+              age: $(elm).find(config.selectors.age).text().trim() || '21+',
+              image: extractImage($,elm,config),
+              url: $(elm).find(config.selectors.url).attr('href')?.trim(), 
+              genre: $(elm).find(config.selectors.genre).text().trim(),
+              description: $(elm).find(config.selectors.description).text().trim()
+            });                                                                                                                                                                                                     
+          }); 
+      }
+      catch (error) {
+        console.log(error)
+      }
     return events;                                                                                                                                                                                              
   }                                                                                                                                                                                                             
   function extractImage($: any, elm: any, config: VenueConfig):      

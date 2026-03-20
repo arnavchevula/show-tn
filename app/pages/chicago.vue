@@ -68,6 +68,7 @@ onMounted(async ()=>{
   const { data } = await fetchAllVenues();
   isLoading.value = false;
   shows.value = data?.value?.content;
+  console.log("range: ",allShows.value);
 
 
 })
@@ -83,7 +84,7 @@ onMounted(async ()=>{
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%]">
         <UProgress v-model="value"/>
     </div>
-    <div v-else v-for="show in allShows" :key="show.title">
+    <div v-else v-for="show in allShows" :key="show.id">
       <EventCard :show="show"/>   
     </div>
   </div>
