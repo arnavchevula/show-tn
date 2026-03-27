@@ -3,6 +3,7 @@ import puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
 import chromium from '@sparticuz/chromium';
 import { DateParser } from './utils/date';
+import { validateSecret } from './utils/auth';
 import { DBConnection } from '../db/db';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -28,6 +29,8 @@ type LHSTEvent = {
 
 export default defineEventHandler(async(event) => {
     console.log("lh-st")
+    const body = await readBody(event);
+    validateSecret(body);
     let shows:LHSTEvent[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();

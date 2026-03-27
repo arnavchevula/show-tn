@@ -3,6 +3,7 @@ import puppeteerCore from 'puppeteer-core';
 import puppeteer from 'puppeteer';
 import chromium from '@sparticuz/chromium';
 import { DateParser } from './utils/date';
+import { validateSecret } from './utils/auth';
 import { Event } from '~~/types/event';
 import { DBConnection } from '../db/db';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,21 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 export default defineEventHandler(
     async(event) => {
     console.log("beat kitchen")
-    // const body = await readBody(event);
-    // const secretKey = useRuntimeConfig().taskSecret;
-    // if (!secretKey) {
-    //   throw createError({
-    //     statusCode: 500,
-    //     statusMessage: "Secret must be set",
-    //   });
-    // }
-  
-    // if (body.secret !== secretKey) {
-    //   throw createError({
-    //     statusCode: 401,
-    //     statusMessage: "Unauthorized",
-    //   });
-    // }
+    const body = await readBody(event);
+    validateSecret(body);
     let shows:Event[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();

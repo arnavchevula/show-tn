@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer';
 import chromium from '@sparticuz/chromium';
 import type { Event } from '../../types/event.d.ts';
 import { DateParser } from './utils/date.js';
+import { validateSecret } from './utils/auth';
 import { DBConnection } from '../db/db';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default defineEventHandler(async(event) => {
     console.log("jam productions");
+    const body = await readBody(event);
+    validateSecret(body);
     let shows:Event[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();

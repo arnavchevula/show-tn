@@ -1,6 +1,9 @@
+import { validateSecret } from './utils/auth';
 
 export default defineEventHandler(async(event) => {
-    
+    const body = await readBody(event);
+    validateSecret(body);
+
     const accountSid = config.env.TWILIO_accountSid;
     const authToken = config.env.TWILIO_authToken;
     const client = require('twilio')(accountSid, authToken);

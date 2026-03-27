@@ -1,8 +1,11 @@
+import { validateSecret } from "./utils/auth";
 import { scrapeVenue } from "../scraper/core";
 import { saltShedConfig } from "../config/salt-shed";
 
 export default defineEventHandler(async(event) => {
     console.log("salt-shed");
+    const body = await readBody(event);
+    validateSecret(body);
     try {
         const scraped = await scrapeVenue(saltShedConfig);
         const shows = scraped?.content;

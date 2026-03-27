@@ -1,8 +1,11 @@
+import { validateSecret } from "./utils/auth";
 import { scrapeVenue } from "../scraper/core";
 import { gmanTavernConfig } from "../config/gman-tavern";
 
 export default defineEventHandler(async(event) => {
     console.log("gman-tavern");
+    const body = await readBody(event);
+    validateSecret(body);
     try {
         const scraped = await scrapeVenue(gmanTavernConfig);
         const shows = scraped?.content;
