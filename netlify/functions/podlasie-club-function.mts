@@ -20,8 +20,8 @@ export default async (req: Request) => {
     // Call your Nuxt API endpoint
     const response = await $fetch(`${baseUrl}/api/podlasie-club`, {
       method: "POST",
-      body: {
-        secret: process.env.NUXT_TASK_SECRET,
+      headers: {
+        Authorization: `Bearer ${process.env.NUXT_TASK_SECRET}`,
       },
     });
     // The API returns { shows } on success, check for shows array

@@ -3,9 +3,7 @@ import { scrapeVenue } from "../scraper/core";
 import { bottomLounge } from "../config/bottom-lounge";
 
 export default defineEventHandler(async(event) => {
-    console.log("bottom-lounge");
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     try {
         const scraped = await scrapeVenue(bottomLounge);
         const shows = scraped?.content;
@@ -14,7 +12,6 @@ export default defineEventHandler(async(event) => {
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null,
             status: `error`,

@@ -49,6 +49,57 @@ VENUE LIST
   Buddy Guy Legends
   Jazz Showcase
 */
+const url = useRequestURL()
+
+useSeoMeta({
+  title: 'Chicago Shows This Week — Show TN',
+  description: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  ogTitle: 'Chicago Shows This Week — Show TN',
+  ogDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  ogType: 'website',
+  ogUrl: url.href,
+  ogSiteName: 'Show TN',
+  twitterCard: 'summary',
+  twitterTitle: 'Chicago Shows This Week — Show TN',
+  twitterDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  keywords: 'chicago live music this week, chicago shows, chicago concerts, events in chicago, what to do in chicago tonight, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
+})
+
+const allShowsForSchema = useState('all-shows', () => [])
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'Chicago Shows This Week',
+        itemListElement: allShowsForSchema.value.map((show: any, index: number) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          item: {
+            '@type': 'Event',
+            name: show.title,
+            startDate: show.parsedDate instanceof Date
+              ? show.parsedDate.toISOString().split('T')[0]
+              : show.parsedDate,
+            location: {
+              '@type': 'Place',
+              name: show.displayName ?? show.venue,
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Chicago',
+                addressRegion: 'IL',
+                addressCountry: 'US'
+              }
+            }
+          }
+        }))
+      }))
+    }
+  ]
+})
+
 import { useJamProductions } from '~/composables/useJamProductions';
 import { useEmptyBottle } from '~/composables/useEmptyBottle';
 import { useSubt } from "~/composables/useSubt"
@@ -68,7 +119,6 @@ onMounted(async ()=>{
   const { data } = await fetchAllVenues();
   isLoading.value = false;
   shows.value = data?.value?.content;
-  console.log("range: ",allShows.value);
 
 
 })

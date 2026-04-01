@@ -5,7 +5,7 @@ const config = useRuntimeConfig()
 export class DBConnection {
 
     connect() {
-        const supabase = createClient(process.env.SUPABASE_URL || 'https://zylpuvjzvdyzfedpqqqh.supabase.co', process.env.SUPABASE_KEY || '')
+        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
         return supabase;
     }
 

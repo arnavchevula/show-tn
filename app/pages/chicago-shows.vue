@@ -43,7 +43,6 @@ const showsTonight = computed(() => {
     return showDate.getTime() === tonight.getTime();
   });
 });
-console.log("tn: ",showsTonight.value);  
 
 const showsTomorrow = computed(() => {
   const tomorrow = new Date();
@@ -56,7 +55,6 @@ const showsTomorrow = computed(() => {
   });
 });
 
-console.log("tmrw: ",showsTomorrow.value);  
 
 const showsThisWeek = computed(() => {
   const weekFromNow = new Date();
@@ -66,7 +64,6 @@ const showsThisWeek = computed(() => {
   );
 });
 
-console.log("rest of week: ",showsThisWeek.value);  
 
 
 </script>

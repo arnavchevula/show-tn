@@ -27,9 +27,7 @@ type SubtEvent = {
 }
 
 export default defineEventHandler(async(event) => {
-    console.log("subterranean");
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     let shows:SubtEvent[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();
@@ -94,13 +92,11 @@ export default defineEventHandler(async(event) => {
         await browser.close();
         await db.from('events').delete().eq('source', 'subt');
         const { error } = await db.from('events').insert(shows) 
-        console.log("error: ",error);
         return {
             shows
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null, 
             status: `error`,

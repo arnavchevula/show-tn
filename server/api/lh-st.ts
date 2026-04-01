@@ -28,9 +28,7 @@ type LHSTEvent = {
 }
 
 export default defineEventHandler(async(event) => {
-    console.log("lh-st")
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     let shows:LHSTEvent[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();
@@ -38,7 +36,6 @@ export default defineEventHandler(async(event) => {
     try {
         // Launch the browser and open a new blank page.
         const isProduction = process.env.PRODUCTION || process.env.AWS_LAMBDA_FUNCTION_NAME;
-        console.log("isProd: ",isProduction);
         const browser = isProduction === 'true'
             ? await puppeteerCore.launch({
                 args: chromium.args,
@@ -100,13 +97,11 @@ export default defineEventHandler(async(event) => {
         await browser.close();
         await db.from('events').delete().eq('source', 'lh-st');
         const { error } = await db.from('events').insert(shows) 
-        console.log("db error:", error);
         return {
             shows
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null, 
             status: `error`,

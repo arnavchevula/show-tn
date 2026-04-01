@@ -3,9 +3,7 @@ import { scrapeVenue } from "../scraper/core";
 import { smokeAndMirrorsConfig } from "../config/smoke-and-mirrors";
 
 export default defineEventHandler(async(event) => {
-    console.log("smoke-and-mirrors");
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     try {
         const scraped = await scrapeVenue(smokeAndMirrorsConfig);
         const shows = scraped?.content;
@@ -14,7 +12,6 @@ export default defineEventHandler(async(event) => {
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null,
             status: `error`,

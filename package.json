@@ -9,6 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
+  "engines": { "node": ">=18.0.0" },
   "dependencies": {
     "@netlify/functions": "^5.1.2",
     "@nuxt/ui": "^4.1.0",

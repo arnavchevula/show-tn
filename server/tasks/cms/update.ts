@@ -8,9 +8,7 @@ export default defineTask({
             const db = new DBConnection().connect();
             const {data:deleteTable, error} = await db.from('events').delete().neq('id', '00000000-0000-0000-0000-000000000000');
             if (error) {
-                console.error("Error deleting events:", error);
             } else {
-                console.log("Successfully deleted events:", deleteTable);
             }
             const { data } = await Promise.all([
                 $fetch('/api/beat-kitchen'),
@@ -19,8 +17,6 @@ export default defineTask({
                 $fetch('/api/jam-productions'),
                 $fetch('/api/empty-bottle') 
             ])
-        console.log("data", data);
-      console.log("Scraping venues...");
       return { result: "Success" };
     },
   });

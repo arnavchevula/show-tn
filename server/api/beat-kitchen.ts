@@ -11,9 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default defineEventHandler(
     async(event) => {
-    console.log("beat kitchen")
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     let shows:Event[] = [];
     const dateParser = new DateParser();
     const db = new DBConnection().connect();
@@ -78,13 +76,11 @@ export default defineEventHandler(
         await browser.close();
         await db.from('events').delete().eq('source', 'beat-kitchen');
         const { error } = await db.from('events').insert(shows) 
-        console.log("db error:", error);
         return {
             shows
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null, 
             status: `error`,

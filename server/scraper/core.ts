@@ -25,7 +25,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
                                                                                                                                                                                                                 
   function extractEvents(html: string, config: VenueConfig): Event[] {       
     const $ = load(html);   
-    console.log(html);
     const dateParser = new DateParser();                                                                                                                                                                        
     const events: Event[] = [];                                                                                                                                                                                 
       
@@ -53,7 +52,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
           }); 
       }
       catch (error) {
-        console.log(error)
       }
     return events;                                                                                                                                                                                              
   }                                                                                                                                                                                                             
@@ -87,7 +85,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       }
       
     const dateString = $(elm).find(config.selectors.date).text().trim();
-    console.log("date: ",dateString)
     return dateParser.parseRawDate(dateString);    
  
   }
@@ -125,7 +122,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       }
       title = title.trim();
     }
-    console.log("title: ",title);
     return title;
   }
   async function saveEvents(events: Event[], source: string): Promise<void> {      
@@ -134,5 +130,4 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
     const tableName = process.env.DB_NAME || 'events-qa'           
     await db.from(tableName).delete().eq('source', source);                                                                                                                                                      
     const{error} = await db.from(tableName).insert(events);
-    console.log("db error:", error);                                                                                                                                                                   
   }                                

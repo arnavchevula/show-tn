@@ -11,9 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 export default defineEventHandler(async(event) => {
-    console.log("empty bottle")
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     const dateParser = new DateParser();
     const db = new DBConnection().connect();
 
@@ -76,13 +74,11 @@ export default defineEventHandler(async(event) => {
         await browser.close();
         await db.from('events').delete().eq('source', 'empty-bottle');
         const { error } = await db.from('events').insert(shows) 
-        console.log("db error:", error);
         return {
             shows
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null, 
             status: `error`,

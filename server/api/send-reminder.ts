@@ -1,8 +1,7 @@
 import { validateSecret } from './utils/auth';
 
 export default defineEventHandler(async(event) => {
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
 
     const accountSid = config.env.TWILIO_accountSid;
     const authToken = config.env.TWILIO_authToken;
@@ -13,6 +12,6 @@ export default defineEventHandler(async(event) => {
             from: '+18665158356',
             to: '+19085666415'
         })
-        .then(message => console.log(message.sid)).error(error => console.log(error));
+        .catch(error => { throw error });
 
 })

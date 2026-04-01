@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV === 'development' },
   modules: ['@nuxt/ui'],
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -11,9 +11,13 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     taskSecret: null,
-    twilioRecoverCode: 'U5AF1WBKQ3RZ61RHY2VVDPAB', 
-    supabaseUrl: 'https://zylpuvjzvdyzfedpqqqh.supabase.co',
-    supabaseKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5bHB1dmp6dmR5emZlZHBxcXFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4ODc3OTgsImV4cCI6MjA3ODQ2Mzc5OH0.C0vSNceaiUKdASequxfd4olYkXrIWx0FOTnURjUUDIM'
+    twilioRecoverCode: process.env.TWILIO_KEY || '', 
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseKey: process.env.SUPABASE_KEY,
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseKey: process.env.SUPABASE_KEY
+    }
   },
   nitro: {
     experimental: {

@@ -3,9 +3,7 @@ import { scrapeVenue } from "../scraper/core";
 import { hideoutConfig } from "../config/hideout";
 
 export default defineEventHandler(async(event) => {
-    console.log("hideout");
-    const body = await readBody(event);
-    validateSecret(body);
+    validateSecret(event);
     try {
         const scraped = await scrapeVenue(hideoutConfig);
         const shows = scraped?.content;
@@ -14,7 +12,6 @@ export default defineEventHandler(async(event) => {
         }
     }
     catch (error) {
-        console.error('Scraping error: ', error);
         return {
             content: null,
             status: `error`,

@@ -1,25 +1,19 @@
 import type { Event } from '../../types/event.d.ts';
 import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://zylpuvjzvdyzfedpqqqh.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5bHB1dmp6dmR5emZlZHBxcXFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4ODc3OTgsImV4cCI6MjA3ODQ2Mzc5OH0.C0vSNceaiUKdASequxfd4olYkXrIWx0FOTnURjUUDIM'
-
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 export const useAggregatedShows = () => {
+    const { public: { supabaseUrl, supabaseKey } } = useRuntimeConfig();
+    const supabase = createClient(supabaseUrl as string, supabaseKey as string)
     const allShows = useState<Event[]>("all-shows",()=>[]);
     const fetchAllVenues = async () => { 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const weekFromNow = new Date();
       weekFromNow.setDate(weekFromNow.getDate() + 7);
-      console.log(today);
-      console.log(weekFromNow);
           const { data:eventsFromDb, error } = await supabase.from('events').select();
-          const { data:eventsFromDbQuery, error:errorQuery } = await supabase.from('events').select().gte('parsedDate', today)
-          .lte('parsedDate', weekFromNow);
+          const { data:eventsFromDbQuery, error:errorQuery } = await supabase.from('events').select().gte('parsedDate', today.toISOString().split('T')[0])
+          .lte('parsedDate', weekFromNow.toISOString().split('T')[0]);
 
-          console.log("unsorted: ",eventsFromDb);
-          console.log("queried: ", eventsFromDbQuery);
           const withParsedDates = eventsFromDb
             ?.filter((show) => show.parsedDate)
             .map((show) => {
