@@ -27,6 +27,7 @@ export interface SelectorConfig {
     displayName?: string;
     url: string;                // URL to scrape
     selectors: SelectorConfig;
+    additionalEventLists?: string[];  // Extra event containers (e.g. tonight's show)
 
     // Optional overrides for edge cases
     imageExtractor?: 'src' | 'style';  // Empty Bottle uses inline CSS

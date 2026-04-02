@@ -33,12 +33,13 @@ export default defineEventHandler(async(event) => {
 
         // Navigate the page to a URL.
         await page.goto('https://www.emptybottle.com/');
+        // await page.waitForSelector('#widget-full-feed .eb-item', { timeout: 15000 });
+        console.log("page goto")
 
         const html = await page.content()
         const $ = load(html);
         
-        $('#widget-full-feed .eb-item').each((i,elm)=>{
-
+        const pushShow = (i: number, elm: any) => {
             const header = $(elm).find('.title').text();
             const title = $(elm).find('.title').text();
             const venue = $(elm).find('.venue').text();
@@ -70,7 +71,10 @@ export default defineEventHandler(async(event) => {
                 source: 'empty-bottle'
 
                 } as Event)
-        }); 
+        };
+
+        $('#widget-coming-up .eb-item').each((i,elm)=>pushShow(i,elm));
+        $('#widget-full-feed .eb-item').each((i,elm)=>pushShow(i,elm));
         await browser.close();
         await db.from('events').delete().eq('source', 'empty-bottle');
         const { error } = await db.from('events').insert(shows) 

@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  app: {
+    head: {
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }]
+    }
+  },
   devtools: { enabled: process.env.NODE_ENV === 'development' },
   modules: ['@nuxt/ui'],
   css: ['~/assets/css/main.css'],
@@ -14,9 +19,10 @@ export default defineNuxtConfig({
     twilioRecoverCode: process.env.TWILIO_KEY || '', 
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
+    supabaseSecretServer: process.env.SUPABASE_SECRET_SERVER,
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_KEY
+      supabaseApiKeyBrowser: process.env.SUPABASE_API_KEY_BROWSER
     }
   },
   nitro: {

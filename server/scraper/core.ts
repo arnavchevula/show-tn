@@ -29,12 +29,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
     const events: Event[] = [];                                                                                                                                                                                 
       
       try {
-        $(config.selectors.eventList).each((i, elm) => {        
-            events.push({                                                                                                                                                                                           
-              id: uuidv4(),                                                                                                                                                                                         
-              title: extractTitle($, elm, config),                                                                                                                                             
-              date: extractDate($, elm, config, dateParser),                                                                                                                                                                                                                                                                                                
-              source: config.name,                 
+        const selectors = [config.selectors.eventList, ...(config.additionalEventLists ?? [])];
+        for (const selector of selectors) {
+          $(selector).each((i, elm) => {
+            events.push({
+              id: uuidv4(),
+              title: extractTitle($, elm, config),
+              date: extractDate($, elm, config, dateParser),
+              source: config.name,
               header: extractHeader($, elm, config),
               venue: extractVenue($, elm, config),
               headliners: $(elm).find(config.selectors.headliners).text().trim(),
@@ -45,11 +47,12 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               parsedDate: extractDate($, elm, config, dateParser),
               age: $(elm).find(config.selectors.age).text().trim() || '21+',
               image: extractImage($,elm,config),
-              url: $(elm).find(config.selectors.url).attr('href')?.trim(), 
+              url: $(elm).find(config.selectors.url).attr('href')?.trim(),
               genre: $(elm).find(config.selectors.genre).text().trim(),
               description: $(elm).find(config.selectors.description).text().trim()
-            });                                                                                                                                                                                                     
-          }); 
+            });
+          });
+        }
       }
       catch (error) {
       }

@@ -2,8 +2,8 @@ import type { Event } from '../../types/event.d.ts';
 import { createClient } from '@supabase/supabase-js'
 
 export const useAggregatedShows = () => {
-    const { public: { supabaseUrl, supabaseKey } } = useRuntimeConfig();
-    const supabase = createClient(supabaseUrl as string, supabaseKey as string)
+    const { public: { supabaseUrl, supabaseApiKeyBrowser } } = useRuntimeConfig();
+    const supabase = createClient(supabaseUrl as string, supabaseApiKeyBrowser as string)
     const allShows = useState<Event[]>("all-shows",()=>[]);
     const fetchAllVenues = async () => { 
       const today = new Date();

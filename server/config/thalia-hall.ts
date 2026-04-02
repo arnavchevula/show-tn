@@ -21,6 +21,5 @@ export const thaliaHallConfig: VenueConfig = {
 
     } as SelectorConfig,
     imageExtractor: 'style',
-
-
+    additionalEventLists: ['#widget-coming-up .eb-item'],
 }
