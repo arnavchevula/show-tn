@@ -52,15 +52,15 @@ VENUE LIST
 const url = useRequestURL()
 
 useSeoMeta({
-  title: 'Chicago Shows This Week — Show TN',
+  title: 'Opener.fm | Chicago Shows This Week',
   description: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
-  ogTitle: 'Chicago Shows This Week — Show TN',
+  ogTitle: 'Opener.fm | Chicago Shows This Week',
   ogDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
   ogType: 'website',
   ogUrl: url.href,
-  ogSiteName: 'Show TN',
+  ogSiteName: 'Opener.fm',
   twitterCard: 'summary',
-  twitterTitle: 'Chicago Shows This Week — Show TN',
+  twitterTitle: 'Opener.fm | Chicago Shows This Week',
   twitterDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
   keywords: 'chicago live music this week, chicago shows, chicago concerts, events in chicago, what to do in chicago tonight, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
 })

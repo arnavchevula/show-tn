@@ -2,17 +2,17 @@
 const url = useRequestURL()
 
 useSeoMeta({
-  title: 'Show TN — Chicago Live Music This Week',
-  description: 'Find live music events and shows happening this week across Chicago venues. Your guide to Chicago nightlife, concerts, and events.',
-  ogTitle: 'Show TN — Chicago Live Music This Week',
-  ogDescription: 'Find live music events and shows happening this week across Chicago venues. Your guide to Chicago nightlife, concerts, and events.',
+  title: 'Opener.fm | Chicago Shows This Week',
+  description: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  ogTitle: 'Opener.fm | Chicago Shows This Week',
+  ogDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
   ogType: 'website',
   ogUrl: url.href,
-  ogSiteName: 'Show TN',
+  ogSiteName: 'Opener.fm',
   twitterCard: 'summary',
-  twitterTitle: 'Show TN — Chicago Live Music This Week',
-  twitterDescription: 'Find live music events and shows happening this week across Chicago venues. Your guide to Chicago nightlife, concerts, and events.',
-  keywords: 'chicago live music, what to do in chicago, nightlife in chicago, music in chicago, events in chicago, chicago concerts, chicago shows this week, chicago venues, Beat Kitchen, Thalia Hall, The Hideout, Sleeping Village, Coles Bar, Dorians, Aragon Ballroom, Chop Shop, Bottom Lounge, The Whistler, California Clipper, SmartBar, Gman Tavern, Podlasie Club, Lemon Chicago, Book Club Chicago, The Salt Shed, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall, Cobra Lounge, Lincoln Hall, Schubas Tavern, SubT, Empty Bottle, Park West Chicago, The Vic Chicago, The Riviera Chicago',
+  twitterTitle: 'Opener.fm | Chicago Shows This Week',
+  twitterDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  keywords: 'chicago live music this week, chicago shows, chicago concerts, events in chicago, what to do in chicago tonight, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
 })
 
 useHead({
