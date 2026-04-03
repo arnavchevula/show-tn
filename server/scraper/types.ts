@@ -33,6 +33,7 @@ export interface SelectorConfig {
     imageExtractor?: 'src' | 'style';  // Empty Bottle uses inline CSS
     urlBase?: string;           // For relative URLs that need a base
     titleExclude?: string[];    // Strings to remove from title (e.g., ['Buy Tickets'])
+    datePreprocess?: (raw: string) => string;  // Transform raw date string before parsing
   }
 
   export interface ScrapeResult {

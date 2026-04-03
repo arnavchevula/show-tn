@@ -13,7 +13,7 @@
     <p class="text-md">{{ props.show?.venue }}</p>
     <p class="text-sm">{{ props.show?.parsedDate.toDateString() }}</p>
     <p class="text-xs">{{ props.show?.showTime }}</p>
-    <p class="text-xs">{{ props.show?.doorsTime }}</p>
+    <p v-if="props.show?.doorsTime !== props.show?.showTime" class="text-xs">{{ props.show?.doorsTime }}</p>
     <p class="text-xs">{{ props.show?.age }}</p>
 
 

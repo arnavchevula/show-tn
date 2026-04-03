@@ -86,8 +86,8 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       const dateString = `${month} ${day}`;
       return dateParser.parseRawDate(dateString);    
       }
-      
-    const dateString = $(elm).find(config.selectors.date).text().trim();
+    let dateString = $(elm).find(config.selectors.date).text().trim();
+    if (config.datePreprocess) dateString = config.datePreprocess(dateString);
     return dateParser.parseRawDate(dateString);    
  
   }

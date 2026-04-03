@@ -7,8 +7,7 @@ export const californiaClipperConfig: VenueConfig = {
     selectors: {
         eventList: '.container .events-holder',
         title: 'h2',
-        date: '',
-        combinedDateAndTime: 'h3',
+        date: 'h3:not(.event-time)',
         venue: '',
         doorsTime: '',
         showTime: 'h3.event-time',
@@ -22,4 +21,7 @@ export const californiaClipperConfig: VenueConfig = {
         description: '.event-info-text > p'
     } as SelectorConfig,
     imageExtractor: 'src',
+    datePreprocess: (raw: string) =>
+        raw.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+/i, '')
+           .replace(/(\d+)(st|nd|rd|th)/i, '$1'),
 }
