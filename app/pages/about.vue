@@ -29,19 +29,21 @@ const links = ref([
   }
 ])
 
-const message = 'I created this site to solve an issue I kept having. Who is playing a show tonight? I would have to check every venue website and see who is playing tonight to see. There are 50+ venues in Chicago so this quickly could become an annoying endeavor combined with having to keep track of everything made it impossible. Furthermore you might miss out on shows because you forget whats happening and then miss out on your favorite band. This is not an exhaustive list, there are many venues that are not included on this site. For a more comprehensive listing platform I would suggest Chicago Show Calendar (https://www.chicagoshowcalendar.com/)'
 </script>
 
 <template>
     <UPage>
         <UPageSection
     title="Making Live Music More Accessible"
-    :description=message
     icon="i-lucide-rocket"
     orientation="vertical"
     :features="features"
     :links="links"
   >
+    <template #description>
+      I created this site to solve an issue I kept having. Who is playing a show tonight? I would have to check every venue website and see who is playing tonight to see. There are 50+ venues in Chicago so this quickly could become an annoying endeavor combined with having to keep track of everything made it impossible. Furthermore you might miss out on shows because you forget whats happening and then miss out on your favorite band. This is not an exhaustive list, there are many venues that are not included on this site. For a more comprehensive listing platform I would suggest
+      <NuxtLink to="https://www.chicagoshowcalendar.com/" target="_blank" class="underline">Chicago Show Calendar</NuxtLink>.
+    </template>
   </UPageSection>
     </UPage>
 </template>

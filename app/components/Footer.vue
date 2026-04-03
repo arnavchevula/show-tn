@@ -5,8 +5,12 @@ const items: NavigationMenuItem[] = [
   {
     label: 'About',
     to: '/about',
-    target: '_blank'
-
+    target: '_self'
+  },
+  {
+    label: 'Shows',
+    to: '/chicago',
+    target: '_self'
   },
   {
     label: 'Contact',
