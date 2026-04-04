@@ -14,7 +14,7 @@ export const claraConfig: VenueConfig = {
         image: 'img',
         support: '',
         headliners: '',
-        url: 'a',
+        url: '[data-hook="ev-rsvp-button"]',
         header: '',
         subtitle: ''
     } as SelectorConfig,

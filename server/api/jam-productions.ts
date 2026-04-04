@@ -58,7 +58,7 @@ export default defineEventHandler(async(event) => {
             const date = $(elm).find('.date').text();
             const parsedDate = parseDate(date);
             const image = $(elm).find('img .thumb').attr('src');
-            const url = $(elm).find('tickets onsalenow').attr('href');
+            const url = $(elm).find('a.tickets.onsalenow').attr('href');
             shows.push({
                 id: uuidv4(),
                 header: header,

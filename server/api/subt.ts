@@ -68,6 +68,7 @@ export default defineEventHandler(async(event) => {
             const date = $(elm).find('.event-date').text()
             const parsedDate = dateParser.parseRawDate(date);
             const image =  $(elm).find('.seetickets-list-view-event-image').attr('src');
+            const url = $(elm).find('a.seetickets-buy-btn.fs-12').attr('href');
             
             shows.push({
                 id: uuidv4(),
@@ -85,7 +86,8 @@ export default defineEventHandler(async(event) => {
                 date: date,
                 parsedDate: parsedDate,
                 image: image,
-                source: 'subt'
+                source: 'subt',
+                url: url
 
                 } as SubtEvent)
         });

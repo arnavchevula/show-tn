@@ -47,7 +47,8 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               parsedDate: extractDate($, elm, config, dateParser),
               age: $(elm).find(config.selectors.age).text().trim() || '21+',
               image: extractImage($,elm,config),
-              url: $(elm).find(config.selectors.url).attr('href')?.trim(),
+              url: (config.selectors.url ? $(elm).find(config.selectors.url).attr('href') : $(elm).attr('href'))?.trim(),
+              secondaryUrl: $(elm).find(config.selectors.secondaryUrl).attr('href')?.trim(),
               genre: $(elm).find(config.selectors.genre).text().trim(),
               description: $(elm).find(config.selectors.description).text().trim()
             });

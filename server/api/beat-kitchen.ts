@@ -53,6 +53,8 @@ export default defineEventHandler(
             const date = $(elm).find('.event-date').text()
             const parsedDate = dateParser.parseRawDate(date);
             const image =  $(elm).find('.seetickets-list-view-event-image').attr('src');
+            const url = $(elm).find('a.seetickets-buy-btn.fs-12').attr('href');
+
 
             shows.push({
                 id: uuidv4(),
@@ -70,7 +72,8 @@ export default defineEventHandler(
                 date: date,
                 parsedDate: parsedDate,
                 image: image,
-                source: 'beat-kitchen'
+                source: 'beat-kitchen',
+                url: url
                 } as Event)
         });
         await browser.close();

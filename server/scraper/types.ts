@@ -13,6 +13,7 @@ export interface SelectorConfig {
     support?: string;
     headliners?: string;
     url?: string;
+    secondaryUrl?: string;
     header?: string;
     subtitle?: string;
     month?: string;

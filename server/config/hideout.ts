@@ -16,6 +16,7 @@ export const hideoutConfig: VenueConfig = {
         support: '',
         headliners: 'h3',
         url: '',
+        secondaryUrl:'',
         header: 'h3',
         subtitle: '',
         month:'.show-image-poster-wrapper .event-month',

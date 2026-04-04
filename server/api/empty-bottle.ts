@@ -34,7 +34,6 @@ export default defineEventHandler(async(event) => {
         // Navigate the page to a URL.
         await page.goto('https://www.emptybottle.com/');
         // await page.waitForSelector('#widget-full-feed .eb-item', { timeout: 15000 });
-        console.log("page goto")
 
         const html = await page.content()
         const $ = load(html);
@@ -51,7 +50,7 @@ export default defineEventHandler(async(event) => {
             const date = $(elm).find('.date-time-outer .date').text()
             const parsedDate = dateParser.parseRawDate(date);
             const image = $(elm).find('.item-image-inner').attr('style')?.match(/url\(["']?(.*?)["']?\)/)[1];
-            const url = $(elm).find('a .buy-button').attr('href');
+            const url = $(elm).find('a.buy-button').attr('href');
 
             shows.push({
                 id: uuidv4(),

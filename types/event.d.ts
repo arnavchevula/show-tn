@@ -17,6 +17,7 @@ export {
             support?: string
             headliners?:string
             url?: url
+            secondaryUrl?: url
             day?:string
             month?:string
             description?:string

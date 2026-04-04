@@ -14,8 +14,9 @@ export const sleepingVillageConfig: VenueConfig = {
     showTime: 'listing-date-time',                                                                                                                                                                                          
     image: '.listing__image img',                                                                                                                                                                                             
     support: '.listing__title',                                                                                                                                                                                           
-    headliners: '.listing__title',                                                                                                                                                                                        
-    url: 'a .plotButton--secondary',                                                                                                                                                                                               
+    headliners: '.listing__title',                                                                                                                                                                                            
+    url: 'a.plotButton.JS--buyTicketsButton', 
+    secondaryUrl: 'a.plotButton.plotButton--secondary', 
     header: '.listing__title',                                                                                                                                                                                            
     subtitle: '.listing__title',   
     combinedDateAndTime: '.listing-date-time'

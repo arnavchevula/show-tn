@@ -2,7 +2,7 @@ import { VenueConfig, SelectorConfig } from "../scraper/types";
 
 export const aragornBallroom: VenueConfig = {
     name: 'aragorn-ballroom',
-    displayName: 'Aragorn Ballroom',
+    displayName: 'Aragon Ballroom',
     url: 'https://www.bylinebankaragonballroom.com/shows',
     selectors: {
         eventList: '[data-automation="shows-grid"] .chakra-linkbox',

@@ -15,7 +15,7 @@ export const thaliaHallConfig: VenueConfig = {
     image: '.item-image-inner',                                                                                                                                                                                             
     support: '.performing',                                                                                                                                                                                           
     headliners: '.performing',                                                                                                                                                                                        
-    url: 'a .buy-button',                                                                                                                                                                                               
+    url: 'a.buy-button',                                                                                                                                                                                               
     header: '.title',                                                                                                                                                                                            
     subtitle: '.title',   
 

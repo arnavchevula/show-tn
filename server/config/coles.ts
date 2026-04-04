@@ -14,7 +14,8 @@ export const colesConfig: VenueConfig = {
         image: 'img',
         support: '',
         headliners: 'h2',
-        url: 'a #eventTitle',
+        url: '[title="Buy Tickets"]',
+        secondaryUrl: '.eventMoreInfo a',
         header: '.eventTagLine',
         subtitle: '',
         price: '.rhp-event__cost-text--grid'
