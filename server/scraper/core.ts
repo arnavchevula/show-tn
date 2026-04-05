@@ -47,13 +47,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               parsedDate: extractDate($, elm, config, dateParser),
               age: $(elm).find(config.selectors.age).text().trim() || '21+',
               image: extractImage($,elm,config),
-              url: (config.selectors.url ? $(elm).find(config.selectors.url).attr('href') : $(elm).attr('href'))?.trim(),
+              url: extractUrl($, elm, config),
               secondaryUrl: $(elm).find(config.selectors.secondaryUrl).attr('href')?.trim(),
               genre: $(elm).find(config.selectors.genre).text().trim(),
               description: $(elm).find(config.selectors.description).text().trim()
             });
           });
         }
+
       }
       catch (error) {
       }
@@ -116,6 +117,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       return $(elm).find(config.selectors.header).text().trim()
     }
     return `${config.displayName} presents: `;
+  }
+
+  function extractUrl($: any, elm: any, config: VenueConfig): string | undefined {
+    const href = config.selectors.url
+      ? $(elm).find(config.selectors.url).attr('href')
+      : $(elm).attr('href');
+    if (!href) return undefined;
+    return config.baseUrl ? `${config.baseUrl}${href}`.trim() : href.trim();
   }
 
   function extractTitle($: any, elm: any, config: VenueConfig): string {

@@ -4,6 +4,7 @@ export const hideoutConfig: VenueConfig = {
     name: 'hideout',
     displayName: 'Hideout',
     url: 'https://www.hideoutchicago.com/shows',
+    baseUrl: 'https://www.hideoutchicago.com',
     selectors: {
         eventList: 'a[href*="/shows/"]',
         eventItem: 'a[href*="/shows/"]',

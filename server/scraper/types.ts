@@ -28,6 +28,7 @@ export interface SelectorConfig {
     displayName?: string;
     url: string;                // URL to scrape
     selectors: SelectorConfig;
+    baseUrl?: string;
     additionalEventLists?: string[];  // Extra event containers (e.g. tonight's show)
 
     // Optional overrides for edge cases
