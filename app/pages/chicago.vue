@@ -67,20 +67,89 @@ onMounted(async ()=>{
 
 
 })
+
+const showsTonight = computed(() => {
+  const tonight = new Date();
+  tonight.setHours(0, 0, 0, 0);
+  return allShows.value.filter((show) => {
+    const showDate = new Date(show.parsedDate);
+    showDate.setHours(0, 0, 0, 0);
+    return showDate.getTime() === tonight.getTime();
+  });
+});
+
+const showsTomorrow = computed(() => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
+  return allShows.value.filter((show) => {
+    const showDate = new Date(show.parsedDate);
+    showDate.setHours(0, 0, 0, 0);
+    return showDate.getTime() === tomorrow.getTime();
+  });
+});
+
+const showsThisWeek = computed(() => {
+  const dayAfterTomorrow = new Date();
+  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+  dayAfterTomorrow.setHours(0, 0, 0, 0);
+
+  const weekFromNow = new Date();
+  weekFromNow.setDate(weekFromNow.getDate() + 7);
+  weekFromNow.setHours(23, 59, 59, 999);
+
+  return allShows.value.filter((show) => {
+    const showDate = new Date(show.parsedDate);
+    showDate.setHours(0, 0, 0, 0);
+    return showDate.getTime() >= dayAfterTomorrow.getTime() && showDate.getTime() <= weekFromNow.getTime();
+  });
+});
+
+console.log("tonight: ", showsTonight);
+console.log("tomorrow: ", showsTomorrow);
+console.log("rest of week: ", showsThisWeek);
+
 </script>
 
 <template>
   <div class="container mx-auto px-2 sm:px-0"> 
-    <UPageHeader
+    <!-- <UPageHeader
         title="Upcoming Events"
         description="Here are all the shows in Chicago this week!"
         class="mb-4"
-      />
+      /> -->
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
         <UProgress v-model="value"/>
     </div>
-    <div v-else v-for="show in allShows" :key="show.id">
+    <!-- <div v-else v-for="show in allShows" :key="show.id">
       <EventCard :show="show"/>   
+    </div> -->
+
+    <div v-else>
+      <UPageHeader
+        title="Chicago Shows Tonight"
+        description="Here are your last minute plans!"
+        class="mb-4"
+      />
+      <div v-for="show in showsTonight" :key="show.id">
+        <EventCard :show="show"/>   
+      </div>
+      <UPageHeader
+        title="Chicago Shows Tomorrow Night"
+        description="Here are your moves for tomorrow!"
+        class="mb-4"
+      />
+      <div v-for="show in showsTomorrow" :key="show.id">
+        <EventCard :show="show"/>   
+      </div>
+      <UPageHeader
+        title="Chicago Shows For the Rest of the Week"
+        description="Planning ahead?"
+        class="mb-4"
+      />
+      <div v-for="show in showsThisWeek" :key="show.id"> 
+        <EventCard :show="show"/>   
+      </div>
     </div>
   </div>
 </template>
