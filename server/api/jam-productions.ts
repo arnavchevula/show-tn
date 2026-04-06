@@ -106,11 +106,16 @@ function extractNeighborhood(venue: string) {
         case 'Park West':   return 'Lincoln Park'
         case 'Riviera Theatre': return 'Uptown'
         case 'United Center': return 'West Loop'
-        case 'Martyrs': return 'North Center'
+        case 'Martyrs\'': return 'North Center'
+        case 'Lincoln Hall': return 'Lincoln Park'
+        case 'Thalia Hall': return 'Pilsen'
+        case 'The Auditorium': return 'The Loop'
+        case 'Subterranean': return 'Wicker Park'
+        case 'The Chicago Theatre': return 'The Loop'
         case 'Palace Theatre - St. Paul/Minneapolis': return 'St. Paul / Minneapolis'
         case 'State Theatre': return 'St. Paul / Minneapolis'
         case 'Metro': return 'Wrigley'
-        case 'North Shore Center for Performing Arts': return 'Skokie'
+        case 'North Shore Center for the Performing Arts': return 'Skokie'
         case 'Rosemont Theatre': return 'Rosemont'
         default:            return undefined
     }
@@ -122,11 +127,16 @@ function extractRegion(venue: string) {
         case 'Park West':
         case 'Riviera Theatre': return 'Northside'
         case 'United Center': return 'West Loop'
-        case 'Martyrs': return 'Northside'
+        case 'Martyrs\'': return 'Northside'
+        case 'Lincoln Hall': return 'Northside'
+        case 'Thalia Hall': return 'Southwest Side'
+        case 'The Auditorium': return 'Downtown'
+        case 'Subterranean': return 'Northwest Side'
+        case 'The Chicago Theatre': return 'Downtown'
         case 'Palace Theatre - St. Paul/Minneapolis': return 'St. Paul / Minneapolis'
         case 'State Theatre': return 'St. Paul / Minneapolis'
         case 'Metro': return 'Northside'
-        case 'North Shore Center for Performing Arts': return 'North Shore'
+        case 'North Shore Center for the Performing Arts': return 'North Shore'
         case 'Rosemont Theatre': return 'West Suburbs'
         default:            return undefined
     }
