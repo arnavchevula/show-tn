@@ -4,6 +4,8 @@ export const smartbarConfig: VenueConfig = {
     name: 'smartbar',
     displayName: 'Smartbar',
     url: 'https://smartbarchicago.com/events',
+    region: 'Northside',
+    neighborhood: 'Wrigley',
     selectors: {
         eventList: '.rhp-desktop-grid .eventMainWrapper',
         title: 'h2',

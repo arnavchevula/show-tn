@@ -59,15 +59,9 @@ export default defineEventHandler(async(event) => {
             const parsedDate = parseDate(date);
             const image = $(elm).find('img .thumb').attr('src');
             const url = $(elm).find('a.tickets.onsalenow').attr('href');
-<<<<<<< Updated upstream
-=======
-            console.log("venue: ", venue);
             const neighborhood = extractNeighborhood(venue);
-            console.log("neighborhood: ", neighborhood);
             const region = extractRegion(venue);
-            console.log("region: ", region);
 
->>>>>>> Stashed changes
             shows.push({
                 id: uuidv4(),
                 header: header,
@@ -84,12 +78,15 @@ export default defineEventHandler(async(event) => {
                 parsedDate: parsedDate,
                 image: image,
                 url: url,
-                source: 'jam-productions'
+                source: 'jam-productions',
+                neighborhood: neighborhood,
+                region: region,
                 } as Event)
         });
         await browser.close();
-        await db.from('events').delete().eq('source', 'jam-productions');
-        const { error } = await db.from('events').insert(shows) 
+        const tableName = process.env.DB_NAME || 'events-qa'
+        await db.from(tableName).delete().eq('source', 'jam-productions');
+        const { error } = await db.from(tableName).insert(shows)
         return {
             shows
         }
@@ -102,9 +99,6 @@ export default defineEventHandler(async(event) => {
         }
     }
 })
-<<<<<<< Updated upstream
-  
-=======
 
 function extractNeighborhood(venue: string) {
     switch (venue) {
@@ -137,4 +131,3 @@ function extractRegion(venue: string) {
         default:            return undefined
     }
 }
->>>>>>> Stashed changes

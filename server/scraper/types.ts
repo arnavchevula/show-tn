@@ -27,6 +27,8 @@ export interface SelectorConfig {
     name: string;               // Source identifier (e.g., 'beat-kitchen')
     displayName?: string;
     url: string;                // URL to scrape
+    region?: string;
+    neighborhood?: string;
     selectors: SelectorConfig;
     baseUrl?: string;
     additionalEventLists?: string[];  // Extra event containers (e.g. tonight's show)

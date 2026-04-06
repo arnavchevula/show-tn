@@ -4,6 +4,8 @@ export const podlasieClubConfig: VenueConfig = {
     name: 'podlasie-club',
     displayName: 'Podlasie Club',
     url: 'https://ra.co/widget/eventlisting?promoter=131920&link=2&bgcolor=0e0e0e&linkcolor=db4c4c&textcolor=ffffff',
+    region: 'Northwest Side',
+    neighborhood: 'Avondale',
     selectors: {
         eventList: 'ul.events > li',
         title: 'h1.title > a',

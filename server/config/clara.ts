@@ -4,6 +4,8 @@ export const claraConfig: VenueConfig = {
     name: 'clara',
     displayName: 'Clara',
     url: 'https://www.clarachicago.com/events',
+    region: 'Northwest Side',
+    neighborhood: 'Wicker Park',
     selectors: {
         eventList: '[data-hook="event-list-item"]',
         title: '[data-hook="ev-list-item-title"]',

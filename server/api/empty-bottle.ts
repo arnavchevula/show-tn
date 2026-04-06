@@ -67,7 +67,9 @@ export default defineEventHandler(async(event) => {
                 age: '21+',
                 image: image,
                 url: url,
-                source: 'empty-bottle'
+                source: 'empty-bottle',
+                neighborhood: 'Ukrainian Village',
+                region: 'Northwest Side'
 
                 } as Event)
         };
@@ -75,8 +77,9 @@ export default defineEventHandler(async(event) => {
         $('#widget-coming-up .eb-item').each((i,elm)=>pushShow(i,elm));
         $('#widget-full-feed .eb-item').each((i,elm)=>pushShow(i,elm));
         await browser.close();
-        await db.from('events').delete().eq('source', 'empty-bottle');
-        const { error } = await db.from('events').insert(shows) 
+        const tableName = process.env.DB_NAME || 'events-qa'           
+        await db.from(tableName).delete().eq('source', 'empty-bottle');
+        const { error } = await db.from(tableName).insert(shows) 
         return {
             shows
         }

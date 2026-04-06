@@ -4,6 +4,8 @@ export const gmanTavernConfig: VenueConfig = {
     name: 'gman-tavern',
     displayName: 'Gman Tavern',
     url: 'https://gmantavern.com/events',
+    region: 'Northside',
+    neighborhood: 'Wrigley',
     selectors: {
         eventList: '.rhp-desktop-grid .eventMainWrapper',
         title: 'h2',

@@ -4,6 +4,8 @@ export const hideoutConfig: VenueConfig = {
     name: 'hideout',
     displayName: 'Hideout',
     url: 'https://www.hideoutchicago.com/shows',
+    region: 'Northwest Side',
+    neighborhood: 'Bucktown',
     baseUrl: 'https://www.hideoutchicago.com',
     selectors: {
         eventList: 'a[href*="/shows/"]',

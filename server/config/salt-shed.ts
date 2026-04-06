@@ -4,6 +4,8 @@ export const saltShedConfig: VenueConfig = {
     name: 'salt-shed',
     displayName: 'The Salt Shed',
     url: 'https://www.saltshedchicago.com/home#shows',
+    region: 'Northwest Side',
+    neighborhood: 'Bucktown',
     selectors: {
     eventList: '#widget-full-feed .eb-item',
     eventItem: 'eb-item',
