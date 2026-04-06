@@ -4,6 +4,8 @@ export const chopShopConfig: VenueConfig = {
     name: 'chop-shop',
     displayName: 'Chop Shop',
     url: 'https://chopshopchi.com/calendar/index.html',
+    region: 'Northwest Side',
+    neighborhood: 'Wicker Park',
     selectors: {
         eventList: '.dice_events > article',
         title: 'a.dice_event-title',

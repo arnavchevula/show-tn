@@ -4,6 +4,8 @@ export const houseOfBlues: VenueConfig = {
     name: 'house-of-blues',
     displayName: 'House of Blues',
     url: 'https://chicago.houseofblues.com/shows',
+    region: 'Downtown',
+    neighborhood: 'River North',
     selectors: {
         eventList: '[data-automation="shows-grid"] .chakra-linkbox',
         title: 'a',

@@ -21,6 +21,8 @@ export {
             day?:string
             month?:string
             description?:string
+            neighborhood?: string
+            region?: string
         }
     }
 }

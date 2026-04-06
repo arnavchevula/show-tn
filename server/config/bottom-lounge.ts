@@ -4,6 +4,8 @@ export const bottomLounge: VenueConfig = {
     name: 'bottom-lounge',
     displayName: 'Bottom Lounge',
     url: 'https://bottomlounge.com/events/',
+    region: 'Downtown',
+    neighborhood: 'West Loop',
     selectors: {
         eventList: '.tw-plugin-upcoming-event-list .container .tw-section',
         title: '.tw-name',

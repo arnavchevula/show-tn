@@ -4,6 +4,8 @@ export const cobraLoungeConfig: VenueConfig = {
     name: 'cobra-lounge',
     displayName: 'Cobra Lounge',
     url: 'https://cobralounge.com/events/',
+    region: 'Downtown',
+    neighborhood: 'West Loop',
     selectors: {
         eventList: '.dice_events article',
         title: 'a.dice_event-title',

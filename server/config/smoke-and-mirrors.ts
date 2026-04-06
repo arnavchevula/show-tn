@@ -4,6 +4,8 @@ export const smokeAndMirrorsConfig: VenueConfig = {
     name: 'smoke-and-mirrors',
     displayName: 'Smoke and Mirrors',
     url: 'https://www.smokeandmirrorschicago.com/#event',
+    region: 'Northwest Side',
+    neighborhood: 'Logan Square',
     selectors: {
         eventList: '.dice_events article',
         title: 'a.dice_event-title',

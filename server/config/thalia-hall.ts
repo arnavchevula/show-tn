@@ -4,6 +4,8 @@ export const thaliaHallConfig: VenueConfig = {
     name: 'thalia-hall',
     displayName: 'Thalia Hall',
     url: 'https://www.thaliahallchicago.com/',
+    region: 'Southwest Side',
+    neighborhood: 'Pilsen',
     selectors: {
     eventList: '#widget-full-feed .eb-item',
     eventItem: 'eb-item',

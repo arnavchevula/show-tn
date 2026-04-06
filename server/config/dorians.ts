@@ -4,6 +4,8 @@ export const doriansConfig: VenueConfig = {
     name: 'dorians',
     displayName: 'Dorians',
     url: 'https://throughtherecordshop.com/events/',
+    region: 'Northwest Side',
+    neighborhood: 'Wicker Park',
     selectors: {
         eventList: '.events-list .column',
         title: 'h2.title',

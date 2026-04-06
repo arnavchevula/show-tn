@@ -90,13 +90,16 @@ export default defineEventHandler(async(event) => {
                 parsedDate: parsedDate,
                 image: image,
                 url: url,
-                source: 'lh-st'
+                source: 'lh-st',
+                neighborhood: 'Lincoln Park',
+                region: 'Northside'
 
                 } as LHSTEvent)
         });
         await browser.close();
-        await db.from('events').delete().eq('source', 'lh-st');
-        const { error } = await db.from('events').insert(shows) 
+        const tableName = process.env.DB_NAME || 'events-qa'           
+        await db.from(tableName).delete().eq('source', 'lh-st');
+        const { error } = await db.from(tableName).insert(shows) 
         return {
             shows
         }

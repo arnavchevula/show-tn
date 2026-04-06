@@ -59,6 +59,9 @@ export default defineEventHandler(async(event) => {
             const parsedDate = parseDate(date);
             const image = $(elm).find('img .thumb').attr('src');
             const url = $(elm).find('a.tickets.onsalenow').attr('href');
+            const neighborhood = extractNeighborhood(venue);
+            const region = extractRegion(venue);
+
             shows.push({
                 id: uuidv4(),
                 header: header,
@@ -75,12 +78,15 @@ export default defineEventHandler(async(event) => {
                 parsedDate: parsedDate,
                 image: image,
                 url: url,
-                source: 'jam-productions'
+                source: 'jam-productions',
+                neighborhood: neighborhood,
+                region: region,
                 } as Event)
         });
         await browser.close();
-        await db.from('events').delete().eq('source', 'jam-productions');
-        const { error } = await db.from('events').insert(shows) 
+        const tableName = process.env.DB_NAME || 'events-qa'
+        await db.from(tableName).delete().eq('source', 'jam-productions');
+        const { error } = await db.from(tableName).insert(shows)
         return {
             shows
         }
@@ -93,4 +99,33 @@ export default defineEventHandler(async(event) => {
         }
     }
 })
-  
+
+function extractNeighborhood(venue: string) {
+    switch (venue) {
+        case 'The VIC Theatre':     return 'Lakeview'
+        case 'Park West':   return 'Lincoln Park'
+        case 'The Riviera': return 'Uptown'
+        case 'United Center': return 'West Loop'
+        case 'Palace Theatre - St. Paul / Minneapolis': return 'St. Paul / Minneapolis'
+        case 'State Theatre': return 'St. Paul / Minneapolis'
+        case 'Metro': return 'Wrigley'
+        case 'North Shore Center for Performing Arts': return 'Skokie'
+        case 'Rosemont Theatre': return 'Rosemont'
+        default:            return undefined
+    }
+}
+
+function extractRegion(venue: string) {
+    switch (venue) {
+        case 'The VIC Theatre':
+        case 'Park West':
+        case 'The Riviera': return 'Northside'
+        case 'United Center': return 'West Loop'
+        case 'Palace Theatre - St. Paul / Minneapolis': return 'St. Paul / Minneapolis'
+        case 'State Theatre': return 'St. Paul / Minneapolis'
+        case 'Metro': return 'Northside'
+        case 'North Shore Center for Performing Arts': return 'North Shore'
+        case 'Rosemont Theatre': return 'West Suburbs'
+        default:            return undefined
+    }
+}
