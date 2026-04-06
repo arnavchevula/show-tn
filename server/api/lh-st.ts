@@ -59,7 +59,7 @@ export default defineEventHandler(async(event) => {
 
             const header = $(elm).find('.event-header').text();
             const title = $(elm).find('.card-title').text();
-            const venue = $(elm).find('.tessera-venue').text();
+            const venue = $(elm).find('.tessera-venue').text().trim();
             const headliners = $(elm).find('.card-title').text();
             const support = $(elm).find('.tessera-additionalArtists').text();
             const doorsTime = $(elm).find('.tessera-doorsTime').text();
