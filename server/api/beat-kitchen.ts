@@ -60,7 +60,7 @@ export default defineEventHandler(
                 id: uuidv4(),
                 header: header,
                 title:title,
-                venue: venue,
+                venue: 'Beat Kitchen',
                 headliners: headliners,
                 support: support,
                 doorsTime: doorsTime,
@@ -73,12 +73,15 @@ export default defineEventHandler(
                 parsedDate: parsedDate,
                 image: image,
                 source: 'beat-kitchen',
+                neighborhood: 'Roscoe Village',
+                region: 'Northside',
                 url: url
                 } as Event)
         });
         await browser.close();
-        await db.from('events').delete().eq('source', 'beat-kitchen');
-        const { error } = await db.from('events').insert(shows) 
+        const tableName = process.env.DB_NAME || 'events-qa'           
+        await db.from(tableName).delete().eq('source', 'beat-kitchen');
+        const { error } = await db.from(tableName).insert(shows) 
         return {
             shows
         }

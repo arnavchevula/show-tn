@@ -4,6 +4,8 @@ export const bookclubConfig: VenueConfig = {
     name: 'bookclub',
     displayName: 'Bookclub',
     url: 'https://bookclubchi.com/events/',
+    region: 'Northside',
+    neighborhood: 'Lakeview',
     selectors: {
         eventList: '.rhp-desktop-grid .eventMainWrapper',
         title: 'h2',

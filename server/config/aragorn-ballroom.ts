@@ -4,6 +4,8 @@ export const aragornBallroom: VenueConfig = {
     name: 'aragorn-ballroom',
     displayName: 'Aragon Ballroom',
     url: 'https://www.bylinebankaragonballroom.com/shows',
+    region: 'Northside',
+    neighborhood: 'Uptown',
     selectors: {
         eventList: '[data-automation="shows-grid"] .chakra-linkbox',
         title: 'a',

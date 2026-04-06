@@ -4,6 +4,8 @@ export const whistlerConfig: VenueConfig = {
     name: 'whistler',
     displayName: 'Whistler',
     url: 'https://whistlerchicago.com/calendar',
+    region: 'Northwest Side',
+    neighborhood: 'Logan Square',
     baseUrl: 'https://whistlerchicago.com',
     selectors: {
         eventList: '.summary-item-list .summary-item',

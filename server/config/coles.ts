@@ -4,6 +4,8 @@ export const colesConfig: VenueConfig = {
     name: 'coles',
     displayName: 'Coles',
     url: 'https://colesbarchicago.com/',
+    region: 'Northwest Side',
+    neighborhood: 'Logan Square',
     selectors: {
         eventList: '.rhp-desktop-grid .eventMainWrapper',
         title: 'h2',

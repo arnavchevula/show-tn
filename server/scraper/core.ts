@@ -37,6 +37,8 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               title: extractTitle($, elm, config),
               date: extractDate($, elm, config, dateParser),
               source: config.name,
+              neighborhood: config.neighborhood,
+              region: config.region,
               header: extractHeader($, elm, config),
               venue: extractVenue($, elm, config),
               headliners: $(elm).find(config.selectors.headliners).text().trim(),

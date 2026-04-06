@@ -4,6 +4,8 @@ export const californiaClipperConfig: VenueConfig = {
     name: 'california-clipper',
     displayName: 'California Clipper',
     url: 'https://californiaclipper.com/chicago-the-california-clipper-events',
+    region: 'Northwest Side',
+    neighborhood: 'Humboldt Park',
     selectors: {
         eventList: '.container .events-holder',
         title: 'h2',

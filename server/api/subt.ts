@@ -74,7 +74,7 @@ export default defineEventHandler(async(event) => {
                 id: uuidv4(),
                 header: header,
                 title:title,
-                venue: venue,
+                venue: 'Subterranean',
                 headliners: headliners,
                 support: support,
                 doorsTime: doorsTime,
@@ -87,13 +87,16 @@ export default defineEventHandler(async(event) => {
                 parsedDate: parsedDate,
                 image: image,
                 source: 'subt',
+                neighborhood: 'Wicker Park',
+                region: 'Northwest Side',
                 url: url
 
                 } as SubtEvent)
         });
         await browser.close();
-        await db.from('events').delete().eq('source', 'subt');
-        const { error } = await db.from('events').insert(shows) 
+        const tableName = process.env.DB_NAME || 'events-qa'           
+        await db.from(tableName).delete().eq('source', 'subt');
+        const { error } = await db.from(tableName).insert(shows) 
         return {
             shows
         }
