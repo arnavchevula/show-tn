@@ -7,19 +7,21 @@ export const bottomLounge: VenueConfig = {
     region: 'Downtown',
     neighborhood: 'West Loop',
     selectors: {
-        eventList: '.tw-plugin-upcoming-event-list .container .tw-section',
-        title: '.tw-name',
-        date: '.tw-date-time',
-        doorsTime: '',
-        showTime: '',
+        eventList: '.w-grid-list article.w-grid-item',
+        title: '.post_title',
+        date: '',
+        doorsTime: '.usg_hwrapper_doors',
+        showTime: '.usg_post_custom_field_3',
         image: 'img',
-        support: '.tw-opening-act',
+        age: 'usg_post_custom_field_age',
+        support: '',
         headliners: '',
         url: 'a',
         header: '',
         subtitle: '',
         price: '',
-        combinedDateAndTime: '.tw-date-time'
+        month: '.usg_post_custom_field_1',
+        day:'.usg_post_custom_field_2'
     } as SelectorConfig,
     imageExtractor: 'src',
 }

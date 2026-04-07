@@ -11,7 +11,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
     const browser = await launchBrowser();                                                                                                                                                                      
                                                                                                                                                                                                                 
     try {                                                                                                                                                                                                       
-      const html = await getPageHtml(browser, config.url);                                                                                                                                                      
+      const html = await getPageHtml(browser, config.url, config.selectors.eventList);                                                                                                                                                      
       const events = extractEvents(html, config);     
       await saveEvents(events, config.name);                                                                                                                                                                    
                                                                                                                                                                                                                 
@@ -75,7 +75,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   }      
   
   function extractDate($: any, elm: any, config: VenueConfig, dateParser:DateParser) {
-    
     if (config.selectors.day || config.selectors.month) {
         const month = $(elm).find(config.selectors.month).text().trim()
         const day = $(elm).find(config.selectors.day).text().trim()
@@ -130,6 +129,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   }
 
   function extractTitle($: any, elm: any, config: VenueConfig): string {
+
     let title = $(elm).find(config.selectors.title).text().trim();
     if (config.titleExclude) {
       for (const exclude of config.titleExclude) {

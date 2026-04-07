@@ -7,7 +7,7 @@ export const cobraLoungeConfig: VenueConfig = {
     region: 'Downtown',
     neighborhood: 'West Loop',
     selectors: {
-        eventList: '.dice_events article',
+        eventList: '.dice_events > article',
         title: 'a.dice_event-title',
         venue: '',
         date: 'time',

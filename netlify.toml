@@ -1,3 +1,6 @@
+[functions]
+  external_node_modules = ["puppeteer-extra", "puppeteer-extra-plugin-stealth"]
+
 [[headers]]
   for = "/*"
   [headers.values]

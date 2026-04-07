@@ -1,5 +1,5 @@
-import puppeteer, { Browser } from 'puppeteer';                                                                                                                                                               
-import puppeteerCore from 'puppeteer-core';                                                                                                                                                                   
+import puppeteer, { Browser } from 'puppeteer';
+import puppeteerCore from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';                                                                                                                                                                   
                                                                                                                                                                                                               
 export async function launchBrowser(): Promise<Browser> {                                                                                                                                                     
@@ -14,18 +14,27 @@ export async function launchBrowser(): Promise<Browser> {
     }) as Browser;                                                                                                                                                                                            
   }                                                                                                                                                                                                           
                                                                                                                                                                                                               
-  return await puppeteer.launch({                                                                                                                                                                             
-    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',                                                                                                                           
-    headless: true,                                                                                                                                                                                           
+  return await puppeteer.launch({
+    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    headless: true,
   });                                                                                                                                                                                                         
 }                                                                                                                                                                                                             
                                                                                                                                                                                                               
-export async function getPageHtml(browser: Browser, url: string): Promise<string> {                                                                                                                           
+export async function getPageHtml(browser: Browser, url: string, waitForSelector?: string): Promise<string> {                                                                                                                           
   const page = await browser.newPage();
   const customUA = generateRandomUA();
-  await page.setUserAgent({userAgent: customUA});                                                                                                                                                                       
-  await page.goto(url, { waitUntil: 'networkidle2' });                                                                                                                                                        
-  const html = await page.content();     
+  await page.setUserAgent({userAgent: customUA});
+  await page.evaluateOnNewDocument(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => false });
+    Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+    Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+    (window as any).chrome = { runtime: {} };
+  });                                                                                                                                                                       
+  await page.goto(url, { waitUntil: 'networkidle2' });
+  if (waitForSelector) {
+    await page.waitForSelector(waitForSelector, { timeout: 15000 }).catch(() => {});
+  }
+  const html = await page.content();
   return html;                                                                                                                                                                                                
 }        
 
