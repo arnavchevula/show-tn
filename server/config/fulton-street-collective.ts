@@ -10,7 +10,6 @@ export const fultonStreetCollectiveConfig: VenueConfig = {
         eventList: 'li.tribe-common-g-row.tribe-events-calendar-list__event-row',
         title: 'h4.tribe-events-calendar-list__event-title',
         venue: '',
-        date: '',
         doorsTime: '',
         showTime: '',
         image: '',
