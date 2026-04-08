@@ -1,0 +1,37 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0F172A"/>
+
+  <!-- Play button -->
+  <polygon points="352,240 472,315 352,390" fill="#14B8A6"/>
+
+  <!-- Waveform inside play button -->
+  <polyline
+    points="362,315 382,315 392,285 412,345 432,305 452,315"
+    fill="none"
+    stroke="#0F172A"
+    stroke-width="10"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- opener.fm text -->
+  <text
+    x="492"
+    y="340"
+    font-family="Inter, Arial, sans-serif"
+    font-size="72"
+    fill="#14B8A6"
+    letter-spacing="1"
+  >opener.fm</text>
+
+  <!-- Tagline -->
+  <text
+    x="600"
+    y="420"
+    font-family="Inter, Arial, sans-serif"
+    font-size="28"
+    fill="#94A3B8"
+    text-anchor="middle"
+    letter-spacing="0.5"
+  >Chicago live music, all in one place</text>
+</svg>
