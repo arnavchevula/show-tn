@@ -10,7 +10,7 @@ export const hungryBrainConfig: VenueConfig = {
         eventList: '.seetickets-list-event-container',
         title: 'p.title a',
         date: 'p.date',
-        venue: 'Constellation',
+        venue: '',
         doorsTime: '.see-doortime',
         showTime: '.see-showtime',
         image: 'img.seetickets-list-view-event-image',

@@ -9,6 +9,8 @@ const selectedNeighborhoods = ref([])
 const selectedVenues = ref([])
 const isLoading = ref(false);
 const value = ref(null);
+const currentDate = ref (new Date())
+currentDate.value.setHours(0,0,0,0)
 
 onMounted(async ()=>{
   isLoading.value = true;
@@ -18,7 +20,27 @@ onMounted(async ()=>{
 
 const url = useRequestURL()
 
-     
+async function incrementCurrentDate() {
+  const weekFromNow = new Date();
+  weekFromNow.setDate(weekFromNow.getDate() + 7);
+  weekFromNow.setHours(0, 0, 0, 0);
+  if (currentDate.value < weekFromNow) {
+    const next = new Date(currentDate.value);
+    next.setDate(next.getDate() + 1);
+    currentDate.value = next;
+  }
+}
+
+async function decrementCurrentDate() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (currentDate.value > today) {
+    const prev = new Date(currentDate.value);
+    prev.setDate(prev.getDate() - 1);
+    currentDate.value = prev;
+  }
+
+}
 const filteredShows = computed(() => {
   const noFilters =
     selectedVenues.value.length === 0 &&
@@ -32,6 +54,13 @@ const filteredShows = computed(() => {
     return venueMatch && neighborhoodMatch && regionMatch
   })
 })
+
+const filteredShowsWithDays = computed(()=> {
+  return filteredShows.value.filter((show)=> {
+    return show.parsedDate.getTime() === currentDate.value.getTime()
+  })
+})
+
   useSeoMeta({
   title: 'Opener.fm | Chicago Shows This Week',
   description: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
@@ -84,11 +113,17 @@ useHead({
 
 <template>
   <div class="container mx-auto px-2 sm:px-0"> 
-    <UPageHeader
-        title="Upcoming Events"
+    <div class="flex items-center justify-between">
+      <UButton icon="i-lucide-chevron-left" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="decrementCurrentDate"></UButton>
+      <UPageHeader
+        :title="currentDate.toDateString()"
         description="Here are all the shows in Chicago this week!"
-        class="mb-4"
+        class="mb-4 items-center justify-center text-center"
+        :ui="{title:'font-normal text-center', wrapper: 'lg:justify-center'}"
       />
+      <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="incrementCurrentDate"></UButton>
+    </div>
+
       <div class="flex flex-col mb-2 sm:flex-row sm:gap-2">
         <USelectMenu
         v-model="selectedVenues"
@@ -117,10 +152,10 @@ useHead({
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
         <UProgress v-model="value"/>
     </div>
-    <div v-else v-for="show in filteredShows" :key="show.id">
+    <div v-else v-for="show in filteredShowsWithDays" :key="show.id">
       <EventCard :show="show"/>   
     </div>
-    <div v-if="filteredShows.length === 0 && !isLoading" >No shows match these filters. Please try again! </div>
+    <div v-if="filteredShowsWithDays.length === 0 && !isLoading" >No shows match these filters. Please try again! </div>
     <div v-if="allShows.length === 0 && !isLoading">Something went wrong. Please try again later! </div>
 
   </div>

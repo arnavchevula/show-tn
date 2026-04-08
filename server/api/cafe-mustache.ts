@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
                 region: 'Northwest Side',
                 url: item.htmlLink ?? '',
                 image: '',
-                age: '',
+                age: '21+',
                 header: '',
                 subtitle: '',
                 support: '',
