@@ -2,6 +2,7 @@ export interface SelectorConfig {
     eventList: string;          // Container holding all events
     eventItem: string;          // Individual event element
     title: string;
+    titleFallback?: string;     // Fallback selector when title is empty (e.g. free events with no <a>)
     date: string;
     price?: string;
     venue?: string;
@@ -38,6 +39,8 @@ export interface SelectorConfig {
     urlBase?: string;           // For relative URLs that need a base
     titleExclude?: string[];    // Strings to remove from title (e.g., ['Buy Tickets'])
     datePreprocess?: (raw: string) => string;  // Transform raw date string before parsing
+    doorsTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor when li order is inconsistent
+    showTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor when li order is inconsistent
   }
 
   export interface ScrapeResult {

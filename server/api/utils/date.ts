@@ -7,7 +7,9 @@ export class DateParser {
     }
 
     parseRawDate(date: string): Date {
-        const tempDate = new Date(date);
+        // Normalize to title case so "apr 09" → "Apr 09" for reliable parsing
+        const normalized = date.replace(/\b\w/g, c => c.toUpperCase());
+        const tempDate = new Date(normalized);
         // Create date in local timezone to avoid UTC conversion issues
         const eventDate = new Date(
             this.currentYear,

@@ -9,6 +9,7 @@ export const houseOfBlues: VenueConfig = {
     selectors: {
         eventList: '[data-automation="shows-grid"] .chakra-linkbox',
         title: 'a',
+        titleFallback: 'p.chakra-text',
         venue: '',
         date: '',
         doorsTime: '',

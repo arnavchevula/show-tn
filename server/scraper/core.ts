@@ -44,7 +44,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               headliners: $(elm).find(config.selectors.headliners).text().trim(),
               support: $(elm).find(config.selectors.support).text().trim(),
               doorsTime: extractShowTime($, elm, config),
-              showTime: $(elm).find(config.selectors.showTime).text().trim(),
+              showTime: config.showTimeExtractor ? config.showTimeExtractor($, elm) : $(elm).find(config.selectors.showTime).text().trim(),
               subtitle: $(elm).find(config.selectors.subtitle).text().trim(),
               parsedDate: extractDate($, elm, config, dateParser),
               age: $(elm).find(config.selectors.age).text().trim() || '21+',
@@ -60,7 +60,13 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       }
       catch (error) {
       }
-    return events;                                                                                                                                                                                              
+    const seen = new Set<string>();
+    return events.filter(e => {
+      const key = e.url || `${e.title}__${e.date}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });                                                                                                                                                                                              
   }                                                                                                                                                                                                             
   function extractImage($: any, elm: any, config: VenueConfig):      
   string | undefined {                                                          
@@ -96,11 +102,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   }
 
   function extractShowTime($: any, elm: any, config: VenueConfig) {
+    if (config.doorsTimeExtractor) {
+      return config.doorsTimeExtractor($, elm);
+    }
     if (config.selectors.combinedDateAndTime) {
       const combinedDateAndTime = $(elm).find(config.selectors.doorsTime).text().trim();
       const combinedDateAndTimeArr = combinedDateAndTime.split(" ");
       const showtime = combinedDateAndTimeArr[3];
-      return showtime;  
+      return showtime;
     }
     return $(elm).find(config.selectors.doorsTime).text().trim()
 
@@ -131,6 +140,9 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   function extractTitle($: any, elm: any, config: VenueConfig): string {
 
     let title = $(elm).find(config.selectors.title).text().trim();
+    if (!title && config.selectors.titleFallback) {
+      title = $(elm).find(config.selectors.titleFallback).first().text().trim();
+    }
     if (config.titleExclude) {
       for (const exclude of config.titleExclude) {
         title = title.replace(exclude, '');
