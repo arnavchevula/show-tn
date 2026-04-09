@@ -26,35 +26,36 @@ const items = computed<NavigationMenuItem[]>(() => [{
     <template #title>
       <Logo class="h-6 w-auto" />
     </template>
-
     <UNavigationMenu :items="items" />
     <template #left>
-      <svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Play button -->
-  <polygon points="8,6 32,20 8,34" fill="#14B8A6"/>
+      <NuxtLink to="/chicago">
+        <svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Play button -->
+            <polygon points="8,6 32,20 8,34" fill="#14B8A6"/>
 
-  <!-- Waveform inside play button -->
-  <polyline 
-    points="10,20 14,20 16,14 20,26 24,18 28,20" 
-    fill="none" 
-    stroke="#0F172A" 
-    stroke-width="2" 
-    stroke-linecap="round" 
-    stroke-linejoin="round"
-  />
+            <!-- Waveform inside play button -->
+              <polyline 
+                points="10,20 14,20 16,14 20,26 24,18 28,20" 
+                fill="none" 
+                stroke="#0F172A" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"
+              />
 
-  <!-- Text -->
-  <text 
-    x="40" 
-    y="25" 
-    font-family="Inter, Arial, sans-serif" 
-    font-size="18" 
-    fill="#14B8A6" 
-    letter-spacing="0.5"
-  >
-    opener.fm
-  </text>
-</svg>
+            <!-- Text -->
+            <text 
+              x="40" 
+              y="25" 
+              font-family="Inter, Arial, sans-serif" 
+              font-size="18" 
+              fill="#14B8A6" 
+              letter-spacing="0.5"
+              >
+              opener.fm
+            </text>
+        </svg>
+      </NuxtLink>
     </template>
     <template #right>
       <UColorModeButton />

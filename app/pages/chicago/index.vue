@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { useAggregatedShows } from '~/composables/useAggregatedShows';
-import EventCard from '../components/EventCard.vue';
+import EventCard from '../../components/EventCard.vue';
 
 const { fetchAllVenues, allShows, venues, neighborhoods, regions } = useAggregatedShows();
 const selectedRegions = ref([])
@@ -131,14 +131,14 @@ useHead({
         v-model="selectedVenues"
         :items="venues"
         multiple
-        placeholder="Filter by venue"
+        placeholder="All venues"
         class="mb-2"
       />
       <USelectMenu
         v-model="selectedRegions"
         :items="regions"
         multiple
-        placeholder="Filter by region"
+        placeholder="All regions"
         class="mb-2"
 
       />
@@ -146,7 +146,7 @@ useHead({
         v-model="selectedNeighborhoods"
         :items="neighborhoods"
         multiple
-        placeholder="Filter by neighborhood"
+        placeholder="All neighborhoods"
         class="mb-2"
 
       />
@@ -155,7 +155,9 @@ useHead({
         <UProgress v-model="value"/>
     </div>
     <div v-else v-for="show in filteredShowsWithDays" :key="show.id">
-      <EventCard :show="show"/>   
+      <NuxtLink :to="`/chicago/${show.id}`">
+        <EventCard :show="show" />   
+      </NuxtLink>
     </div>
     <div v-if="filteredShowsWithDays.length === 0 && !isLoading" >No shows match these filters. Please try again! </div>
     <div v-if="allShows.length === 0 && !isLoading">Something went wrong. Please try again later! </div>

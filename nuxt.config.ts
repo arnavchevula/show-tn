@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: process.env.NODE_ENV === 'development' },
-  modules: ['@nuxt/ui'],
+  modules: ['@nuxt/ui', '@nuxt/image'],
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'dark', // Can be 'system', 'light', or 'dark'
