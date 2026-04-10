@@ -139,22 +139,21 @@ useHead({
       />
       <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="incrementCurrentDate"></UButton>
     </div>
-    <UInput class="mb-2" v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full'}"/>
-
-      <div class="flex flex-col mb-2 sm:flex-row sm:gap-2">
+      <div class="flex flex-col items-baseline mb-2 sm:flex-row sm:gap-2">
+        <UInput v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full sm:flex-1'}" class="mb-2 sm:mb-0"/>
         <USelectMenu
         v-model="selectedVenues"
         :items="venues"
         multiple
         placeholder="All venues"
-        class="mb-2"
+        class="mb-2 w-full sm:w-auto"
       />
       <USelectMenu
         v-model="selectedRegions"
         :items="regions"
         multiple
         placeholder="All regions"
-        class="mb-2"
+        class="mb-2 w-full sm:w-auto"
 
       />
       <USelectMenu
@@ -162,7 +161,7 @@ useHead({
         :items="neighborhoods"
         multiple
         placeholder="All neighborhoods"
-        class="mb-2"
+        class="mb-2 w-full sm:w-auto"
 
       />
     </div>
