@@ -1,6 +1,54 @@
 [functions]
   external_node_modules = ["puppeteer-extra", "puppeteer-extra-plugin-stealth"]
 
+[images]
+  remote_images = [
+    "https://metrochicago.com/.*",
+    "https://outsetlive.com/.*",
+    "https://beatkitchen.com/.*",
+    "https://emptybottle.com/.*",
+    "https://bottomlounge.com/.*",
+    "https://chopshopchi.com/.*",
+    "https://smartbarchicago.com/.*",
+    "https://sleeping-village.com/.*",
+    "https://www.saltshedchicago.com/.*",
+    "https://www.thaliahallchicago.com/.*",
+    "https://www.hideoutchicago.com/.*",
+    "https://whistlerchicago.com/.*",
+    "https://gmantavern.com/.*",
+    "https://colesbarchicago.com/.*",
+    "https://www.lemonchicago.net/.*",
+    "https://bookclubchi.com/.*",
+    "https://www.clarachicago.com/.*",
+    "https://www.smokeandmirrorschicago.com/.*",
+    "https://www.avondalemusichall.com/.*",
+    "https://cobralounge.com/.*",
+    "https://concordmusichall.com/.*",
+    "https://elasticarts.org/.*",
+    "https://fultonstreetcollective.com/.*",
+    "https://hungrybrainchicago.com/.*",
+    "https://cafemustache.com/.*",
+    "https://californiaclipper.com/.*",
+    "https://www.theburlingtonbar.com/.*",
+    "https://reedslocal.com/.*",
+    "https://www.cubbybear.com/.*",
+    "https://www.bylinebankaragonballroom.com/.*",
+    "https://chicago.houseofblues.com/.*",
+    "https://www.reggieslive.com/.*",
+    "https://constellation-chicago.com/.*",
+    "https://epiphanychi.com/.*",
+    "https://throughtherecordshop.com/.*",
+    "https://ra.co/.*",
+    "https://prod-images.seetickets.us/.*",
+    "https://i0.wp.com/.*",
+    "https://static.wixstatic.com/.*",
+    "https://dice-media.imgix.net/.*",
+    "https://i.ticketweb.com/.*",
+    "https://images.squarespace-cdn.com/.*",
+    "https://cdn.prod.website-files.com/.*",
+    "https://s1.ticketm.net/.*"
+  ]
+
 [[headers]]
   for = "/*"
   [headers.values]
