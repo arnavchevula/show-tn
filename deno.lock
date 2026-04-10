@@ -12,12 +12,16 @@
     "packageJson": {
       "dependencies": [
         "npm:@netlify/functions@^5.1.2",
+        "npm:@nuxt/image@2",
         "npm:@nuxt/ui@^4.1.0",
         "npm:@sparticuz/chromium@141",
         "npm:@supabase/supabase-js@^2.81.1",
         "npm:cheerio@^1.1.2",
+        "npm:fuse.js@^7.3.0",
         "npm:nuxt@^4.2.0",
         "npm:puppeteer-core@^24.27.0",
+        "npm:puppeteer-extra-plugin-stealth@^2.11.2",
+        "npm:puppeteer-extra@^3.3.6",
         "npm:puppeteer@^24.27.0",
         "npm:typescript@^5.9.3",
         "npm:uuid@13",

@@ -2,6 +2,7 @@
 
 import { useAggregatedShows } from '~/composables/useAggregatedShows';
 import EventCard from '../../components/EventCard.vue';
+import Fuse from 'fuse.js'
 
 const { fetchAllVenues, allShows, venues, neighborhoods, regions } = useAggregatedShows();
 const selectedRegions = ref([])
@@ -11,12 +12,15 @@ const isLoading = ref(false);
 const value = ref(null);
 const currentDate = ref (new Date())
 currentDate.value.setHours(0,0,0,0)
+const searchString = ref();
+
 
 onMounted(async ()=>{
   isLoading.value = true;
   await fetchAllVenues();
   isLoading.value = false;
 })
+
 
 const url = useRequestURL()
 
@@ -59,6 +63,16 @@ const filteredShowsWithDays = computed(()=> {
   return filteredShows.value.filter((show)=> {
     return show.parsedDate.getTime() === currentDate.value.getTime()
   })
+})
+
+const fuse = computed(() => new Fuse(filteredShowsWithDays.value, {
+  keys: ['title', 'headliners', 'support'],
+  threshold: 0.3
+}))
+
+const filteredShowsWithDaysAndSearch = computed(() => {
+  if (!searchString.value) return filteredShowsWithDays.value
+  return fuse.value.search(searchString.value).map(r => r.item)
 })
 
   useSeoMeta({
@@ -125,6 +139,7 @@ useHead({
       />
       <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="incrementCurrentDate"></UButton>
     </div>
+    <UInput class="mb-2" v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full'}"/>
 
       <div class="flex flex-col mb-2 sm:flex-row sm:gap-2">
         <USelectMenu
@@ -154,12 +169,12 @@ useHead({
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
         <UProgress v-model="value"/>
     </div>
-    <div v-else v-for="show in filteredShowsWithDays" :key="show.id">
+    <div v-else v-for="show in filteredShowsWithDaysAndSearch" :key="show.id">
       <NuxtLink :to="`/chicago/${show.id}`">
-        <EventCard :show="show" />   
+        <EventCard :show="show" />
       </NuxtLink>
     </div>
-    <div v-if="filteredShowsWithDays.length === 0 && !isLoading" >No shows match these filters. Please try again! </div>
+    <div v-if="filteredShowsWithDaysAndSearch.length === 0 && !isLoading" >No shows match these filters. Please try again! </div>
     <div v-if="allShows.length === 0 && !isLoading">Something went wrong. Please try again later! </div>
 
   </div>
