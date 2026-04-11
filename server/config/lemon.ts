@@ -20,7 +20,8 @@ export const lemonConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        combinedDateAndTime:'time'
+        combinedDateAndTime:'time',
     } as SelectorConfig,
+    genreTags:['jazz','americana','soul'],
     imageExtractor: 'src'
 }

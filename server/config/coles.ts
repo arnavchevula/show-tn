@@ -20,7 +20,8 @@ export const colesConfig: VenueConfig = {
         secondaryUrl: '.eventMoreInfo a',
         header: '.eventTagLine',
         subtitle: '',
-        price: '.rhp-event__cost-text--grid'
+        price: '.rhp-event__cost-text--grid',
     } as SelectorConfig,
+    genreTags: ['indie', 'punk', 'soul', 'hip-hop/rap', 'metal','rock','pop'],
     imageExtractor: 'src',
 }

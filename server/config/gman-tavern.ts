@@ -18,7 +18,8 @@ export const gmanTavernConfig: VenueConfig = {
         headliners: 'h2',
         url: 'a.url',
         header: '.eventTagLine',
-        subtitle: ''
+        subtitle: '',
     } as SelectorConfig,
+    genreTags:['indie','rock','pop'],
     imageExtractor: 'src',
 }

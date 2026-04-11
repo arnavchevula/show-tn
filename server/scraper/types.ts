@@ -33,6 +33,7 @@ export interface SelectorConfig {
     selectors: SelectorConfig;
     baseUrl?: string;
     additionalEventLists?: string[];  // Extra event containers (e.g. tonight's show)
+    genreTags?: string[];            // Venue-level genre defaults
 
     // Optional overrides for edge cases
     imageExtractor?: 'src' | 'style';  // Empty Bottle uses inline CSS

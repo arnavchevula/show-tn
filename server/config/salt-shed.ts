@@ -20,7 +20,7 @@ export const saltShedConfig: VenueConfig = {
     url: 'a.buy-button',                                                                                                                                                                                               
     header: '.title',                                                                                                                                                                                            
     subtitle: '.title',   
-
+    genre:['indie','pop','electronic','rock']
     } as SelectorConfig,
     imageExtractor: 'style',
 

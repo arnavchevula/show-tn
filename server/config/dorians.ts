@@ -20,7 +20,8 @@ export const doriansConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        description: '.description'
+        description: '.description',
     } as SelectorConfig,
+    genreTags:['jazz', 'soul', 'hip-hop/rap'],
     imageExtractor: 'src',
 }

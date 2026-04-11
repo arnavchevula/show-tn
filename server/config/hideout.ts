@@ -23,7 +23,8 @@ export const hideoutConfig: VenueConfig = {
         header: 'h3',
         subtitle: '',
         month:'.show-image-poster-wrapper .event-month',
-        day:'.show-image-poster-wrapper .event-day'
+        day:'.show-image-poster-wrapper .event-day',
     } as SelectorConfig,
+    genreTags:['indie','country','alternative'],
     imageExtractor: 'src',
 }

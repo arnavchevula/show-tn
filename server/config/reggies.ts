@@ -20,8 +20,9 @@ export const reggiesConfig: VenueConfig = {
         header: '.presented-by',
         subtitle: '',
         price: '',
-        age: 'li.last'
+        age: 'li.last',
     } as SelectorConfig,
+    genreTags:['rock', 'metal', 'punk','hip-hop/rap'],
     imageExtractor: 'src',
     doorsTimeExtractor: ($: any, elm: any) => {
         let doorsTime = '';

@@ -22,7 +22,8 @@ export const burlingtonBarConfig: VenueConfig = {
         subtitle: '',
         price: '',
         day:'div.marker-daynum',
-        month: ''
+        month: '',
     } as SelectorConfig,
+    genreTags:['metal','punk','emo','indie','rock'],
     imageExtractor: 'src',
 }

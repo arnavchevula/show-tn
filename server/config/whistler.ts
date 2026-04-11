@@ -23,8 +23,8 @@ export const whistlerConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        genre: 'p.preFade.fadeIn',
-        description: 'p.preFade.fadeIn'
+        description: 'summary-excerpt p.preFade.fadeIn',
     } as SelectorConfig,
+    genreTags: ['electronic', 'jazz', 'dance'],
     imageExtractor: 'src',
 }

@@ -22,6 +22,7 @@ export const outsetConfig: VenueConfig = {
         subtitle: '',
         age: 'span.listing__lineupListItem:last-child',
     } as SelectorConfig,
+    genreTags:['pop','electronic','indie'],
     datePreprocess:(date) => {
         const [day, month] = date.split(" ");
         return `${month} ${day}`

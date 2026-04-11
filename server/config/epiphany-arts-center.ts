@@ -21,6 +21,6 @@ export const epiphanyArtsCenterConfig: VenueConfig = {
         subtitle: '',
         day: '.date',
         month: '.month',
-        
     } as SelectorConfig,
+    genreTags:['jazz', 'soul', 'classical','americana'],
 }

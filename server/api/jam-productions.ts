@@ -81,6 +81,7 @@ export default defineEventHandler(async(event) => {
                 source: 'jam-productions',
                 neighborhood: neighborhood,
                 region: region,
+                genreTags:['pop','rock','hip-hop/rap']
                 } as Event)
         });
         await browser.close();

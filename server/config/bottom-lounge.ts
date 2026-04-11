@@ -21,7 +21,8 @@ export const bottomLounge: VenueConfig = {
         subtitle: '',
         price: '',
         month: '.usg_post_custom_field_1',
-        day:'.usg_post_custom_field_2'
+        day:'.usg_post_custom_field_2',
     } as SelectorConfig,
+    genreTags:['punk','metal','rock'],
     imageExtractor: 'src',
 }

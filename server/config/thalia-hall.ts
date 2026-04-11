@@ -20,8 +20,8 @@ export const thaliaHallConfig: VenueConfig = {
     url: 'a.buy-button',                                                                                                                                                                                               
     header: '.title',                                                                                                                                                                                            
     subtitle: '.title',   
-
     } as SelectorConfig,
+    genreTags:['indie', 'pop', 'alternative','rock'],
     imageExtractor: 'style',
     additionalEventLists: ['#widget-coming-up .eb-item'],
 }

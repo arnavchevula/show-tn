@@ -22,7 +22,8 @@ export const elasticArtsConfig: VenueConfig = {
         subtitle: '',
         price: '',
         month: 'div.eventlist-datetag-startdate.eventlist-datetag-startdate--month',
-        day:'div.eventlist-datetag-startdate.eventlist-datetag-startdate--day'
+        day:'div.eventlist-datetag-startdate.eventlist-datetag-startdate--day',
     } as SelectorConfig,
+    genreTags:['jazz','experimental'],
     imageExtractor: 'src',
 }

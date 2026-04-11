@@ -21,7 +21,8 @@ export const sleepingVillageConfig: VenueConfig = {
         secondaryUrl: 'a.plotButton.plotButton--secondary', 
         header: '.listing__title',                                                                                                                                                                                            
         subtitle: '.listing__title',   
-        combinedDateAndTime: '.listing-date-time'
+        combinedDateAndTime: '.listing-date-time',
     } as SelectorConfig,
+    genreTags:['indie','emo','alternative','rock'],
     imageExtractor: 'src',
 }

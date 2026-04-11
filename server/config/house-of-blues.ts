@@ -22,7 +22,8 @@ export const houseOfBlues: VenueConfig = {
         subtitle: '',
         price: '',
         month: 'time p:nth-child(3)',
-        day:'time p:nth-child(2)'
+        day:'time p:nth-child(2)',
+        genre:['rock','punk','metal','pop']
     } as SelectorConfig,
     imageExtractor: 'src',
     titleExclude: ['Buy Tickets'],

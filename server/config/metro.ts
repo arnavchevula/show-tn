@@ -21,5 +21,6 @@ export const metroConfig: VenueConfig = {
         header: '.eventTagLine',
         subtitle: '',
     } as SelectorConfig,
+    genreTags:['indie','punk','hip-hop/rap','pop','rock'],
     imageExtractor: 'src',
 }

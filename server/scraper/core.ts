@@ -52,7 +52,8 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               url: extractUrl($, elm, config),
               secondaryUrl: $(elm).find(config.selectors.secondaryUrl).attr('href')?.trim(),
               genre: $(elm).find(config.selectors.genre).text().trim(),
-              description: $(elm).find(config.selectors.description).text().trim()
+              description: $(elm).find(config.selectors.description).text().trim(),
+              genreTags:config.genreTags
             });
           });
         }

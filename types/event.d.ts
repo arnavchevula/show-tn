@@ -22,7 +22,8 @@ export {
             month?:string
             description?:string
             neighborhood?: string
-            region?: string
+            region?: string, 
+            genreTags?: string[]
         }
     }
 }

@@ -21,5 +21,6 @@ export const reedsLocalConfig: VenueConfig = {
         subtitle: '',
         price: '',
     } as SelectorConfig,
+    genreTags:['local','cover bands', 'indie'],
     imageExtractor: 'src',
 }

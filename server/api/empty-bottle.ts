@@ -69,7 +69,9 @@ export default defineEventHandler(async(event) => {
                 url: url,
                 source: 'empty-bottle',
                 neighborhood: 'Ukrainian Village',
-                region: 'Northwest Side'
+                region: 'Northwest Side',
+                genreTags: ['indie','rock','punk','electronic']
+
 
                 } as Event)
         };

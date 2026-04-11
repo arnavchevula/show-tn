@@ -21,8 +21,9 @@ export const aragornBallroom: VenueConfig = {
         subtitle: '',
         price: '',
         month: 'time p:nth-child(3)',
-        day:'time p:nth-child(2)'
+        day:'time p:nth-child(2)',
     } as SelectorConfig,
+    genreTags:['rock','pop','indie'],
     imageExtractor: 'src',
     titleExclude: ['Buy Tickets'],
 }

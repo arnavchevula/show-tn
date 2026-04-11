@@ -21,6 +21,7 @@ export const fultonStreetCollectiveConfig: VenueConfig = {
         price: '',
         date: 'span.tribe-event-date-start',
     } as SelectorConfig,
+    genreTags:['jazz', 'experimental', 'orchestra'],
     imageExtractor: 'src',
     datePreprocess: (raw: string) => raw.split('@')[0].trim(),
     doorsTimeExtractor: ($: any, elm: any) => {

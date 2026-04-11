@@ -18,7 +18,8 @@ export const avondaleMusicHall: VenueConfig = {
         headliners: '',
         url: 'a',
         header: '',
-        subtitle: ''
+        subtitle: '',
     } as SelectorConfig,
+    genreTags:['hip-hop/rap', 'indie','electronic'],
     imageExtractor: 'src',
 }

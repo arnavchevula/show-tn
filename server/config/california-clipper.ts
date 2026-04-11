@@ -20,8 +20,9 @@ export const californiaClipperConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        description: '.event-info-text > p'
+        description: '.event-info-text > p',
     } as SelectorConfig,
+    genreTags:['electronic','dance','jazz','indie','soul'],
     imageExtractor: 'src',
     datePreprocess: (raw: string) =>
         raw.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+/i, '')

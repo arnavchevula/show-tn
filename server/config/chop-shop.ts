@@ -20,7 +20,8 @@ export const chopShopConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        combinedDateAndTime:'time'
+        combinedDateAndTime:'time',
     } as SelectorConfig,
+    genreTags:['rock','indie','soul','hip-hop/rap','pop'],
     imageExtractor: 'src'
 }

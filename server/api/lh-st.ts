@@ -25,6 +25,7 @@ type LHSTEvent = {
     support?: string,
     headliners?:string,
     url?: string;
+    genreTags?: string[]
 }
 
 export default defineEventHandler(async(event) => {
@@ -92,7 +93,8 @@ export default defineEventHandler(async(event) => {
                 url: url,
                 source: 'lh-st',
                 neighborhood: 'Lincoln Park',
-                region: 'Northside'
+                region: 'Northside',
+                genreTags: ['indie','soul','hip-hop/rap','alternative','rock']
 
                 } as LHSTEvent)
         });

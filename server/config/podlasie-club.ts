@@ -21,5 +21,6 @@ export const podlasieClubConfig: VenueConfig = {
         header: '',
         subtitle: '',
     } as SelectorConfig,
+    genreTags:['electronic','dance','club'],
     imageExtractor: 'src',
 }

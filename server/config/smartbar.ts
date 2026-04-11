@@ -18,7 +18,8 @@ export const smartbarConfig: VenueConfig = {
         headliners: 'h2',
         url: 'a.url',
         header: '.eventTagLine',
-        subtitle: ''
+        subtitle: '',
     } as SelectorConfig,
+    genreTags:['electronic','dance','lgbtq+'],
     imageExtractor: 'src',
 }

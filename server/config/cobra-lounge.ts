@@ -20,7 +20,8 @@ export const cobraLoungeConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        combinedDateAndTime:'time'
+        combinedDateAndTime:'time',
     } as SelectorConfig,
+    genreTags:['rock','metal','punk','emo'],
     imageExtractor: 'src'
 }

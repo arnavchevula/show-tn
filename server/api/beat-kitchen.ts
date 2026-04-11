@@ -75,7 +75,9 @@ export default defineEventHandler(
                 source: 'beat-kitchen',
                 neighborhood: 'Roscoe Village',
                 region: 'Northside',
-                url: url
+                url: url,
+                genreTags: ['indie','soul','hip-hop/rap','alternative','rock']
+
                 } as Event)
         });
         await browser.close();

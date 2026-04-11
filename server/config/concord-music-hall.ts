@@ -20,7 +20,8 @@ export const concordMusicHallConfig: VenueConfig = {
         header: 'p.presenter',
         subtitle: '',
         price: 'p.price',
-        age: 'p.age'
+        age: 'p.age',
     } as SelectorConfig,
+    genreTags:['electronic', 'rock', 'punk', 'metal' ,'hip-hop/rap'],
     imageExtractor: 'src',
 }

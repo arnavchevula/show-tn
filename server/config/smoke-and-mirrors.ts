@@ -20,7 +20,8 @@ export const smokeAndMirrorsConfig: VenueConfig = {
         header: '',
         subtitle: '',
         price: '',
-        combinedDateAndTime:'time'
+        combinedDateAndTime:'time',
     } as SelectorConfig,
+    genreTags:['electronic', 'dance','club'],
     imageExtractor: 'src'
 }

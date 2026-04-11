@@ -20,5 +20,6 @@ export const constellationConfig: VenueConfig = {
         header: '',
         subtitle: '',
     } as SelectorConfig,
+    genreTags:['jazz', 'experimental'],
     imageExtractor: 'src',
 }

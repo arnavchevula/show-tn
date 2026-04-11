@@ -23,6 +23,7 @@ export const cubbyBearConfig: VenueConfig = {
         price: '',
         age: 'div.pm-calendar-event-content-right > p > span:nth-child(1)',
     } as SelectorConfig,
+    genreTags:['rock','indie'],
     imageExtractor: 'src',
     datePreprocess: (date) => date.split(',')[1]?.trim() ?? date,
     doorsTimeExtractor: ($, elm) => {

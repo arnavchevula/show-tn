@@ -18,7 +18,8 @@ export const bookclubConfig: VenueConfig = {
         headliners: 'h2',
         url: 'a.url',
         header: '.eventTagLine',
-        subtitle: ''
+        subtitle: '',
     } as SelectorConfig,
+    genreTags:['hip-hop/rap','indie','soul'],
     imageExtractor: 'src',
 }

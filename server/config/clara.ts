@@ -18,7 +18,8 @@ export const claraConfig: VenueConfig = {
         headliners: '',
         url: '[data-hook="ev-rsvp-button"]',
         header: '',
-        subtitle: ''
+        subtitle: '',
     } as SelectorConfig,
+    genreTags:['jazz','experimental','soul'],
     imageExtractor: 'src',
 }

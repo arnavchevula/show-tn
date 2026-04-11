@@ -89,8 +89,8 @@ export default defineEventHandler(async(event) => {
                 source: 'subt',
                 neighborhood: 'Wicker Park',
                 region: 'Northwest Side',
-                url: url
-
+                url: url,
+                genreTags:['punk','rock','metal','indie','hip-hop/rap']
                 } as SubtEvent)
         });
         await browser.close();

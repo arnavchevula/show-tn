@@ -21,5 +21,6 @@ export const cafeMustacheConfig: VenueConfig = {
         subtitle: '',
         price: '',
     } as SelectorConfig,
+    genreTags:['indie','experimental'],
     imageExtractor: 'src',
 }
