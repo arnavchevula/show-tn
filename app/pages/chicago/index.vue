@@ -4,16 +4,16 @@ import { useAggregatedShows } from '~/composables/useAggregatedShows';
 import EventCard from '../../components/EventCard.vue';
 import Fuse from 'fuse.js'
 
-const { fetchAllVenues, allShows, venues, neighborhoods, regions } = useAggregatedShows();
+const { fetchAllVenues, allShows, venues, neighborhoods, regions, genre, genreTags } = useAggregatedShows();
 const selectedRegions = ref([])
 const selectedNeighborhoods = ref([])
 const selectedVenues = ref([])
+const selectedGenres = ref([])
 const isLoading = ref(false);
 const value = ref(null);
 const currentDate = ref (new Date())
 currentDate.value.setHours(0,0,0,0)
 const searchString = ref();
-
 
 onMounted(async ()=>{
   isLoading.value = true;
@@ -49,13 +49,15 @@ const filteredShows = computed(() => {
   const noFilters =
     selectedVenues.value.length === 0 &&
     selectedNeighborhoods.value.length === 0 &&
-    selectedRegions.value.length === 0
+    selectedRegions.value.length === 0 && 
+    selectedGenres.value.length === 0
   if (noFilters) return allShows.value
   return allShows.value.filter((show) => {
     const venueMatch = selectedVenues.value.length === 0 || selectedVenues.value.includes(show.venue)
     const neighborhoodMatch = selectedNeighborhoods.value.length === 0 || selectedNeighborhoods.value.includes(show.neighborhood)
     const regionMatch = selectedRegions.value.length === 0 || selectedRegions.value.includes(show.region)
-    return venueMatch && neighborhoodMatch && regionMatch
+    const genreMatch = selectedGenres.value.length === 0 || selectedGenres.value.some(g => (show.genreTags ?? []).includes(g))
+    return venueMatch && neighborhoodMatch && regionMatch && genreMatch
   })
 })
 
@@ -161,6 +163,14 @@ useHead({
         :items="neighborhoods"
         multiple
         placeholder="All neighborhoods"
+        class="mb-2 w-full sm:w-auto"
+
+      />
+      <USelectMenu
+        v-model="selectedGenres"
+        :items="genreTags"
+        multiple
+        placeholder="All genres"
         class="mb-2 w-full sm:w-auto"
 
       />

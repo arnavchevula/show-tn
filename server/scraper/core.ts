@@ -152,10 +152,14 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
     }
     return title;
   }
-  async function saveEvents(events: Event[], source: string): Promise<void> {      
-                                                                                                                                 
-    const db = new DBConnection().connect();    
-    const tableName = process.env.DB_NAME || 'events-qa'           
-    await db.from(tableName).delete().eq('source', source);                                                                                                                                                      
-    const{error} = await db.from(tableName).insert(events);
+  async function saveEvents(events: Event[], source: string): Promise<void> {
+    const db = new DBConnection().connect();
+    const tableName = process.env.DB_NAME || 'events-qa'
+
+    // Archive before deleting — preserves past events so shared /event/:id links never go dead
+    const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa'
+    await db.from(archiveTableName).upsert(events, { onConflict: 'id' });
+
+    await db.from(tableName).delete().eq('source', source);
+    const { error } = await db.from(tableName).insert(events);
   }                                

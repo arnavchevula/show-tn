@@ -6,14 +6,17 @@ const showId = route.params.id
 
 const { allShows } = useAggregatedShows()
 
-const { public: { supabaseUrl, supabaseApiKeyBrowser } } = useRuntimeConfig()
+const { public: { supabaseUrl, supabaseApiKeyBrowser, dbName, archiveDbName } } = useRuntimeConfig()
 const supabase = createClient(supabaseUrl as string, supabaseApiKeyBrowser as string)
 
 const { data: show } = await useAsyncData(`show-${showId}`, async () => {
   const fromState = allShows.value.find((s) => String(s.id) === String(showId))
   if (fromState) return fromState
 
-  const { data } = await supabase.from('events').select().eq('id', showId).single()
+  let { data } = await supabase.from(dbName).select().eq('id', showId).single()
+  if (!data) {
+    ({ data } = await supabase.from(archiveDbName).select().eq('id', showId).single())
+  }
   if (!data) return null
   const [year, month, day] = data.parsedDate.split('-').map(Number)
   return { ...data, parsedDate: new Date(year, month - 1, day) }

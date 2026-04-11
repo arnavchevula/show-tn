@@ -79,9 +79,11 @@ export default defineEventHandler(async(event) => {
         $('#widget-coming-up .eb-item').each((i,elm)=>pushShow(i,elm));
         $('#widget-full-feed .eb-item').each((i,elm)=>pushShow(i,elm));
         await browser.close();
-        const tableName = process.env.DB_NAME || 'events-qa'           
+        const tableName = process.env.DB_NAME || 'events-qa'
+        const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa'
+        await db.from(archiveTableName).upsert(shows, { onConflict: 'id' });
         await db.from(tableName).delete().eq('source', 'empty-bottle');
-        const { error } = await db.from(tableName).insert(shows) 
+        const { error } = await db.from(tableName).insert(shows)
         return {
             shows
         }
