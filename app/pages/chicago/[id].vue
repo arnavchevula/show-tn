@@ -59,7 +59,9 @@ const { data: show } = await useAsyncData(`show-${showId}`, async () => {
           <p>{{ show.age }}</p>
         </span>
       </div>
-
+      <p v-if="show.description" class="mb-6 text-sm text-slate-400">
+        {{ show.description }}
+      </p>
       <div class="flex gap-2">
         <UButton v-if="show.url" icon="i-lucide-ticket" size="md" color="neutral" variant="outline">
           <a :href="show.url" target="_blank" rel="noopener nofollow">Tickets</a>
