@@ -17,7 +17,7 @@
     </span>
     <span class="flex items-center gap-x-1 ">
       <UIcon name="i-lucide-calendar-days" class="size-4 text-rose-200" />
-      <p class="text-sm">{{ props.show?.parsedDate.toDateString() }}</p>
+      <p class="text-sm">{{ new Date(props.show?.parsedDate).toDateString() }}</p>
     </span>
     <span v-if = "props.show?.showTime" class="flex items-center gap-x-1 mb-1 mt-1">
       <UIcon name="i-lucide-clock" class="size-4 text-rose-200" />

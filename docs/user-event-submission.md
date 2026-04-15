@@ -49,7 +49,31 @@ Skip reCAPTCHA v2 — checkbox friction hurts real users more than it stops bots
 
 A simple `/admin` page (protected by env-var password or Supabase auth) listing `pending_events` with Approve / Reject buttons. Approve copies the row to `events`, reject deletes it.
 
-Can start even simpler: get email notifications on submission and approve manually in the Supabase dashboard until volume warrants building the UI.
+### Current approach: Supabase SQL function
+
+Until the admin UI is built, use this database function to approve rows without manual copy-pasting between tables:
+
+```sql
+create or replace function approve_pending_event(pending_id uuid)
+returns void as $$
+begin
+  insert into events (title, "parsedDate", venue, "doorsTime", url, source)
+  select title, "parsedDate", venue, "doorsTime", url, source
+  from pending_events
+  where id = pending_id;
+
+  delete from pending_events where id = pending_id;
+end;
+$$ language plpgsql;
+```
+
+To approve: copy the row's `id` from the `pending_events` table, then run in the Supabase SQL editor:
+
+```sql
+select approve_pending_event('the-row-uuid');
+```
+
+To reject: delete the row directly from the `pending_events` table in the dashboard.
 
 ## What to Skip For Now
 

@@ -183,8 +183,13 @@ useHead({
         <EventCard :show="show" />
       </NuxtLink>
     </div>
-    <div v-if="filteredShowsWithDaysAndSearch.length === 0 && !isLoading" >No shows match these filters. Please try again! </div>
-    <div v-if="allShows.length === 0 && !isLoading">Something went wrong. Please try again later! </div>
+    <div v-if="filteredShowsWithDaysAndSearch.length === 0 && !isLoading" class="mt-4">
+      <p>No shows match these filters. Please try again!</p>
+    </div>
+    <div v-if="allShows.length === 0 && !isLoading">Something went wrong. Please try again later!</div>
+    <div v-if="!isLoading" class="mt-6 text-sm text-slate-400">
+      Don't see your show? <NuxtLink to="/create-event" class="underline hover:text-slate-200 transition-colors">Add it here.</NuxtLink>
+    </div>
 
   </div>
 </template>
