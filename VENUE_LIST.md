@@ -16,28 +16,33 @@
   15. ~~The Whistler~~
   16. ~~Gman Tavern~~
   17. ~~Cafe Mustache~~
-  18. Color Club (dice widget)
   19. ~~The Salt Shed~~
   20. ~~Cobra Lounge (dice widget)~~
   21. ~~Book Club~~
   22. ~~House of Blues~~
-  24. Chicago Theatre
   25. ~~Coles~~
   26. ~~The Burlington (website is trash)~~
   27. ~~Avondale Music Hall~~ 
   28. Smoke & Mirrors (dice widget)
   29. ~~California Clipper~~
   30. ~~Constellation~~
-  31. Martyrs (website is trash)
   32. ~~Clara~~
-  33. Easy Does It (no event list on website)
   34. ~~Lemon~~
-  35. Tortoise Supper Club (no event list)
-  36. Gallery Cabaret (no event list, just jam list)
   37. ~~SmartBar~~
   38. Podlasie (needs RA graphQL api)
-  39. aliveOne (calendar, going to need a custom scraper)
   40. ~~Hungry Brain~~
+
+  48. ~~Metro~~
+  PENDING VENUES
+  1. Resident Advisor GraphQL API
+  2. Phyllis Musical Inn
+  3. Bordel?
+  4. Penny Whistle
+  5. Simones
+  6. Slippery Slope
+  7. The Owl
+  8. The Native 
+  9.
   41. Montrose Saloon
   42. The Green Mill (calendar)
   43. Andys Jazz Club (calendar)
@@ -45,8 +50,20 @@
   45. Kingston Mines (calendar)
   46. Buddy Guy Legends
   47. Jazz Showcase (calendar)
-  48. Metro
+  36. Gallery Cabaret (no event list, just jam list)
+  31. Martyrs (website is trash)
+  33. Easy Does It (no event list on website)
+  35. Tortoise Supper Club (no event list)
+  24. Chicago Theatre
+  18. Color Club (dice widget)
+  39. aliveOne (calendar, going to need a custom scraper)
+  
 
+
+
+
+
+  
 
   Coles, Gman Tavern, Bookclub and Smartbar all were created by the same author it seems
   Empty Bottle, Thalia Hall and Salt Shed also seem to be created by the same author 

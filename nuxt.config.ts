@@ -7,12 +7,15 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: process.env.NODE_ENV === 'development' },
-  modules: ['@nuxt/ui', '@nuxt/image','@nuxt/content'],
+  modules: ['@nuxt/ui', '@nuxt/image', '@nuxt/content'],
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'dark', // Can be 'system', 'light', or 'dark'
     fallback: 'dark',     // Fallback if preference cannot be determined
     classSuffix: '',      // Optional: if you want to use a specific class for color mode
+  },
+  routeRules: {
+    '/': { prerender: true }
   },
   runtimeConfig: {
     taskSecret: null,

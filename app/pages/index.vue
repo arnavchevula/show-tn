@@ -55,9 +55,18 @@ const links = ref([
 </script>
 
 <template>
-  <UPageHero
-    title="support the Chicago scene."
-    description="Aren't you tired of missing all your favorite bands? Bored on a Wednesday night? Want to switch it up from hitting the bars in Wrigley and Logan? Get cultured now. Here is a list of shows & events happening this week in Chicago:"
-    :links="links"
-    />
+    <div class="w-full max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center py-24 sm:py-32 lg:py-40">
+      <div class="text-center">
+        <h1 class="text-5xl sm:text-7xl text-pretty tracking-tight font-bold text-highlighted">support the Chicago scene.</h1>
+        <p class="text-lg sm:text-xl/8 text-muted text-balance mt-6">Aren't you tired of missing all your favorite bands? Bored on a Wednesday night? Want to switch it up from hitting the bars in Wrigley and Logan? Get cultured now. Here is a list of shows & events happening this week in Chicago:</p>
+        <div class="flex flex-wrap gap-x-6 gap-y-3 items-center justify-center mt-10 flex-row-reverse">
+          <NuxtLink to="/chicago">
+            <UButton color="primary" variant="solid" size="xl" icon="i-lucide-arrow-right">Live Show Listings</UButton>
+          </NuxtLink>
+          <NuxtLink to="/about">
+            <UButton color="neutral" variant="outline" size="xl" icon="i-lucide-square-play">Learn More</UButton>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
 </template>
