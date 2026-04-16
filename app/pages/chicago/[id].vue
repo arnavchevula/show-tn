@@ -17,9 +17,20 @@ const { data: show } = await useAsyncData(`show-${showId}`, async () => {
   if (!data) {
     ({ data } = await supabase.from(archiveDbName).select().eq('id', showId).single())
   }
-  if (!data) return null
-  const [year, month, day] = data.parsedDate.split('-').map(Number)
-  return { ...data, parsedDate: new Date(year, month - 1, day) }
+  return data ?? null
+})
+
+const displayDate = computed(() => {
+  const d = show.value?.parsedDate
+  if (!d) return ''
+  // Client-side nav path: parsedDate is already a Date object from allShows state
+  if (d instanceof Date) return d.toDateString()
+  // SSR/new tab path: parsedDate is a "YYYY-MM-DD" string — use UTC to avoid server timezone shifting the date
+  const [year, month, day] = d.split('-').map(Number)
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+    timeZone: 'UTC'
+  }).format(new Date(Date.UTC(year, month - 1, day)))
 })
 </script>
 
@@ -44,7 +55,7 @@ const { data: show } = await useAsyncData(`show-${showId}`, async () => {
         </span>
         <span class="flex items-center gap-x-2">
           <UIcon name="i-lucide-calendar-days" class="size-4 text-rose-200 shrink-0" />
-          <p>{{ show.parsedDate.toDateString() }}</p>
+          <p>{{ displayDate }}</p>
         </span>
         <span v-if="show.showTime" class="flex items-center gap-x-2">
           <UIcon name="i-lucide-clock" class="size-4 text-rose-200 shrink-0" />
