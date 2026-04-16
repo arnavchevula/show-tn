@@ -2,6 +2,7 @@
 title: 'cheating'
 author: 'Sabrina Carpenter'
 date: 'Mar 31, 2026'
+length: 5
 description: 'It wasnt cheating or some dramatic betrayal. What I found was worse: his uncertainty.'
 bio: 'Author of the novels Consolation, The Summer Demands, and The Sun in Your Eyes, and the not-novel Watching the Detective (out 11/18/25).'
 urls: {

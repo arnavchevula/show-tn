@@ -8,14 +8,10 @@
   });
 </script>
 <template>
-    <h2 class="text-3xl pt-2 mt-16">About The Author</h2>
-        <span class="flex items-end gap-x-2 mt-2 mb-2 pb-2">
-            <UAvatar :alt="props.author" size="lg" />
-            <div class="flex flex-col items-end">
-                <p class="text-xs mb-2">{{ props.author }}</p>
-            </div>
-        </span>
-        <p class="text-sm tracking-tight text-slate-500">{{ props.bio }}</p>
+    <div class="border-t border-(--ui-border) pt-8 mt-16">
+      <p class="text-xs uppercase tracking-widest text-slate-500 mb-3">About The Author</p>
+      <p class="text-sm font-medium text-slate-200 mb-2">{{ props.author }}</p>
+      <p class="text-sm tracking-tight text-slate-500">{{ props.bio }}</p>
         <div class="flex items-center gap-x-6 mt-6 mb-6"> 
             <UTooltip v-if="urls.instagram" text="Follow on Instagram" :kbds="['meta', 'G']">
                 <UButton
@@ -62,4 +58,5 @@
                 />
             </UTooltip>
         </div>
+    </div>
 </template>

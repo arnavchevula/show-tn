@@ -2,6 +2,7 @@
 author: 'John Smith'
 title: 'I Stumbled Across My Boyfriends ChatGPT and It Ended Our Relationship'
 date: 'Mar 08, 2026'
+length: 5
 description: 'Not influencers. Not paid. The real, gatekept secrets.'
 bio: 'Public Education is retreating. I'm filling the void. Teaching the histories, frameworks, & knowledge they're erasing. -Masters in Adult Education & Masters in Human Relations.'
 urls: {"instagram":"https://instagram/navviec", "substack":"https://substack.com/@sadbeige?utm_source=substack-feed-item", "twitter":"https://x.com/tallships4life", "gmail":"mailto:arnav.chevula@gmail.com"}

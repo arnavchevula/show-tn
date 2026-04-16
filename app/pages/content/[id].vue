@@ -10,6 +10,10 @@ console.log(post);
 </script>
 <template>
   <div class="container mx-auto px-4 mt-4">
+    <NuxtLink to="/content" class="inline-flex items-center gap-1 text-sm font-semibold tracking-wide text-rose-200 hover:text-rose-100 transition-colors mb-6">
+      <UIcon name="i-lucide-arrow-left" class="size-4" />
+      View All Articles
+    </NuxtLink>
     <template v-if="post">
       <Header
         :title="post.title"

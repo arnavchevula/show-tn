@@ -2,6 +2,7 @@
 author: 'Miles Davis'
 title: 'was he special, or are you just good at making things feel special?'
 date: 'Mar 16, 2026'
+length: 5
 description: 'the most romantic days of my life'
 bio: 'Comedy writer, poet & librarian. DRESS YOUR BABY IN SAGE AND TAUPE book coming April 21 (click my bio link to pre-order)'
 urls: {"instagram":"https://instagram/navviec", "substack":"https://substack.com/@sadbeige?utm_source=substack-feed-item", "twitter":"https://x.com/tallships4life", "gmail":"mailto:arnav.chevula@gmail.com"}

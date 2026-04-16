@@ -5,9 +5,12 @@
   });
 
   const displayDate = computed(() => {
+    //if you're coming from /chicago, your date is a js Date object
     const d = props.show?.parsedDate;
     if (!d) return '';
+    //coming from /chicago
     if (d instanceof Date) return d.toDateString();
+    //coming from a reload & direct link & you're reading from the db directly (creating an event or just viewing an event)
     return new Date(d + 'T00:00:00').toDateString();
   });
 
