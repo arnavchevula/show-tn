@@ -26,7 +26,7 @@ const items: NavigationMenuItem[] = [
 </script>
 
 <template>
-  <UFooter>
+  <UFooter :ui="{ container:'!px-0' }">
     <template #left>
       <p class="text-muted text-sm">Copyright © {{ new Date().getFullYear() }}</p>
     </template>
