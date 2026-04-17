@@ -1,7 +1,7 @@
 ---
 author: 'Jim Beam'
-title: ‘my friends don’t know me’
-date: ‘Dec 21, 2025’
+title: 'my friends don’t know me'
+date: 'Dec 21, 2025'
 length: 5
 description:'the loneliness of not being truly seen..'
 bio:'Award winning journalist & digital creator. Creator of Under The Desk News: A soft place to land in a hard news cycle. Hello@underthedesknews.com'
