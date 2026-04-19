@@ -14,7 +14,14 @@ const value = ref(null);
 const currentDate = ref (new Date())
 currentDate.value.setHours(0,0,0,0)
 const searchString = ref();
-
+const startDate = new Date();
+startDate.setHours(0,0,0,0);
+const nextSevenDays = Array.from({ length: 8 }, (_, i) => {
+  const date = new Date(startDate);
+  date.setDate(startDate.getDate() + i);
+  return date;
+});
+const activeMap = reactive(new Map(nextSevenDays.map((date, index) => [date, index === 0])));
 onMounted(async ()=>{
   isLoading.value = true;
   await fetchAllVenues();
@@ -76,6 +83,20 @@ const filteredShowsWithDaysAndSearch = computed(() => {
   if (!searchString.value) return filteredShowsWithDays.value
   return fuse.value.search(searchString.value).map(r => r.item)
 })
+
+const filterByDay = (day: Date) => {
+  currentDate.value = day;
+  resetMap();
+  activeMap.set(day, true);
+
+}
+
+const resetMap = () => {
+  for (const [key, value] of activeMap) {
+  activeMap.set(key, false);
+}
+}
+
 
   useSeoMeta({
   title: 'Opener.fm | Chicago Shows This Week',
@@ -174,6 +195,12 @@ useHead({
         class="mb-2 w-full sm:w-auto"
 
       />
+    </div>
+    <div class="grid grid-cols-4 gap-2 mb-2 sm:flex sm:flex-row sm:gap-4">
+     <UButton v-for="day in nextSevenDays" size="lg" class="flex-1 flex-col h-auto py-2 leading-tight gap-0" :active="activeMap.get(day)" :key="day.getDate()" color="neutral" variant="outline" active-color="primary" @click="filterByDay(day)">
+      <span class="text-xs font-normal opacity-60">{{ day.toLocaleDateString(undefined, { weekday: 'short' }) }}</span>
+      <span>{{ day.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) }}</span>
+     </UButton>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
         <UProgress v-model="value"/>
