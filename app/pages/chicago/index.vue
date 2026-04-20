@@ -21,6 +21,7 @@ const nextSevenDays = Array.from({ length: 8 }, (_, i) => {
   date.setDate(startDate.getDate() + i);
   return date;
 });
+const open = ref(false);
 const activeMap = reactive(new Map(nextSevenDays.map((date, index) => [date, index === 0])));
 onMounted(async ()=>{
   isLoading.value = true;
@@ -38,7 +39,10 @@ async function incrementCurrentDate() {
   if (currentDate.value < weekFromNow) {
     const next = new Date(currentDate.value);
     next.setDate(next.getDate() + 1);
-    currentDate.value = next;
+    const matchingDay = nextSevenDays.find(d => d.getTime() === next.getTime());
+    currentDate.value = matchingDay ?? next;
+    resetMap();
+    if (matchingDay) activeMap.set(matchingDay, true);
   }
 }
 
@@ -48,9 +52,11 @@ async function decrementCurrentDate() {
   if (currentDate.value > today) {
     const prev = new Date(currentDate.value);
     prev.setDate(prev.getDate() - 1);
-    currentDate.value = prev;
+    const matchingDay = nextSevenDays.find(d => d.getTime() === prev.getTime());
+    currentDate.value = matchingDay ?? prev;
+    resetMap();
+    if (matchingDay) activeMap.set(matchingDay, true);
   }
-
 }
 const filteredShows = computed(() => {
   const noFilters =
@@ -155,28 +161,47 @@ useHead({
     <div class="flex items-center justify-between">
       <UButton icon="i-lucide-chevron-left" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="decrementCurrentDate"></UButton>
       <UPageHeader
-        :title="currentDate.toDateString()"
         description="Here are all the shows in Chicago this week!"
         class="mb-4 items-center justify-center text-center"
-        :ui="{title:'font-normal text-center', wrapper: 'lg:justify-center'}"
-      />
+        :ui="{title:'font-normal text-center', wrapper: 'lg:justify-center', description:'text-md'}"
+      >
+        <template #title>
+          <div class="flex flex-col items-center leading-tight gap-0">
+            <span class="text-sm font-normal opacity-60">{{ currentDate.toLocaleDateString(undefined, { weekday: 'long' }) }}</span>
+            <span class="text-5xl text-rose-200"> {{ currentDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
+          </div>
+        </template>
+      </UPageHeader>
       <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="incrementCurrentDate"></UButton>
     </div>
+    <UInput v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full sm:flex-1'}" class="mb-2"/>
+
+    <UCollapsible class="flex flex-col gap-2 w-full mb-2" v-model:open="open">
+    <UButton
+      label="Filters"
+      color="neutral"
+      variant="outline"
+      :trailing-icon = "open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+      leading-icon="i-lucide-sliders-horizontal"
+      :ui="{label:'text-dimmed', trailingIcon:'text-dimmed', leadingIcon:'text-dimmed'}"
+      block 
+    />
+
+    <template #content>
       <div class="flex flex-col items-baseline mb-2 sm:flex-row sm:gap-2">
-        <UInput v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full sm:flex-1'}" class="mb-2 sm:mb-0"/>
         <USelectMenu
         v-model="selectedVenues"
         :items="venues"
         multiple
         placeholder="All venues"
-        class="mb-2 w-full sm:w-auto"
+        class="mb-2 w-full sm:w-auto sm:flex-1"
       />
       <USelectMenu
         v-model="selectedRegions"
         :items="regions"
         multiple
         placeholder="All regions"
-        class="mb-2 w-full sm:w-auto"
+        class="mb-2 w-full sm:w-auto sm:flex-1"
 
       />
       <USelectMenu
@@ -184,7 +209,7 @@ useHead({
         :items="neighborhoods"
         multiple
         placeholder="All neighborhoods"
-        class="mb-2 w-full sm:w-auto"
+        class="mb-2 w-full sm:w-auto sm:flex-1" 
 
       />
       <USelectMenu
@@ -192,10 +217,12 @@ useHead({
         :items="genreTags"
         multiple
         placeholder="All genres"
-        class="mb-2 w-full sm:w-auto"
+        class="mb-2 w-full sm:w-auto sm:flex-1"
 
       />
-    </div>
+    </div>    
+  </template>
+  </UCollapsible>
     <div class="grid grid-cols-4 gap-2 mb-2 sm:flex sm:flex-row sm:gap-4">
      <UButton v-for="day in nextSevenDays" size="lg" class="flex-1 flex-col h-auto py-2 leading-tight gap-0" :active="activeMap.get(day)" :key="day.getDate()" color="neutral" variant="outline" active-color="primary" @click="filterByDay(day)">
       <span class="text-xs font-normal opacity-60">{{ day.toLocaleDateString(undefined, { weekday: 'short' }) }}</span>
