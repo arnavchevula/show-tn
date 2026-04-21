@@ -5,7 +5,7 @@ export const metroConfig: VenueConfig = {
     displayName: 'Metro',
     url: 'https://metrochicago.com/events',
     region: 'Northside',
-    neighborhood: 'Wrigleyville',
+    neighborhood: 'Wrigley',
     selectors: {
         eventList: '.rhpSingleEvent',
         title: 'h2.rhp-event__title--list',

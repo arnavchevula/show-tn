@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const tunnelConfig: VenueConfig = {
+    name: 'tunnel',
+    displayName: 'Tunnel',
+    url: 'https://speakeasygo.com/tunnel-chicago?vid=VN-88wt',
+    region: 'Downtown',
+    neighborhood: 'River North',
+    selectors: {
+        eventList: '.flex-shrink-0',
+        title: 'h3.leading-tight',
+        date: 'span.leading-none',
+        venue: '',
+        doorsTime: '',
+        showTime: '',
+        image: 'img[alt]:not([alt=""])',
+        support: '',
+        headliners: '',
+        url: '',
+        secondaryUrl: '',
+        header: '',
+        subtitle: '',
+        age: '',
+    } as SelectorConfig,
+    genreTags: ["dance", "electronic", "club", "reggaeton"],
+    fallbackUrl: 'https://speakeasygo.com/tunnel-chicago?vid=VN-88wt',
+    waitUntil: 'networkidle2',
+    imageExtractor: 'src',
+    datePreprocess: (date) => date.replace(/^[A-Za-z]+,\s*/, ''),
+}

@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const moesCantinnaRiverNorthConfig: VenueConfig = {
+    name: 'moes-cantina-river-north',
+    displayName: "Moe's Cantina River North",
+    url: 'https://speakeasygo.com/moes-cantina-river-north?vid=VN-6qbm',
+    region: 'Downtown',
+    neighborhood: 'River North',
+    selectors: {
+        eventList: '.flex-shrink-0',
+        title: 'h3.leading-tight',
+        date: 'span.leading-none',
+        venue: '',
+        doorsTime: '',
+        showTime: '',
+        image: 'img[alt]:not([alt=""])',
+        support: '',
+        headliners: '',
+        url: '',
+        secondaryUrl: '',
+        header: '',
+        subtitle: '',
+        age: '',
+    } as SelectorConfig,
+    genreTags: ["dance", "electronic", "club", "reggaeton"],
+    fallbackUrl: 'https://speakeasygo.com/moes-cantina-river-north?vid=VN-6qbm',
+    waitUntil: 'networkidle2',
+    imageExtractor: 'src',
+    datePreprocess: (date) => date.replace(/^[A-Za-z]+,\s*/, ''),
+}

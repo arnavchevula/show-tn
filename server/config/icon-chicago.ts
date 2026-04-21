@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const iconChicagoConfig: VenueConfig = {
+    name: 'icon-chicago',
+    displayName: 'Icon Chicago',
+    url: 'https://speakeasygo.com/icon-chicago?vid=VN-p5l5',
+    region: 'Northside',
+    neighborhood: 'Lincoln Park',
+    selectors: {
+        eventList: '.flex-shrink-0',
+        title: 'h3.leading-tight',
+        date: 'span.leading-none',
+        venue: '',
+        doorsTime: '',
+        showTime: '',
+        image: 'img[alt]:not([alt=""])',
+        support: '',
+        headliners: '',
+        url: '',
+        secondaryUrl: '',
+        header: '',
+        subtitle: '',
+        age: '',
+    } as SelectorConfig,
+    genreTags: ["dance", "electronic", "club", "reggaeton"],
+    fallbackUrl: 'https://speakeasygo.com/icon-chicago?vid=VN-p5l5',
+    waitUntil: 'networkidle2',
+    imageExtractor: 'src',
+    datePreprocess: (date) => date.replace(/^[A-Za-z]+,\s*/, ''),
+}

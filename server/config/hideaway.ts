@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const hideawayConfig: VenueConfig = {
+    name: 'hideaway',
+    displayName: 'Hideaway',
+    url: 'https://speakeasygo.com/hideaway-chicago?vid=VN-6du6',
+    region: 'Downtown',
+    neighborhood: 'Gold Coast',
+    selectors: {
+        eventList: '.flex-shrink-0',
+        title: 'h3.leading-tight',
+        date: 'span.leading-none',
+        venue: '',
+        doorsTime: '',
+        showTime: '',
+        image: 'img[alt]:not([alt=""])',
+        support: '',
+        headliners: '',
+        url: '',
+        secondaryUrl: '',
+        header: '',
+        subtitle: '',
+        age: '',
+    } as SelectorConfig,
+    genreTags: ["dance", "electronic", "club"],
+    fallbackUrl: 'https://speakeasygo.com/hideaway-chicago?vid=VN-6du6',
+    waitUntil: 'networkidle2',
+    imageExtractor: 'src',
+    datePreprocess: (date) => date.replace(/^[A-Za-z]+,\s*/, ''),
+}

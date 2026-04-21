@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const goldCoastSocialConfig: VenueConfig = {
+    name: 'gold-coast-social',
+    displayName: 'Gold Coast Social',
+    url: 'https://speakeasygo.com/gold-coast-social?vid=VN-ktgk',
+    region: '',
+    neighborhood: '',
+    selectors: {
+        eventList: '.flex-shrink-0',
+        title: 'h3.leading-tight',
+        date: 'span.leading-none',
+        venue: '',
+        doorsTime: '',
+        showTime: '',
+        image: 'img[alt]:not([alt=""])',
+        support: '',
+        headliners: '',
+        url: '',
+        secondaryUrl: '',
+        header: '',
+        subtitle: '',
+        age: '',
+    } as SelectorConfig,
+    genreTags: ["dance", "electronic", "club", "reggaeton"],
+    fallbackUrl: 'https://speakeasygo.com/gold-coast-social?vid=VN-ktgk',
+    waitUntil: 'networkidle2',
+    imageExtractor: 'src',
+    datePreprocess: (date) => date.replace(/^[A-Za-z]+,\s*/, ''),
+}

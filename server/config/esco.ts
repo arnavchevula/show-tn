@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const escoConfig: VenueConfig = {
+    name: 'esco',
+    displayName: 'Esco',
+    url: 'https://speakeasygo.com/esco-chicago?vid=VN-9i0d',
+    region: 'Downtown',
+    neighborhood: 'West Loop',
+    selectors: {
+        eventList: '.flex-shrink-0',
+        title: 'h3.leading-tight',
+        date: 'span.leading-none',
+        venue: '',
+        doorsTime: '',
+        showTime: '',
+        image: 'img[alt]:not([alt=""])',
+        support: '',
+        headliners: '',
+        url: '',
+        secondaryUrl: '',
+        header: '',
+        subtitle: '',
+        age: '',
+    } as SelectorConfig,
+    genreTags: ["dance", "electronic", "club", "reggaeton"],
+    fallbackUrl: 'https://speakeasygo.com/esco-chicago?vid=VN-9i0d',
+    waitUntil: 'networkidle2',
+    imageExtractor: 'src',
+    datePreprocess: (date) => date.replace(/^[A-Za-z]+,\s*/, ''),
+}

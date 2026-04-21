@@ -11,7 +11,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
     const browser = await launchBrowser();                                                                                                                                                                      
                                                                                                                                                                                                                 
     try {                                                                                                                                                                                                       
-      const html = await getPageHtml(browser, config.url, config.selectors.eventList);                                                                                                                                                      
+      const html = await getPageHtml(browser, config.url, config.selectors.eventList, config.waitUntil);                                                                                                                                                      
       const events = extractEvents(html, config);     
       await saveEvents(events, config.name);                                                                                                                                                                    
                                                                                                                                                                                                                 
@@ -50,7 +50,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               age: $(elm).find(config.selectors.age).text().trim() || '21+',
               image: extractImage($,elm,config),
               url: extractUrl($, elm, config),
-              secondaryUrl: $(elm).find(config.selectors.secondaryUrl).attr('href')?.trim(),
+              secondaryUrl: extractSecondaryUrl($, elm, config),
               genre: $(elm).find(config.selectors.genre).text().trim(),
               description: $(elm).find(config.selectors.description).text().trim(),
               genreTags:config.genreTags
@@ -60,6 +60,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
 
       }
       catch (error) {
+        console.log("error: ", error)
       }
     const seen = new Set<string>();
     return events.filter(e => {
@@ -128,6 +129,12 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
       return $(elm).find(config.selectors.header).text().trim()
     }
     return `${config.displayName} presents: `;
+  }
+
+  function extractSecondaryUrl($: any, elm: any, config: VenueConfig): string | undefined {
+    if (!config.selectors.secondaryUrl) return config.fallbackUrl;
+    const href = $(elm).find(config.selectors.secondaryUrl).attr('href')?.trim();
+    return href || config.fallbackUrl;
   }
 
   function extractUrl($: any, elm: any, config: VenueConfig): string | undefined {

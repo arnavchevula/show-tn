@@ -20,7 +20,7 @@ export async function launchBrowser(): Promise<Browser> {
   });                                                                                                                                                                                                         
 }                                                                                                                                                                                                             
                                                                                                                                                                                                               
-export async function getPageHtml(browser: Browser, url: string, waitForSelector?: string): Promise<string> {                                                                                                                           
+export async function getPageHtml(browser: Browser, url: string, waitForSelector?: string, waitUntil: 'domcontentloaded' | 'networkidle2' = 'domcontentloaded'): Promise<string> {                                                                                                                           
   const page = await browser.newPage();
   const customUA = generateRandomUA();
   await page.setUserAgent({userAgent: customUA});
@@ -30,7 +30,7 @@ export async function getPageHtml(browser: Browser, url: string, waitForSelector
     Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
     (window as any).chrome = { runtime: {} };
   });                                                                                                                                                                       
-  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.goto(url, { waitUntil });
   if (waitForSelector) {
     await page.waitForSelector(waitForSelector, { timeout: 15000 }).catch(() => {});
   }
