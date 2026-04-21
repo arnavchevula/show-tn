@@ -30,7 +30,7 @@ export async function getPageHtml(browser: Browser, url: string, waitForSelector
     Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
     (window as any).chrome = { runtime: {} };
   });                                                                                                                                                                       
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
   if (waitForSelector) {
     await page.waitForSelector(waitForSelector, { timeout: 15000 }).catch(() => {});
   }
