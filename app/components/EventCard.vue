@@ -65,7 +65,7 @@
       <p class="text-xs">{{ props.show?.age }}</p>
     </span>
 
-    <div class="flex flex-col w-1/2 sm:w-1/6 gap-2 mt-2">
+    <div class="flex flex-wrap gap-2 mt-2">
       <UButton v-if="props.show?.url" icon="i-lucide-ticket" size="md" color="neutral" variant="outline">
         <a :href="props.show?.url" target="_blank" rel="noopener nofollow">
           Tickets
