@@ -43,7 +43,7 @@
   7. The Owl
   8. The Native 
   9.
-  41. Montrose Saloon
+  ~~41. Montrose Saloon~~
   42. The Green Mill (calendar)
   43. Andys Jazz Club (calendar)
   44. Rosas Lounge (maybe... weird format)

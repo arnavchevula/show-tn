@@ -16,10 +16,33 @@
   });
 
   const addToCalendar = () => {
-    const calendarDate = new Date(props.show.parsedDate);
+    const calendarDate = props.show.parsedDate instanceof Date
+      ? props.show.parsedDate
+      : new Date(props.show.parsedDate + 'T00:00:00');
+    const { doorsTime, showTime } = props.show;
+
+    let startHour = 20;
+    let startMinute = 0;
+
+    const rawTime = doorsTime || showTime;
+    if (rawTime) {
+      const cleaned = rawTime
+        .replace(/doors?\s*time\s*:?\s*|doors?\s*:?\s*/gi, '')
+        .replace(/show\s*time\s*:?\s*|show\s*:?\s*/gi, '')
+        .trim();
+      const isPM = /pm/i.test(cleaned);
+      const [hourStr, minuteStr] = cleaned.replace(/[apm\s]/gi, '').split(':');
+      let hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10) || 0;
+      if (isPM && hour < 12) hour += 12;
+      if (!isPM && hour === 12) hour = 0;
+      startHour = hour;
+      startMinute = minute;
+    }
+
 
     ics.createEvent({
-      start: [calendarDate.getFullYear(), calendarDate.getMonth() + 1, calendarDate.getDate(), 20, 0],
+      start: [calendarDate.getFullYear(), calendarDate.getMonth() + 1, calendarDate.getDate(), startHour, startMinute],
       title: props.show.title,
       description: props.show.description || '',
       location: props.show.venue,
@@ -27,7 +50,6 @@
       duration: { hours: 4 }
     } as ics.EventAttributes, (error, value) => {
       if (error) { console.error(error); return; }
-
       const blob = new Blob([value], { type: 'text/calendar' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
