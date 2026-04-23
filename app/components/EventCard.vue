@@ -1,5 +1,6 @@
 <script setup lang="ts"> 
   import { defineProps } from 'vue';
+  import * as ics from 'ics'
   const props = defineProps({
     show:{}
   });
@@ -14,6 +15,28 @@
     return new Date(d + 'T00:00:00').toDateString();
   });
 
+  const addToCalendar = () => {
+    const calendarDate = new Date(props.show.parsedDate);
+
+    ics.createEvent({
+      start: [calendarDate.getFullYear(), calendarDate.getMonth() + 1, calendarDate.getDate(), 20, 0],
+      title: props.show.title,
+      description: props.show.description || '',
+      location: props.show.venue,
+      url: props.show.url,
+      duration: { hours: 4 }
+    } as ics.EventAttributes, (error, value) => {
+      if (error) { console.error(error); return; }
+
+      const blob = new Blob([value], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${props.show.title}.ics`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
   </script>
 
 <template>
@@ -42,7 +65,7 @@
       <p class="text-xs">{{ props.show?.age }}</p>
     </span>
 
-    <div class="flex w-full gap-2 mt-2">
+    <div class="flex flex-col w-1/2 sm:w-1/6 gap-2 mt-2">
       <UButton v-if="props.show?.url" icon="i-lucide-ticket" size="md" color="neutral" variant="outline">
         <a :href="props.show?.url" target="_blank" rel="noopener nofollow">
           Tickets
@@ -52,6 +75,9 @@
         <a :href="props.show?.secondaryUrl" target="_blank" rel="noopener nofollow">
           Learn More
         </a>
+      </UButton>
+      <UButton icon="i-lucide-calendar-plus" size="md" color="neutral" variant="outline" @click="addToCalendar">
+        Add to Calendar
       </UButton>
     </div>
 
