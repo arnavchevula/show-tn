@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { createClient } from '@supabase/supabase-js'
-import * as ics from 'ics'
 
 const route = useRoute()
 const showId = route.params.id
@@ -21,28 +20,6 @@ const { data: show } = await useAsyncData(`show-${showId}`, async () => {
   return data ?? null
 })
 
-const addToCalendar = () => {
-  const calendarDate = new Date(show.value.parsedDate)
-
-  ics.createEvent({
-    start: [calendarDate.getFullYear(), calendarDate.getMonth() + 1, calendarDate.getDate(), 20, 0],
-    title: show.value.title,
-    description: show.value.description || '',
-    location: show.value.venue,
-    url: show.value.url,
-    duration: { hours: 4 }
-  } as ics.EventAttributes, (error, value) => {
-    if (error) { console.error(error); return; }
-
-    const blob = new Blob([value], { type: 'text/calendar' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${show.value.title}.ics`
-    a.click()
-    URL.revokeObjectURL(url)
-  })
-}
 
 const displayDate = computed(() => {
   const d = show.value?.parsedDate
@@ -104,9 +81,7 @@ const displayDate = computed(() => {
         <UButton v-if="show.secondaryUrl" icon="i-lucide-circle-arrow-out-up-right" size="md" color="neutral" variant="outline">
           <a :href="show.secondaryUrl" target="_blank" rel="noopener nofollow">Learn More</a>
         </UButton>
-        <UButton icon="i-lucide-calendar-plus" size="md" color="neutral" variant="outline" @click="addToCalendar">
-          Add to Calendar
-        </UButton>
+        <AddToCalendar :show="show" />
       </div>
     </div>
 

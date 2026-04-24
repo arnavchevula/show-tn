@@ -232,10 +232,8 @@ useHead({
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
         <UProgress v-model="value"/>
     </div>
-    <div v-else v-for="show in filteredShowsWithDaysAndSearch" :key="show.id">
-      <NuxtLink :to="`/chicago/${show.id}`">
-        <EventCard :show="show" />
-      </NuxtLink>
+    <div v-else v-for="show in filteredShowsWithDaysAndSearch" :key="show.id" class="cursor-pointer" @click="navigateTo(`/chicago/${show.id}`)">
+      <EventCard :show="show" />
     </div>
     <div v-if="filteredShowsWithDaysAndSearch.length === 0 && !isLoading" class="mt-4">
       <p>No shows match these filters. Please try again!</p>
