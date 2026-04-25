@@ -23,11 +23,12 @@ export default defineNuxtConfig({
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
     supabaseSecretServer: process.env.SUPABASE_SECRET_SERVER,
+    geminiApiKey: process.env.GEMINI_API_KEY,
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseApiKeyBrowser: process.env.SUPABASE_API_KEY_BROWSER,
       archiveDbName: process.env.ARCHIVE_DB_NAME || 'archived-events-qa',
-      dbName: process.env.DB_NAME || 'events-qa'
+      dbName: process.env.DB_NAME || 'events-qa',
     }
   },
   nitro: {
