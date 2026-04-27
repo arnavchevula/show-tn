@@ -214,10 +214,10 @@ const toHHMM = (timeStr: string | null): string | undefined => {
     <h1 class="text-4xl">Create an Event</h1>
 
     <!-- Upload -->
-    <p v-if="!showForm">Have a flyer? Drop it here and we'll fill in the details for you.</p>
+    <p v-if="!showForm">Have flyers? Drop them here and we'll fill in the details for you.</p>
     <UFileUpload
       v-model="files"
-      label="Drop your show flyer here!"
+      label="Drop your show flyers here!"
       description="SVG, PNG, JPG or GIF (max. 2MB)"
       class="w-96 min-h-48"
       layout="list"
@@ -293,44 +293,42 @@ const toHHMM = (timeStr: string | null): string | undefined => {
     </UForm>
 
     <UForm v-if="batchEvents.length > 0" @submit="submitBatch">
-      <div v-for="(batchEvent,index) in batchEvents">
-        <UFormField label="Title" name="title" class="w-full">
-          <UInput v-model="batchEvents[index].title" @update:modelValue = "batchEvents[index]={...batchEvents[index],title:$event}" class="w-full" />
-        </UFormField>
-
-        <UFormField label="Support" name="support" class="w-full">
-          <UInput v-model="batchEvents[index].support" @update:modelValue = "batchEvents[index]={...batchEvents[index],support:$event}" placeholder="Opening acts" class="w-full" />
-        </UFormField>
-
-        <UFormField label="Date" name="date" class="w-full">
-          <UInput v-model="batchEvents[index].parsedDate" @update:modelValue = "batchEvents[index]={...batchEvents[index],parsedDate:$event}" type="date" class="w-full" />
-        </UFormField>
-
-        <UFormField label="Venue" name="venue" class="w-full">
+      <div class="grid grid-cols-[2fr_1.5fr_150px_2fr_110px_2fr] gap-2 px-1 mb-1 text-xs text-neutral-400">
+        <span>Title</span>
+        <span>Support</span>
+        <span>Date</span>
+        <span>Venue</span>
+        <span>Doors</span>
+        <span>URL</span>
+      </div>
+      <div v-for="(batchEvent, index) in batchEvents" :key="index" class="grid grid-cols-[2fr_1.5fr_150px_2fr_110px_2fr] gap-2 mb-3 items-start">
+        <UInput size="sm" v-model="batchEvents[index].title" @update:modelValue="batchEvents[index]={...batchEvents[index],title:$event}" placeholder="Title" class="w-full" />
+        <UInput size="sm" v-model="batchEvents[index].support" @update:modelValue="batchEvents[index]={...batchEvents[index],support:$event}" placeholder="Opening acts" class="w-full" />
+        <UInput size="sm" v-model="batchEvents[index].parsedDate" @update:modelValue="batchEvents[index]={...batchEvents[index],parsedDate:$event}" type="date" class="w-full" />
+        <div>
           <USelectMenu
             v-if="!useCustomVenueBatch[index]"
+            size="sm"
             v-model="batchEvents[index].venue"
-            @update:modelValue = "batchEvents[index]={...batchEvents[index],venue:$event}"
+            @update:modelValue="batchEvents[index]={...batchEvents[index],venue:$event}"
             :items="venues"
-            placeholder="All venues"
+            placeholder="Venue"
             class="w-full"
           />
           <UInput
             v-else
+            size="sm"
             v-model="batchEvents[index].venue"
-            @update:modelValue = "batchEvents[index]={...batchEvents[index],venue:$event}"
-            placeholder="e.g. Someone's Basement, DIY Space"
+            @update:modelValue="batchEvents[index]={...batchEvents[index],venue:$event}"
+            placeholder="Custom venue"
             class="w-full"
           />
-          <UCheckbox v-model="useCustomVenueBatch[index]" label="Don't see your venue? Enter it manually" class="mt-2" />
-        </UFormField>
-        <UFormField label="Doors Time" name="doorsTime" class="w-full">
-          <UInput v-model="batchEvents[index].doorsTime" @update:modelValue = "batchEvents[index]={...batchEvents[index],doorsTime:$event}" type="time" class="w-full" />
-        </UFormField>
-
-        <UFormField label="Event Url" name="url" class="w-full">
-          <UInput v-model="batchEvents[index].url" @update:modelValue = "batchEvents[index]={...batchEvents[index],url:$event}" type="url" class="w-full" />
-        </UFormField>
+          <button type="button" class="text-xs text-neutral-400 hover:text-neutral-200 transition-colors mt-0.5" @click="useCustomVenueBatch[index] = !useCustomVenueBatch[index]">
+            {{ useCustomVenueBatch[index] ? 'Use dropdown' : 'Enter manually' }}
+          </button>
+        </div>
+        <UInput size="sm" v-model="batchEvents[index].doorsTime" @update:modelValue="batchEvents[index]={...batchEvents[index],doorsTime:$event}" type="time" class="w-full" />
+        <UInput size="sm" v-model="batchEvents[index].url" @update:modelValue="batchEvents[index]={...batchEvents[index],url:$event}" type="url" placeholder="URL" class="w-full" />
       </div>
       <UButton type="submit" icon="i-lucide-circle-check" size="md" color="neutral" variant="outline" class="mt-2">
         Submit
