@@ -17,8 +17,8 @@ export async function processImage(buffer: Buffer, mimeType: string) {
         "header": "any label above the title, e.g. venue name presenting the show",
         "venue": "venue name",
         "parsedDate": "YYYY-MM-DD",
-        "showTime": "show time as a string e.g. '8:00 PM' If nothing appears, use doorsTime or default to 8:00 PM",
-        "doorsTime": "doors time as a string e.g. '7:00 PM' If nothing appears, use showTime or default to 8:00 PM" ,
+        "showTime": "show time as a string e.g. '8:00 PM' If nothing appears, use doorsTime or default to 8:00 PM" You must return as a full H:MM string,
+        "doorsTime": "doors time as a string e.g. '7:00 PM' If nothing appears, use showTime or default to 8:00 PM" You must return as a full H:MM string,
         "age": "age restriction e.g. '18+' or 'All Ages'",
         "description": "any additional descriptive text on the flyer",
         "url": "any website or ticket URL shown"

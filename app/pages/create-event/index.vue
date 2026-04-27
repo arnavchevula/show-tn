@@ -6,11 +6,14 @@ import EventCard  from '~/components/EventCard.vue'
 const { venues, fetchAllVenues } = useAggregatedShows();
 
 
+type BatchEvent = z.output<typeof schema> & {
+    status: 'pending' | 'submitting' | 'submitted' | 'error'
+    error?: string
+  }
 
 onMounted(async () => {
   await fetchAllVenues();
 })
-
 
 const schema = z.object({
   title: z.string('Title is required'),
@@ -22,15 +25,19 @@ const schema = z.object({
   source: z.literal('user')
 })
 
+                  
 const selectedVenue = ref();
 const customVenue = ref('');
 const useCustomVenue = ref(false);
+const useCustomVenueBatch = ref<boolean[]>([]);
 const matchedEvents = ref([]);
 const submitted = ref(false);
 const honeypot = ref('');
-const files = ref<File>()
+const files = ref<File[]>([])
 const loading = ref(false);
 const showForm = ref(false);
+const batchEvents = ref<BatchEvent[]>([]); 
+const showParseFlyers = ref(false);
 
 type Schema = z.output<typeof schema>
 
@@ -84,8 +91,9 @@ function resetForm() {
   selectedVenue.value = undefined
   customVenue.value = ''
   useCustomVenue.value = false
-  files.value = undefined;
+  files.value = [];
   showForm.value = false;
+  batchEvents.value = [];
 }
 
 function onAlreadyListed() {
@@ -103,48 +111,85 @@ async function onDifferentEvent() {
     })
     .catch((error) => console.error("Error:", error));
 }
-async function processImage() {
+
+async function fetchParsed(file: File) {
   loading.value = true;
-  try {
-    const file = files.value
-    const formData = new FormData();
-    formData.append('file', file); // 'file' is the key the server expects
-    const response = await fetch('/api/create-event-from-flyer', {
+  const formData = new FormData();
+  formData.append('file', file); // 'file' is the key the server expects
+  const response = await fetch('/api/create-event-from-flyer', {
       method: 'POST',
       body: formData,
       // IMPORTANT: Do NOT manually set 'Content-Type' header. 
       // The browser will set it automatically with the correct boundary.
     });
     const result = await response.json();
+    loading.value = false;
     const { parsed } = result;
-    console.log(result);
-    Object.assign(state, {
-      title: parsed.title ?? undefined,
-      support: parsed.support ?? undefined,
-      parsedDate: parsed.parsedDate ?? undefined,
-      doorsTime: toHHMM(parsed.doorsTime),
-      url: parsed.url ?? undefined,
+    return parsed;
+}
+
+async function processSingleImage(file: File) {
+  // calls fetchParsed
+  const newEvent = await fetchParsed(file);
+  Object.assign(state, {
+      title: newEvent.title ?? undefined,
+      support: newEvent.support ?? undefined,
+      parsedDate: newEvent.parsedDate ?? undefined,
+      doorsTime: toHHMM(newEvent.doorsTime),
+      url: newEvent.url ?? undefined,
     })
-    if (parsed.venue) {
-      const match = venues.value.find(v => v.toLowerCase() === parsed.venue.toLowerCase())
+    if (newEvent.venue) {
+      const match = venues.value.find(v => v.toLowerCase() === newEvent.venue.toLowerCase())
       if (match) {
         selectedVenue.value = match
       } else {
         useCustomVenue.value = true
-        customVenue.value = parsed.venue
+        customVenue.value = newEvent.venue
       }
     }
     showForm.value = true;
-  } catch (e) {
-    console.error('processImage error:', e)
-  } finally {
-    loading.value = false;
+}
+
+async function processBatch(files: File[]) {
+  const promises = files.map((file,index) => {
+    useCustomVenueBatch.value[index] = false;
+    return fetchParsed(file).then(event => ({
+      ...event,
+      doorsTime: toHHMM(event.doorsTime),
+      venue: batchVenueSelect(event.venue, index)
+    }));
+  });
+  batchEvents.value= await Promise.all(promises);
+}
+function batchVenueSelect(venue: string | null, index: number): string | undefined {
+  if (!venue) return undefined
+  const match = venues.value.find(v => v.toLowerCase() === venue.toLowerCase())
+  if (match) {
+    return match
+  } else {
+    useCustomVenueBatch.value[index] = true
+    return venue
   }
 }
+async function submitBatch() {
+  for (const batchEvent of batchEvents.value) {
+    try {
+      await postData('/api/create-event', { state: { ...batchEvent, forceSubmit: true, honeypot: honeypot.value } })
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  resetForm()
+  submitted.value = true
+  toast.add({ title: 'Submitted!', description: 'Your events have been submitted for review.', color: 'success' })
+}
 watch(files, async (newFiles, oldFiles) => {
-  console.log(newFiles);
-  console.log(oldFiles);
-  if (newFiles) await processImage();
+  if (newFiles.length && newFiles.length === 1) {
+    await processSingleImage(newFiles[0]);
+  }
+  else {
+    showParseFlyers.value = true;
+  }
 })
 const toHHMM = (timeStr: string | null): string | undefined => {
   if (!timeStr) return undefined
@@ -176,7 +221,14 @@ const toHHMM = (timeStr: string | null): string | undefined => {
       description="SVG, PNG, JPG or GIF (max. 2MB)"
       class="w-96 min-h-48"
       layout="list"
-    />
+      multiple
+    >
+    <template #files-bottom>
+      <UButton v-if="files.length > 1" color="neutral" variant="outline" @click="processBatch(files)">
+        Parse {{ files.length }} flyers
+      </UButton>
+    </template>
+    </UFileUpload>
     <UProgress v-if="loading" animation="carousel" size="sm" />
     <button v-if="!showForm" class="text-sm text-neutral-400 hover:text-neutral-200 underline underline-offset-2 transition-colors" @click="showForm = true">
       Enter details manually instead
@@ -238,6 +290,51 @@ const toHHMM = (timeStr: string | null): string | undefined => {
           <UButton color="neutral" variant="outline" @click="onDifferentEvent">No, mine is different</UButton>
         </div>
       </div>
+    </UForm>
+
+    <UForm v-if="batchEvents.length > 0" @submit="submitBatch">
+      <div v-for="(batchEvent,index) in batchEvents">
+        <UFormField label="Title" name="title" class="w-full">
+          <UInput v-model="batchEvents[index].title" @update:modelValue = "batchEvents[index]={...batchEvents[index],title:$event}" class="w-full" />
+        </UFormField>
+
+        <UFormField label="Support" name="support" class="w-full">
+          <UInput v-model="batchEvents[index].support" @update:modelValue = "batchEvents[index]={...batchEvents[index],support:$event}" placeholder="Opening acts" class="w-full" />
+        </UFormField>
+
+        <UFormField label="Date" name="date" class="w-full">
+          <UInput v-model="batchEvents[index].parsedDate" @update:modelValue = "batchEvents[index]={...batchEvents[index],parsedDate:$event}" type="date" class="w-full" />
+        </UFormField>
+
+        <UFormField label="Venue" name="venue" class="w-full">
+          <USelectMenu
+            v-if="!useCustomVenueBatch[index]"
+            v-model="batchEvents[index].venue"
+            @update:modelValue = "batchEvents[index]={...batchEvents[index],venue:$event}"
+            :items="venues"
+            placeholder="All venues"
+            class="w-full"
+          />
+          <UInput
+            v-else
+            v-model="batchEvents[index].venue"
+            @update:modelValue = "batchEvents[index]={...batchEvents[index],venue:$event}"
+            placeholder="e.g. Someone's Basement, DIY Space"
+            class="w-full"
+          />
+          <UCheckbox v-model="useCustomVenueBatch[index]" label="Don't see your venue? Enter it manually" class="mt-2" />
+        </UFormField>
+        <UFormField label="Doors Time" name="doorsTime" class="w-full">
+          <UInput v-model="batchEvents[index].doorsTime" @update:modelValue = "batchEvents[index]={...batchEvents[index],doorsTime:$event}" type="time" class="w-full" />
+        </UFormField>
+
+        <UFormField label="Event Url" name="url" class="w-full">
+          <UInput v-model="batchEvents[index].url" @update:modelValue = "batchEvents[index]={...batchEvents[index],url:$event}" type="url" class="w-full" />
+        </UFormField>
+      </div>
+      <UButton type="submit" icon="i-lucide-circle-check" size="md" color="neutral" variant="outline" class="mt-2">
+        Submit
+      </UButton>
     </UForm>
   </div>
 </template>

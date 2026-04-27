@@ -158,6 +158,11 @@ useHead({
 
 <template>
   <div class="container mx-auto px-2 sm:px-0"> 
+    <div class="flex items-center justify-end mt-2">
+      <NuxtLink to="/create-event">
+        <UButton icon="i-lucide-plus-circle" variant="outline" color="neutral" label="Add Event" />
+      </NuxtLink>
+    </div>
     <div class="flex items-center justify-between">
       <UButton icon="i-lucide-chevron-left" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="decrementCurrentDate"></UButton>
       <UPageHeader

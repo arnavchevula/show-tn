@@ -44,6 +44,7 @@
   8. The Native 
   9.
   ~~41. Montrose Saloon~~
+  Three Top Lounge
   42. The Green Mill (calendar)
   43. Andys Jazz Club (calendar)
   44. Rosas Lounge (maybe... weird format)
