@@ -1,7 +1,8 @@
 import { DBConnection } from "../db/db";
+
 export default defineEventHandler(async(event) => {
     const body = await readBody(event);
-    const {title, parsedDate, venue, doorsTime, url, source, forceSubmit, honeypot } = body.state;
+    const {title, parsedDate, venue, doorsTime, url, source, header,age, forceSubmit, honeypot, image } = body.state;
     if (honeypot) {
         return { message: 'Success' }
     }
@@ -44,7 +45,10 @@ export default defineEventHandler(async(event) => {
             'venue':venue,
             'doorsTime':doorsTime,
             'url':url,
+            'header':header,
+            'age':age,
             'source':source,
+            'image':image
         });
         if (error){
             console.log(error)

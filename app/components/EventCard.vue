@@ -33,7 +33,7 @@
       <UIcon name="i-lucide-door-open" class="size-4 text-rose-200" />
       <p class="text-xs">{{ props.show?.doorsTime }}</p>
     </span>
-    <span class="flex items-center gap-x-1 ">
+    <span v-if="props.show?.age" class="flex items-center gap-x-1 ">
       <UIcon name="i-lucide-user" class="size-4 text-rose-200" />
       <p class="text-xs">{{ props.show?.age }}</p>
     </span>

@@ -4,13 +4,14 @@ const client = new GoogleGenAI({ apiKey: geminiApiKey });
 
 export async function processImage(buffer: Buffer, mimeType: string) {
     const model = "gemini-2.5-flash";
+    const today = new Date().toISOString().split('T')[0];
     try {
         const data = buffer.toString('base64');
         const response = await client.models.generateContent({
             model,
             contents: [
               { inlineData: { mimeType, data } },
-              { text: `You are extracting event details from a show flyer image. Return a JSON object with exactly these fields (use null for any you cannot find):
+              { text: `Today's date is ${today}. You are extracting event details from a show flyer image. Return a JSON object with exactly these fields (use null for any you cannot find):
       {
         "title": "headlining artist or event name",
         "support": "supporting/opening acts as a single string",

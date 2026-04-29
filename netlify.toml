@@ -46,7 +46,8 @@
     "https://i.ticketweb.com/.*",
     "https://images.squarespace-cdn.com/.*",
     "https://cdn.prod.website-files.com/.*",
-    "https://s1.ticketm.net/.*"
+    "https://s1.ticketm.net/.*",
+    "https://zylpuvjzvdyzfedpqqqh.supabase.co/.*"
   ]
 
 [[headers]]

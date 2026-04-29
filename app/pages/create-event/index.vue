@@ -17,10 +17,12 @@ onMounted(async () => {
 
 const schema = z.object({
   title: z.string('Title is required'),
+  header: z.string().optional(),
   support: z.string().optional(),
   parsedDate: z.iso.date(),
   venue: z.string('Venue is required'),
   doorsTime: z.string().optional(),
+  age: z.string().optional(),
   url: z.string().optional(),
   source: z.literal('user')
 })
@@ -38,6 +40,7 @@ const loading = ref(false);
 const showForm = ref(false);
 const batchEvents = ref<BatchEvent[]>([]); 
 const showParseFlyers = ref(false);
+const uploadedImageUrl = ref<string | undefined>();
 
 type Schema = z.output<typeof schema>
 
@@ -45,12 +48,19 @@ const activeVenue = computed(() => useCustomVenue.value ? customVenue.value || u
 
 const state = reactive<Partial<Schema>>({
   title: undefined,
+  header: undefined,
   support: undefined,
   parsedDate: undefined,
   venue: activeVenue,
   doorsTime: undefined,
+  age: undefined,
   url: undefined,
   source: 'user'
+})
+
+useSeoMeta({
+  title: 'opener.fm | Chicago Shows This Week',
+  description: 'Submit a live music event in Chicago.',
 })
 
 const toast = useToast()
@@ -68,7 +78,9 @@ async function postData(url = "", data = {}) {
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  postData('/api/create-event', { state: { ...state, honeypot: honeypot.value } })
+  const response = await uploadImage(files.value[0])
+  uploadedImageUrl.value = response?.imageUrl
+  postData('/api/create-event', { state: { ...state, honeypot: honeypot.value, image: uploadedImageUrl.value } })
     .then((data) => {
       if (!data.message && data) {
         matchedEvents.value = data
@@ -94,6 +106,7 @@ function resetForm() {
   files.value = [];
   showForm.value = false;
   batchEvents.value = [];
+  uploadedImageUrl.value = undefined;
 }
 
 function onAlreadyListed() {
@@ -102,7 +115,7 @@ function onAlreadyListed() {
 }
 
 async function onDifferentEvent() {
-  postData('/api/create-event', { state: { ...state, forceSubmit: true, honeypot: honeypot.value } })
+  postData('/api/create-event', { state: { ...state, forceSubmit: true, honeypot: honeypot.value, image: uploadedImageUrl.value } })
     .then((data) => {
       resetForm()
       matchedEvents.value = []
@@ -113,7 +126,6 @@ async function onDifferentEvent() {
 }
 
 async function fetchParsed(file: File) {
-  loading.value = true;
   const formData = new FormData();
   formData.append('file', file); // 'file' is the key the server expects
   const response = await fetch('/api/create-event-from-flyer', {
@@ -123,19 +135,22 @@ async function fetchParsed(file: File) {
       // The browser will set it automatically with the correct boundary.
     });
     const result = await response.json();
-    loading.value = false;
     const { parsed } = result;
     return parsed;
 }
 
 async function processSingleImage(file: File) {
   // calls fetchParsed
+  loading.value = true;
   const newEvent = await fetchParsed(file);
+  loading.value = false;
   Object.assign(state, {
       title: newEvent.title ?? undefined,
+      header: newEvent.header ?? undefined,
       support: newEvent.support ?? undefined,
       parsedDate: newEvent.parsedDate ?? undefined,
       doorsTime: toHHMM(newEvent.doorsTime),
+      age: newEvent.age ?? undefined,
       url: newEvent.url ?? undefined,
     })
     if (newEvent.venue) {
@@ -150,16 +165,24 @@ async function processSingleImage(file: File) {
     showForm.value = true;
 }
 
+async function uploadImage(file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await fetch('/api/upload-image', { method: 'POST', body: formData });
+  return await response.json();
+}
+
 async function processBatch(files: File[]) {
+  loading.value = true;
   const promises = files.map((file,index) => {
-    useCustomVenueBatch.value[index] = false;
     return fetchParsed(file).then(event => ({
       ...event,
       doorsTime: toHHMM(event.doorsTime),
       venue: batchVenueSelect(event.venue, index)
     }));
   });
-  batchEvents.value= await Promise.all(promises);
+  batchEvents.value = await Promise.all(promises);
+  loading.value = false;
 }
 function batchVenueSelect(venue: string | null, index: number): string | undefined {
   if (!venue) return undefined
@@ -171,17 +194,46 @@ function batchVenueSelect(venue: string | null, index: number): string | undefin
     return venue
   }
 }
-async function submitBatch() {
-  for (const batchEvent of batchEvents.value) {
-    try {
-      await postData('/api/create-event', { state: { ...batchEvent, forceSubmit: true, honeypot: honeypot.value } })
-    } catch (error) {
-      console.error("Error:", error);
+const batchRowErrors = computed(() =>
+  batchEvents.value.map(event => {
+    const errors: string[] = []
+    if (!event.title) errors.push('Title required')
+    if (!event.parsedDate) errors.push('Date required')
+    if (!event.venue) errors.push('Venue required')
+    return errors
+  })
+)
+
+const batchIsValid = computed(() => batchRowErrors.value.every(errs => errs.length === 0))
+
+async function submitSingleEvent(i: number) {
+  batchEvents.value[i] = { ...batchEvents.value[i], status: 'submitting' }
+  try {
+    const imageResponse = await uploadImage(files.value[i])
+    await postData('/api/create-event', { state: { ...batchEvents.value[i], forceSubmit: true, honeypot: honeypot.value, image: imageResponse?.imageUrl } })
+    batchEvents.value[i] = { ...batchEvents.value[i], status: 'submitted' }
+    if (batchEvents.value.every(e => e.status === 'submitted')) {
+      resetForm()
+      submitted.value = true
+      toast.add({ title: 'Submitted!', description: 'Your events have been submitted for review.', color: 'success' })
     }
+  } catch (e) {
+    batchEvents.value[i] = { ...batchEvents.value[i], status: 'error', error: e instanceof Error ? e.message : 'Unknown error' }
   }
-  resetForm()
-  submitted.value = true
-  toast.add({ title: 'Submitted!', description: 'Your events have been submitted for review.', color: 'success' })
+}
+
+async function submitBatch() {
+  for (let i = 0; i < batchEvents.value.length; i++) {
+    await submitSingleEvent(i)
+  }
+  const anyFailed = batchEvents.value.some(e => e.status === 'error')
+  if (!anyFailed) {
+    resetForm()
+    submitted.value = true
+    toast.add({ title: 'Submitted!', description: 'Your events have been submitted for review.', color: 'success' })
+  } else {
+    toast.add({ title: 'Some events failed', description: 'Review the errors and retry.', color: 'warning' })
+  }
 }
 watch(files, async (newFiles, oldFiles) => {
   if (newFiles.length && newFiles.length === 1) {
@@ -191,6 +243,7 @@ watch(files, async (newFiles, oldFiles) => {
     showParseFlyers.value = true;
   }
 })
+
 const toHHMM = (timeStr: string | null): string | undefined => {
   if (!timeStr) return undefined
   const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i)
@@ -230,14 +283,18 @@ const toHHMM = (timeStr: string | null): string | undefined => {
     </template>
     </UFileUpload>
     <UProgress v-if="loading" animation="carousel" size="sm" />
-    <button v-if="!showForm" class="text-sm text-neutral-400 hover:text-neutral-200 underline underline-offset-2 transition-colors" @click="showForm = true">
+    <button v-if="!showForm && batchEvents.length === 0" class="text-sm text-neutral-400 hover:text-neutral-200 underline underline-offset-2 transition-colors" @click="showForm = true">
       Enter details manually instead
     </button>
 
     <!-- Event form (shown after upload or manual entry) -->
-    <UForm v-else :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+    <UForm v-if="showForm" :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Title" name="title" class="w-full">
         <UInput v-model="state.title" class="w-full" />
+      </UFormField>
+
+      <UFormField label="Header" name="header" class="w-full">
+        <UInput v-model="state.header" placeholder="e.g. presented by, label name" class="w-full" />
       </UFormField>
 
       <UFormField label="Support" name="support" class="w-full">
@@ -269,6 +326,10 @@ const toHHMM = (timeStr: string | null): string | undefined => {
         <UInput v-model="state.doorsTime" type="time" class="w-full" />
       </UFormField>
 
+      <UFormField label="Age Restriction" name="age" class="w-full">
+        <UInput v-model="state.age" placeholder="e.g. 18+, All Ages" class="w-full" />
+      </UFormField>
+
       <UFormField label="Event Url" name="url" class="w-full">
         <UInput v-model="state.url" type="url" class="w-full" />
       </UFormField>
@@ -293,16 +354,20 @@ const toHHMM = (timeStr: string | null): string | undefined => {
     </UForm>
 
     <UForm v-if="batchEvents.length > 0" @submit="submitBatch">
-      <div class="grid grid-cols-[2fr_1.5fr_150px_2fr_110px_2fr] gap-2 px-1 mb-1 text-xs text-neutral-400">
+      <div class="grid grid-cols-[2fr_1.5fr_1.5fr_150px_2fr_110px_80px_2fr_60px] gap-2 px-1 mb-1 text-xs text-neutral-400">
         <span>Title</span>
+        <span>Header</span>
         <span>Support</span>
         <span>Date</span>
         <span>Venue</span>
         <span>Doors</span>
+        <span>Age</span>
         <span>URL</span>
+        <span></span>
       </div>
-      <div v-for="(batchEvent, index) in batchEvents" :key="index" class="grid grid-cols-[2fr_1.5fr_150px_2fr_110px_2fr] gap-2 mb-3 items-start">
+      <div v-for="(batchEvent, index) in batchEvents" :key="index" class="grid grid-cols-[2fr_1.5fr_1.5fr_150px_2fr_110px_80px_2fr_60px] gap-2 mb-3 items-start">
         <UInput size="sm" v-model="batchEvents[index].title" @update:modelValue="batchEvents[index]={...batchEvents[index],title:$event}" placeholder="Title" class="w-full" />
+        <UInput size="sm" v-model="batchEvents[index].header" @update:modelValue="batchEvents[index]={...batchEvents[index],header:$event}" placeholder="Header" class="w-full" />
         <UInput size="sm" v-model="batchEvents[index].support" @update:modelValue="batchEvents[index]={...batchEvents[index],support:$event}" placeholder="Opening acts" class="w-full" />
         <UInput size="sm" v-model="batchEvents[index].parsedDate" @update:modelValue="batchEvents[index]={...batchEvents[index],parsedDate:$event}" type="date" class="w-full" />
         <div>
@@ -328,9 +393,23 @@ const toHHMM = (timeStr: string | null): string | undefined => {
           </button>
         </div>
         <UInput size="sm" v-model="batchEvents[index].doorsTime" @update:modelValue="batchEvents[index]={...batchEvents[index],doorsTime:$event}" type="time" class="w-full" />
+        <UInput size="sm" v-model="batchEvents[index].age" @update:modelValue="batchEvents[index]={...batchEvents[index],age:$event}" placeholder="18+, All Ages" class="w-full" />
         <UInput size="sm" v-model="batchEvents[index].url" @update:modelValue="batchEvents[index]={...batchEvents[index],url:$event}" type="url" placeholder="URL" class="w-full" />
+        <div class="flex items-center gap-1 pt-1">
+          <UIcon v-if="batchEvent.status === 'submitting'" name="i-lucide-loader-circle" class="size-4 animate-spin text-neutral-400" />
+          <UIcon v-else-if="batchEvent.status === 'submitted'" name="i-lucide-circle-check" class="size-4 text-green-500" />
+          <template v-else-if="batchEvent.status === 'error'">
+            <UTooltip :text="batchEvent.error ?? 'Unknown error'">
+              <UIcon name="i-lucide-circle-x" class="size-4 text-red-500" />
+            </UTooltip>
+            <UButton size="xs" color="neutral" variant="ghost" icon="i-lucide-refresh-cw" @click="submitSingleEvent(index)" />
+          </template>
+        </div>
+        <div v-if="batchRowErrors[index]?.length" class="col-span-full flex gap-2 flex-wrap -mt-1">
+          <p v-for="err in batchRowErrors[index]" class="text-xs text-red-400">{{ err }}</p>
+        </div>
       </div>
-      <UButton type="submit" icon="i-lucide-circle-check" size="md" color="neutral" variant="outline" class="mt-2">
+      <UButton type="submit" icon="i-lucide-circle-check" size="md" color="neutral" variant="outline" class="mt-2" :disabled="!batchIsValid">
         Submit
       </UButton>
     </UForm>
