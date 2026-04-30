@@ -72,7 +72,7 @@ const showsThisWeek = computed(() => {
   <div class="container mx-auto"> 
     <UPageHeader
         title="Upcoming Events"
-        description="Here are all the shows in Chicago this week!"
+        description="Here are all the upcoming shows in Chicago!"
         class="mb-4"
       />
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%]">

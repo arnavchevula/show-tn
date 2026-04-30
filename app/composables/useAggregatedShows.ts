@@ -9,7 +9,7 @@ export const useAggregatedShows = () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const weekFromNow = new Date();
-      weekFromNow.setDate(weekFromNow.getDate() + 7);
+      weekFromNow.setDate(weekFromNow.getDate() + 42);
 
       const { data: eventsFromDb } = await supabase
         .from('events')

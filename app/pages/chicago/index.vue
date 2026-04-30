@@ -11,18 +11,22 @@ const selectedVenues = ref([])
 const selectedGenres = ref([])
 const isLoading = ref(false);
 const value = ref(null);
-const currentDate = ref (new Date())
+const currentDate = ref(new Date())
 currentDate.value.setHours(0,0,0,0)
 const searchString = ref();
 const startDate = new Date();
 startDate.setHours(0,0,0,0);
-const nextSevenDays = Array.from({ length: 8 }, (_, i) => {
-  const date = new Date(startDate);
-  date.setDate(startDate.getDate() + i);
-  return date;
-});
+const weekOffset = ref(0);
 const open = ref(false);
-const activeMap = reactive(new Map(nextSevenDays.map((date, index) => [date, index === 0])));
+
+const visibleWeekDays = computed(() =>
+  Array.from({ length: 8 }, (_, i) => {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + weekOffset.value * 7 + i);
+    return date;
+  })
+)
+
 onMounted(async ()=>{
   isLoading.value = true;
   await fetchAllVenues();
@@ -32,30 +36,17 @@ onMounted(async ()=>{
 
 const url = useRequestURL()
 
-async function incrementCurrentDate() {
-  const weekFromNow = new Date();
-  weekFromNow.setDate(weekFromNow.getDate() + 7);
-  weekFromNow.setHours(0, 0, 0, 0);
-  if (currentDate.value < weekFromNow) {
-    const next = new Date(currentDate.value);
-    next.setDate(next.getDate() + 1);
-    const matchingDay = nextSevenDays.find(d => d.getTime() === next.getTime());
-    currentDate.value = matchingDay ?? next;
-    resetMap();
-    if (matchingDay) activeMap.set(matchingDay, true);
+function prevWeek() {
+  if (weekOffset.value > 0) {
+    weekOffset.value--
+    currentDate.value = visibleWeekDays.value[0]
   }
 }
 
-async function decrementCurrentDate() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  if (currentDate.value > today) {
-    const prev = new Date(currentDate.value);
-    prev.setDate(prev.getDate() - 1);
-    const matchingDay = nextSevenDays.find(d => d.getTime() === prev.getTime());
-    currentDate.value = matchingDay ?? prev;
-    resetMap();
-    if (matchingDay) activeMap.set(matchingDay, true);
+function nextWeek() {
+  if (weekOffset.value < 5) {
+    weekOffset.value++
+    currentDate.value = visibleWeekDays.value[0]
   }
 }
 const filteredShows = computed(() => {
@@ -92,32 +83,23 @@ const filteredShowsWithDaysAndSearch = computed(() => {
 
 const filterByDay = (day: Date) => {
   currentDate.value = day;
-  resetMap();
-  activeMap.set(day, true);
-
-}
-
-const resetMap = () => {
-  for (const [key, value] of activeMap) {
-  activeMap.set(key, false);
-}
 }
 
 
   useSeoMeta({
-  title: 'opener.fm | Chicago Shows This Week',
-  description: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
-  ogTitle: 'opener.fm | Chicago Shows This Week',
-  ogDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  title: 'opener.fm | Upcoming Chicago Shows',
+  description: 'Browse upcoming live music events in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  ogTitle: 'opener.fm | Upcoming Chicago Shows',
+  ogDescription: 'Browse upcoming live music events in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
   ogType: 'website',
   ogUrl: url.href,
   ogSiteName: 'opener.fm',
   ogImage: 'https://opener.fm/og-image.png',
   twitterCard: 'summary_large_image',
   twitterImage: 'https://opener.fm/og-image.png',
-  twitterTitle: 'opener.fm | Chicago Shows This Week',
-  twitterDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
-  keywords: 'chicago live music this week, chicago shows, chicago concerts, events in chicago, what to do in chicago tonight, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
+  twitterTitle: 'opener.fm | Upcoming Chicago Shows',
+  twitterDescription: 'Browse upcoming live music events in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  keywords: 'upcoming chicago live music, chicago shows, chicago concerts, events in chicago, what to do in chicago, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
 })
 
 useHead({
@@ -127,7 +109,7 @@ useHead({
       innerHTML: computed(() => JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'ItemList',
-        name: 'Chicago Shows This Week',
+        name: 'Upcoming Chicago Shows',
         itemListElement: allShows.value.map((show: any, index: number) => ({
           '@type': 'ListItem',
           position: index + 1,
@@ -163,21 +145,14 @@ useHead({
         <UButton icon="i-lucide-plus-circle" variant="outline" color="neutral" label="Add Event" />
       </NuxtLink>
     </div>
-    <div class="flex items-center justify-between">
-      <UButton icon="i-lucide-chevron-left" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="decrementCurrentDate"></UButton>
-      <UPageHeader
-        description="Here are all the shows in Chicago this week!"
-        class="mb-4 items-center justify-center text-center"
-        :ui="{title:'font-normal text-center', wrapper: 'lg:justify-center', description:'text-md'}"
-      >
-        <template #title>
-          <div class="flex flex-col items-center leading-tight gap-0">
-            <span class="text-sm font-normal opacity-60">{{ currentDate.toLocaleDateString(undefined, { weekday: 'long' }) }}</span>
-            <span class="text-5xl text-rose-200"> {{ currentDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
-          </div>
-        </template>
-      </UPageHeader>
-      <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" @click="incrementCurrentDate"></UButton>
+    <div class="flex items-center justify-between mb-4">
+      <UButton icon="i-lucide-chevron-left" size="xl" color="neutral" variant="ghost" class="text-rose-200" :disabled="weekOffset === 0" @click="prevWeek" />
+      <div class="flex flex-col items-center leading-tight gap-0 text-center">
+        <span class="text-sm font-normal opacity-60">{{ currentDate.toLocaleDateString(undefined, { weekday: 'long' }) }}</span>
+        <span class="text-5xl text-rose-200">{{ currentDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
+        <span class="text-sm font-normal opacity-60 mt-1">Here are all the upcoming shows in Chicago!</span>
+      </div>
+      <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" :disabled="weekOffset === 5" @click="nextWeek" />
     </div>
     <UInput v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full sm:flex-1'}" class="mb-2"/>
 
@@ -229,10 +204,10 @@ useHead({
   </template>
   </UCollapsible>
     <div class="grid grid-cols-4 gap-2 mb-2 sm:flex sm:flex-row sm:gap-4">
-     <UButton v-for="day in nextSevenDays" size="lg" class="flex-1 flex-col h-auto py-2 leading-tight gap-0" :active="activeMap.get(day)" :key="day.getDate()" color="neutral" variant="outline" active-color="primary" @click="filterByDay(day)">
-      <span class="text-xs font-normal opacity-60">{{ day.toLocaleDateString(undefined, { weekday: 'short' }) }}</span>
-      <span>{{ day.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) }}</span>
-     </UButton>
+      <UButton v-for="day in visibleWeekDays" size="lg" class="flex-1 flex-col h-auto py-2 leading-tight gap-0" :active="day.getTime() === currentDate.getTime()" :key="day.getTime()" color="neutral" variant="outline" active-color="primary" @click="filterByDay(day)">
+        <span class="text-xs font-normal opacity-60">{{ day.toLocaleDateString(undefined, { weekday: 'short' }) }}</span>
+        <span>{{ day.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) }}</span>
+      </UButton>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
         <UProgress v-model="value"/>

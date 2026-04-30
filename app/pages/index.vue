@@ -2,19 +2,19 @@
 const url = useRequestURL()
 
 useSeoMeta({
-  title: 'opener.fm | Chicago Shows This Week',
-  description: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
-  ogTitle: 'opener.fm | Chicago Shows This Week',
-  ogDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  title: 'opener.fm | Upcoming Chicago Shows',
+  description: 'Browse upcoming live music events in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  ogTitle: 'opener.fm | Upcoming Chicago Shows',
+  ogDescription: 'Browse upcoming live music events in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
   ogType: 'website',
   ogUrl: url.href,
   ogSiteName: 'opener.fm',
   ogImage: 'https://opener.fm/og-image.png',
   twitterCard: 'summary_large_image',
   twitterImage: 'https://opener.fm/og-image.png',
-  twitterTitle: 'opener.fm | Chicago Shows This Week',
-  twitterDescription: 'Browse all live music events happening this week in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
-  keywords: 'chicago live music this week, chicago shows, chicago concerts, events in chicago, what to do in chicago tonight, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
+  twitterTitle: 'opener.fm | Upcoming Chicago Shows',
+  twitterDescription: 'Browse upcoming live music events in Chicago. Shows at Beat Kitchen, Empty Bottle, Lincoln Hall, Thalia Hall, SmartBar, Salt Shed, and more.',
+  keywords: 'upcoming chicago live music, chicago shows, chicago concerts, events in chicago, what to do in chicago, chicago nightlife, Beat Kitchen shows, Thalia Hall shows, The Hideout Chicago, Sleeping Village Chicago, Coles Bar Chicago, Dorians Chicago, Aragon Ballroom shows, Chop Shop Chicago, Bottom Lounge Chicago, The Whistler Chicago, California Clipper Chicago, SmartBar Chicago, Gman Tavern Chicago, Podlasie Club Chicago, Lemon Chicago, Book Club Chicago, The Salt Shed Chicago, Clara Chicago, Smoke and Mirrors Chicago, Avondale Music Hall Chicago, Cobra Lounge Chicago, Lincoln Hall Chicago, Schubas Tavern Chicago, SubT Chicago, Empty Bottle Chicago, Park West Chicago, The Vic Chicago, The Riviera Chicago',
 })
 
 useHead({
@@ -26,7 +26,7 @@ useHead({
         '@type': 'WebSite',
         name: 'Show TN',
         url: url.origin,
-        description: 'Find live music events and shows happening this week across Chicago venues.',
+        description: 'Find upcoming live music events and shows across Chicago venues.',
         potentialAction: {
           '@type': 'SearchAction',
           target: `${url.origin}/chicago`,
@@ -58,7 +58,7 @@ const links = ref([
     <div class="w-full max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center py-24 sm:py-32 lg:py-40">
       <div class="text-center">
         <h1 class="text-5xl sm:text-7xl text-pretty tracking-tight font-bold text-highlighted">support the Chicago scene.</h1>
-        <p class="text-lg sm:text-xl/8 text-muted text-balance mt-6">Aren't you tired of missing all your favorite bands? Bored on a Wednesday night? Want to switch it up from hitting the bars in Wrigley and Logan? Get cultured now. Here is a list of shows & events happening this week in Chicago:</p>
+        <p class="text-lg sm:text-xl/8 text-muted text-balance mt-6">Aren't you tired of missing all your favorite bands? Bored on a Wednesday night? Want to switch it up from hitting the bars in Wrigley and Logan? Get cultured now. Here is a list of upcoming shows & events in Chicago:</p>
         <div class="flex flex-wrap gap-x-6 gap-y-3 items-center justify-center mt-10 flex-row-reverse">
           <NuxtLink to="/chicago">
             <UButton color="primary" variant="solid" size="xl" icon="i-lucide-arrow-right">Live Show Listings</UButton>
