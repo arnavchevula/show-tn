@@ -31,6 +31,22 @@ The page currently maintains two separate code paths — single event (uses `UFo
 Also worth doing when revisiting: move `fetchParsed` into a composable so the flyer parsing endpoint can be reused elsewhere.
 
 
+## Browser globals (`localStorage`, `window`, etc.) must be accessed in `onMounted`
+
+**File:** `app/composables/useFavorites.ts`, `app/pages/favorites/index.vue`
+
+Nuxt uses SSR — component code runs on the server (Node.js) first to generate HTML, then runs again in the browser during hydration. `localStorage`, `window`, `document`, and other browser globals don't exist in Node.js, so accessing them at the top level of a composable or `<script setup>` throws a `localStorage is not defined` error.
+
+The fix is to only access them inside `onMounted`, which is guaranteed to run only in the browser after hydration.
+
+This is not Vue- or Nuxt-specific — it applies to any SSR framework: Next.js uses `useEffect`, SvelteKit uses `onMount` or checks the `browser` flag from `$app/environment`, Remix uses `useEffect` the same way. The root cause is always the same: module/component initialization code runs on the server, but post-hydration lifecycle hooks run only in the browser.
+
+SPAs (plain Vite/CRA React apps) don't have this issue because the server only serves static files — no component code ever runs in Node.js.
+
+---
+
 ## lack of QA data making me test in prod
 
 When I was testing the [id].vue pages for events I realized that in useAggregatedShows i'm grabbing from events but elsewhere i'm doing events-qa (based on env file) so when I was testing the event pages, I would navigate somewhere that didn't exist because I was using a prod id (querying useAggregatedShows with hardcoded 'events' parameter) and querying events-qa with it. So i just changed the events env table name to just 'events' ie using prod instead of qa.. but all the other tables for local dev (pending, archived) use their qa variants. Going forward once I have unit testing enabled I will have substantial QA data so I won't need to test in prod. Thankfully any write operations are only happening to qa for dev work. 
+
+ALso this applies for creating an event too... because when you check if an event is already in the system it queries events or events-qa based on the env variable.. and nothing relevant would be in events-qa since its not updated. 

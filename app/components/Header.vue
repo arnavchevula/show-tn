@@ -58,7 +58,6 @@ const items = computed<NavigationMenuItem[]>(() => [{
       </NuxtLink>
     </template>
     <template #right>
-      <UColorModeButton />
 
       <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
         <UButton
