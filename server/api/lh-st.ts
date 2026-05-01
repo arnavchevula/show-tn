@@ -5,7 +5,7 @@ import chromium from '@sparticuz/chromium';
 import { DateParser } from './utils/date';
 import { validateSecret } from './utils/auth';
 import { DBConnection } from '../db/db';
-import { v4 as uuidv4 } from 'uuid';
+import { generateStableId } from '../utils/stableId';
 
 
 
@@ -75,7 +75,7 @@ export default defineEventHandler(async(event) => {
             const url = $(elm).find('a').attr('href');
 
             shows.push({
-                id: uuidv4(),
+                id: generateStableId(venue, parsedDate, title),
                 header: header,
                 title:title,
                 venue: venue,
@@ -102,8 +102,11 @@ export default defineEventHandler(async(event) => {
         const tableName = process.env.DB_NAME || 'events-qa'
         const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa'
         await db.from(archiveTableName).upsert(shows, { onConflict: 'id' });
-        await db.from(tableName).delete().eq('source', 'lh-st');
-        const { error } = await db.from(tableName).insert(shows)
+        await db.from(tableName).upsert(shows, { onConflict: 'id' });
+        const newIds = shows.map(s => s.id);
+        if (newIds.length > 0) {
+            await db.from(tableName).delete().eq('source', 'lh-st').not('id', 'in', `(${newIds.join(',')})`);
+        }
         return {
             shows
         }

@@ -6,7 +6,7 @@ import { DateParser } from './utils/date';
 import { validateSecret } from './utils/auth';
 import { Event } from '~~/types/event';
 import { DBConnection } from '../db/db';
-import { v4 as uuidv4 } from 'uuid';
+import { generateStableId } from '../utils/stableId';
 
 
 export default defineEventHandler(
@@ -57,7 +57,7 @@ export default defineEventHandler(
 
 
             shows.push({
-                id: uuidv4(),
+                id: generateStableId('Beat Kitchen', parsedDate, title),
                 header: header,
                 title:title,
                 venue: 'Beat Kitchen',
@@ -84,8 +84,11 @@ export default defineEventHandler(
         const tableName = process.env.DB_NAME || 'events-qa'
         const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa'
         await db.from(archiveTableName).upsert(shows, { onConflict: 'id' });
-        await db.from(tableName).delete().eq('source', 'beat-kitchen');
-        const { error } = await db.from(tableName).insert(shows)
+        await db.from(tableName).upsert(shows, { onConflict: 'id' });
+        const newIds = shows.map(s => s.id);
+        if (newIds.length > 0) {
+            await db.from(tableName).delete().eq('source', 'beat-kitchen').not('id', 'in', `(${newIds.join(',')})`);
+        }
         return {
             shows
         }

@@ -2,7 +2,7 @@ import { VenueConfig, ScrapeResult } from "./types";
 import { launchBrowser, getPageHtml } from "./browser";
 import { DateParser } from "../api/utils/date";
 import { Event } from "~~/types/event";
-import { v4 as uuidv4 } from 'uuid';
+import { generateStableId } from '../utils/stableId';
 import { load } from 'cheerio';
 import { DBConnection } from "../db/db";
 
@@ -32,21 +32,24 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
         const selectors = [config.selectors.eventList, ...(config.additionalEventLists ?? [])];
         for (const selector of selectors) {
           $(selector).each((i, elm) => {
+            const title = extractTitle($, elm, config);
+            const venue = extractVenue($, elm, config);
+            const parsedDate = extractDate($, elm, config, dateParser);
             events.push({
-              id: uuidv4(),
-              title: extractTitle($, elm, config),
-              date: extractDate($, elm, config, dateParser),
+              id: generateStableId(venue, parsedDate, title),
+              title,
+              date: parsedDate,
               source: config.name,
               neighborhood: config.neighborhood,
               region: config.region,
               header: extractHeader($, elm, config),
-              venue: extractVenue($, elm, config),
+              venue,
               headliners: $(elm).find(config.selectors.headliners).text().trim(),
               support: $(elm).find(config.selectors.support).text().trim(),
               doorsTime: extractShowTime($, elm, config),
               showTime: config.showTimeExtractor ? config.showTimeExtractor($, elm) : $(elm).find(config.selectors.showTime).text().trim(),
               subtitle: $(elm).find(config.selectors.subtitle).text().trim(),
-              parsedDate: extractDate($, elm, config, dateParser),
+              parsedDate,
               age: $(elm).find(config.selectors.age).text().trim() || '21+',
               image: extractImage($,elm,config),
               url: extractUrl($, elm, config),
@@ -162,11 +165,13 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   async function saveEvents(events: Event[], source: string): Promise<void> {
     const db = new DBConnection().connect();
     const tableName = process.env.DB_NAME || 'events-qa'
-
-    // Archive before deleting — preserves past events so shared /event/:id links never go dead
     const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa'
-    await db.from(archiveTableName).upsert(events, { onConflict: 'id' });
 
-    await db.from(tableName).delete().eq('source', source);
-    const { error } = await db.from(tableName).insert(events);
+    await db.from(archiveTableName).upsert(events, { onConflict: 'id' });
+    await db.from(tableName).upsert(events, { onConflict: 'id' });
+
+    const newIds = events.map(e => e.id);
+    if (newIds.length > 0) {
+      await db.from(tableName).delete().eq('source', source).not('id', 'in', `(${newIds.join(',')})`);
+    }
   }                                

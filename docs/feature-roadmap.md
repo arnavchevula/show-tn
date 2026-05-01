@@ -13,14 +13,16 @@
 ### ~~3. Supabase Storage / Image Handling~~
 ~~Self-contained, unblocks user-submitted events looking complete. Right now flyers are processed by Gemini and thrown away — the image is never stored. Steps: create a storage bucket, upload the buffer in `create-event-from-flyer` before passing to Gemini, return the public URL, store it in the `image` field on event creation. Natural first step since Supabase is already in the stack.~~
 
-### 4. Expand Show Window
-Currently the listing only shows 7 days out. Simple filter change — extend to 4-6 weeks, keep the day-filter available but default to "all upcoming." Prerequisite for favorites to be useful: users can't save shows they can't see.
+### ~~4. Expand Show Window~~
+~~Currently the listing only shows 7 days out. Simple filter change — extend to 4-6 weeks, keep the day-filter available but default to "all upcoming." Prerequisite for favorites to be useful: users can't save shows they can't see.~~
 
 ### 5. Remaining Venue Scrapers
 Two unblocked scrapers: **Smoke & Mirrors** (Dice widget — same pattern as Cobra Lounge) and **Podlasie** (Resident Advisor GraphQL API). Pending venues (Phyllis Musical Inn, Green Mill, Andy's Jazz, Kingston Mines, Jazz Showcase, etc.) can follow. Knock these out in parallel between bigger items.
 
-### 6. User Accounts (Favorites / Reminders)
-Supabase Auth + SSO (Google first, Apple later). Favorites first: `user_favorites` table, heart button on `EventCard`, profile page. Reminders last — most infra: Twilio for SMS, Resend for email, Netlify scheduled function to dispatch day-of alerts. Consider localStorage-backed favorites as a stepping stone to validate the feature before building auth.
+### 6. User Accounts (Favorites / Reminders) — IN PROGRESS
+**Phase 6a (current):** localStorage-backed favorites — heart button on `EventCard`, persisted locally, no auth required. Validates the feature and gives users immediate value before any backend work.
+
+**Phase 6b:** Supabase Auth + SSO (Google first, Apple later). Migrate localStorage favorites to a `user_favorites` table, add a profile page. Reminders last — most infra: Twilio for SMS, Resend for email, Netlify scheduled function to dispatch day-of alerts.
 
 ### 7. Editorial
 Blocked on content and outreach, not engineering. Not a dev priority right now.
