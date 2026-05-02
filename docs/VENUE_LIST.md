@@ -31,8 +31,20 @@
   37. ~~SmartBar~~
   38. Podlasie (needs RA graphQL api)
   40. ~~Hungry Brain~~
-
+  ~~41. Montrose Saloon~~
+  ~~Three Top Lounge~~
+  ~~18. Color Club (dice widget)~~
   48. ~~Metro~~
+  ~~ Punch House (https://www.punchhousechicago.com/song-selectors)~~
+  ~~ Tack Room~~
+  ~~ 46. Buddy Guy Legends~~
+  ~~ Garcia's Chicago (https://garciaschicago.live/shows) ~~
+  ~~ Uncommon Ground Lakeview (https://www.uncommonground.com/events-page) ~~
+~~ city winery ~~
+
+
+
+
   PENDING VENUES
   1. Resident Advisor GraphQL API
   2. Phyllis Musical Inn
@@ -42,52 +54,34 @@
   6. Slippery Slope
   7. The Owl
   8. The Native 
-  9.
-  ~~41. Montrose Saloon~~
-  ~~Three Top Lounge~~
   42. The Green Mill (calendar)
   43. Andys Jazz Club (calendar)
   44. Rosas Lounge (maybe... weird format)
   45. Kingston Mines (calendar)
-  46. Buddy Guy Legends
   47. Jazz Showcase (calendar)
   36. Gallery Cabaret (no event list, just jam list)
   31. Martyrs (website is trash)
   33. Easy Does It (no event list on website)
   35. Tortoise Supper Club (no event list)
   24. Chicago Theatre
-  ~~18. Color Club (dice widget)~~
   39. aliveOne (calendar, going to need a custom scraper)
-  
-
-
-
-
-
-  
-
   FROM DO312 AUDIT - NOT YET ADDED:
   - Bassline Chicago
   - Blue Chicago (https://www.bluechicago.com/Schedule.aspx)
   - Carol's Pub (https://www.carolspub.com/music.html)
-  - City Winery Chicago (https://citywinery.com/pages/events/chicago)
   - Cubby Bear
   - FitzGerald's (Berwyn — may be out of scope)
-  - Garcia's Chicago (https://garciaschicago.live/shows)
   - Impact Fuel Room
   - Joe's Bar on Weed St. (https://www.joesbar.com/livemusic-events)
   - Late Bar (https://do312.com/venues/late-bar)
   - Lone Owl
-  - Punch House (https://www.punchhousechicago.com/song-selectors)
   - Sound-Bar (https://sound-bar.com/)
   - Spybar (https://www.spybarchicago.com/)
   - The Wild Hare (https://www.wildharemusic.com/lineup)
   - Tin Roof Chicago (https://tinroofchicago.com/calendar/)
-  - Uncommon Ground Lakeview (https://www.uncommonground.com/events-page)
   - Winter's Jazz Club (https://www.wintersjazzclub.com/)
   - Woodies Flat
   - Emporium
-  - Tack Room
 
   Coles, Gman Tavern, Bookclub and Smartbar all were created by the same author it seems
   Empty Bottle, Thalia Hall and Salt Shed also seem to be created by the same author 

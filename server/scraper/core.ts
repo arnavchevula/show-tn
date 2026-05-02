@@ -35,8 +35,9 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
             const title = extractTitle($, elm, config);
             const venue = extractVenue($, elm, config);
             const parsedDate = extractDate($, elm, config, dateParser);
+            const doorsTime = extractShowTime($, elm, config);
             events.push({
-              id: generateStableId(venue, parsedDate, title),
+              id: generateStableId(venue, parsedDate, title, doorsTime),
               title,
               date: parsedDate,
               source: config.name,
@@ -46,7 +47,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
               venue,
               headliners: $(elm).find(config.selectors.headliners).text().trim(),
               support: $(elm).find(config.selectors.support).text().trim(),
-              doorsTime: extractShowTime($, elm, config),
+              doorsTime,
               showTime: config.showTimeExtractor ? config.showTimeExtractor($, elm) : $(elm).find(config.selectors.showTime).text().trim(),
               subtitle: $(elm).find(config.selectors.subtitle).text().trim(),
               parsedDate,
@@ -169,7 +170,6 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
 
     await db.from(archiveTableName).upsert(events, { onConflict: 'id' });
     await db.from(tableName).upsert(events, { onConflict: 'id' });
-
     const newIds = events.map(e => e.id);
     if (newIds.length > 0) {
       await db.from(tableName).delete().eq('source', source).not('id', 'in', `(${newIds.join(',')})`);

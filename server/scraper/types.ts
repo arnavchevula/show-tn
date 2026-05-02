@@ -42,7 +42,7 @@ export interface SelectorConfig {
     fallbackUrl?: string;        // Static URL returned when no per-event link is found
     waitUntil?: 'domcontentloaded' | 'networkidle2';  // Page load strategy — use networkidle2 for JS-rendered sites
     datePreprocess?: (raw: string) => string;  // Transform raw date string before parsing
-    doorsTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor when li order is inconsistent
+    doorsTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor if time & date in same element
     showTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor when li order is inconsistent
   }
 

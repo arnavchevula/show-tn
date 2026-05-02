@@ -45,6 +45,16 @@ SPAs (plain Vite/CRA React apps) don't have this issue because the server only s
 
 ---
 
+## `generateStableId` collides when the same artist plays the same venue twice on the same day
+
+**Files:** `server/utils/stableId.ts`, `server/scraper/core.ts`
+
+The stable ID is hashed from `venue + date + title`. For most venues this is fine, but venues like City Winery that host multiple shows per day (e.g. 6 PM and 9 PM sets from the same artist) produce identical IDs, causing one event to silently overwrite the other in the DB upsert.
+
+The fix: add an optional `time` parameter to `generateStableId` that's appended to the hash key only when non-empty. This is backward-compatible — venues without a `doorsTime` produce the same IDs as before. In `core.ts`, `doorsTime` is now extracted before `generateStableId` is called and passed in. Venues that need this behavior add a `doorsTimeExtractor` to their config to pull the time from whatever element provides it (for City Winery, the same `p.event-date` div that holds the date, split on `@`).
+
+---
+
 ## lack of QA data making me test in prod
 
 When I was testing the [id].vue pages for events I realized that in useAggregatedShows i'm grabbing from events but elsewhere i'm doing events-qa (based on env file) so when I was testing the event pages, I would navigate somewhere that didn't exist because I was using a prod id (querying useAggregatedShows with hardcoded 'events' parameter) and querying events-qa with it. So i just changed the events env table name to just 'events' ie using prod instead of qa.. but all the other tables for local dev (pending, archived) use their qa variants. Going forward once I have unit testing enabled I will have substantial QA data so I won't need to test in prod. Thankfully any write operations are only happening to qa for dev work. 
