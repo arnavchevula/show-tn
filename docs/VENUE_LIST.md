@@ -40,7 +40,14 @@
   ~~ 46. Buddy Guy Legends~~
   ~~ Garcia's Chicago (https://garciaschicago.live/shows) ~~
   ~~ Uncommon Ground Lakeview (https://www.uncommonground.com/events-page) ~~
+  ~~  - The Wild Hare (https://www.wildharemusic.com/lineup)~~
 ~~ city winery ~~
+~~  - Joe's Bar on Weed St. (https://www.joesbar.com/livemusic-events)~~
+~~  47. Jazz Showcase (calendar)~~
+~~   42. The Green Mill (calendar) ~~
+~~   43. Andys Jazz Club (calendar) ~~
+~~   45. Kingston Mines (calendar) ~~
+
 
 
 
@@ -54,11 +61,7 @@
   6. Slippery Slope
   7. The Owl
   8. The Native 
-  42. The Green Mill (calendar)
-  43. Andys Jazz Club (calendar)
   44. Rosas Lounge (maybe... weird format)
-  45. Kingston Mines (calendar)
-  47. Jazz Showcase (calendar)
   36. Gallery Cabaret (no event list, just jam list)
   31. Martyrs (website is trash)
   33. Easy Does It (no event list on website)
@@ -71,13 +74,9 @@
   - Carol's Pub (https://www.carolspub.com/music.html)
   - Cubby Bear
   - FitzGerald's (Berwyn — may be out of scope)
-  - Impact Fuel Room
-  - Joe's Bar on Weed St. (https://www.joesbar.com/livemusic-events)
   - Late Bar (https://do312.com/venues/late-bar)
-  - Lone Owl
   - Sound-Bar (https://sound-bar.com/)
   - Spybar (https://www.spybarchicago.com/)
-  - The Wild Hare (https://www.wildharemusic.com/lineup)
   - Tin Roof Chicago (https://tinroofchicago.com/calendar/)
   - Winter's Jazz Club (https://www.wintersjazzclub.com/)
   - Woodies Flat

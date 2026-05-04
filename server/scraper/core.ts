@@ -87,6 +87,12 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
   }      
   
   function extractDate($: any, elm: any, config: VenueConfig, dateParser:DateParser) {
+    // Andy's Jazz Club (and any future MEC-based WordPress venue): the date lives in the
+    // href query param (?occurrence=YYYY-MM-DD), not in a DOM text node, so the selector-
+    // based paths below are useless. dateExtractor lets the venue config bypass all of
+    // that and return a Date directly. See types.ts for full context.
+    if (config.dateExtractor) return config.dateExtractor($, elm);
+
     if (config.selectors.day || config.selectors.month) {
         const month = $(elm).find(config.selectors.month).text().trim()
         const day = $(elm).find(config.selectors.day).text().trim()

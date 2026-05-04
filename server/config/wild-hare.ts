@@ -1,0 +1,30 @@
+import { VenueConfig, SelectorConfig } from "../scraper/types";
+
+export const wildHareConfig: VenueConfig = {
+    name: 'wild-hare',
+    displayName: 'Wild Hare',
+    url: 'https://www.wildharemusic.com/lineup',
+    baseUrl:'https://www.wildharemusic.com',
+    region: 'Downtown',
+    neighborhood: 'West Loop',
+    selectors: {
+        eventList: '.eventlist-event',
+        title: '.eventlist-title-link',
+        date: 'time.event-date',
+        day: '.eventlist-datetag-startdate--day',
+        month: '.eventlist-datetag-startdate--month',
+        venue: '',
+        doorsTime: '.event-time-localized-start',
+        showTime: '.event-time-localized-start',
+        image: 'img',
+        support: '',
+        headliners: '',
+        url: '.eventlist-title-link',
+        header: '',
+        subtitle: '',
+        price: '',
+        description: '.eventlist-excerpt',
+    } as SelectorConfig,
+    genreTags: ["hip-hop/rap", "reggae"],
+    imageExtractor: 'src',
+}

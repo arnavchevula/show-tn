@@ -3,7 +3,7 @@ import { launchBrowser, getPageHtml } from "../scraper/browser";
 import { DateParser } from "./utils/date";
 import { DBConnection } from "../db/db";
 import { load } from 'cheerio';
-import { v4 as uuidv4 } from 'uuid';
+import { generateStableId } from '../utils/stableId';
 import { burlingtonBarConfig } from "../config/burlington-bar";
 
 const SOURCE = 'burlington-bar';
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
             const parsedDate = dateParser.parseRawDate(`${monthName} ${day}`);
 
             return {
-                id: uuidv4(),
+                id: generateStableId(SOURCE, parsedDate, title),
                 title,
                 date: parsedDate.toISOString(),
                 parsedDate,
@@ -51,8 +51,13 @@ export default defineEventHandler(async (event) => {
 
         const db = new DBConnection().connect();
         const tableName = process.env.DB_NAME || 'events-qa';
-        await db.from(tableName).delete().eq('source', SOURCE);
-        await db.from(tableName).insert(shows);
+        const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa';
+        await db.from(archiveTableName).upsert(shows, { onConflict: 'id' });
+        await db.from(tableName).upsert(shows, { onConflict: 'id' });
+        const newIds = shows.map(s => s.id);
+        if (newIds.length > 0) {
+            await db.from(tableName).delete().eq('source', SOURCE).not('id', 'in', `(${newIds.join(',')})`);
+        }
 
         return { shows };
     } catch (error) {

@@ -44,6 +44,27 @@ export interface SelectorConfig {
     datePreprocess?: (raw: string) => string;  // Transform raw date string before parsing
     doorsTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor if time & date in same element
     showTimeExtractor?: ($: any, elm: any) => string;  // Custom extractor when li order is inconsistent
+
+    // dateExtractor: fully replaces the built-in date parsing logic for venues where the event
+    // date cannot be found in any DOM text node and must instead be pulled from an attribute.
+    //
+    // WHY THIS EXISTS — Andy's Jazz Club (andysjazzclub.com):
+    //   The site uses the WordPress MEC (Modern Events Calendar) plugin. Each event occurrence
+    //   is its own <article class="mec-event-article"> element, but the date is ONLY present
+    //   as a URL query parameter on the title link, e.g.:
+    //     <a href="/events/andy-brown/?occurrence=2026-05-08&time=1778263200">...</a>
+    //   There is no date text anywhere inside the article element, so config.selectors.date
+    //   and datePreprocess are both useless here. This hook lets the config read the href
+    //   and extract the date directly from the occurrence= parameter.
+    //
+    // HOW TO USE — provide a function that receives the Cheerio instance and the event element
+    // and returns a fully constructed Date object, e.g.:
+    //   dateExtractor: ($, elm) => {
+    //     const href = $(elm).find('.mec-event-title a').attr('href') ?? '';
+    //     const match = href.match(/occurrence=(\d{4}-\d{2}-\d{2})/);
+    //     return new Date(`${match![1]}T12:00:00`);
+    //   }
+    dateExtractor?: ($: any, elm: any) => Date;
   }
 
   export interface ScrapeResult {
