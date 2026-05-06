@@ -4,12 +4,13 @@ import { createClient } from '@supabase/supabase-js'
 const route = useRoute()
 const showId = route.params.id
 
-const { allShows } = useAggregatedShows()
+const { allShows, fetchAllVenues } = useAggregatedShows()
 
 const { public: { supabaseUrl, supabaseApiKeyBrowser, dbName, archiveDbName } } = useRuntimeConfig()
 const supabase = createClient(supabaseUrl as string, supabaseApiKeyBrowser as string)
 
 const { data: show } = await useAsyncData(`show-${showId}`, async () => {
+  if (!allShows.value.length) await fetchAllVenues()
   const fromState = allShows.value.find((s) => String(s.id) === String(showId))
   if (fromState) return fromState
 
@@ -74,11 +75,11 @@ const displayDate = computed(() => {
       <p v-if="show.description" class="mb-6 text-sm text-slate-400">
         {{ show.description }}
       </p>
-      <div class="flex flex-col w-1/2 sm:w-1/6 gap-2">
-        <UButton v-if="show.url" icon="i-lucide-ticket" size="md" color="neutral" variant="outline">
+      <div class="flex flex-col gap-2">
+        <UButton v-if="show.url" icon="i-lucide-ticket" size="md" color="neutral" variant="outline" class="w-fit">
           <a :href="show.url" target="_blank" rel="noopener nofollow">Tickets</a>
         </UButton>
-        <UButton v-if="show.secondaryUrl" icon="i-lucide-circle-arrow-out-up-right" size="md" color="neutral" variant="outline">
+        <UButton v-if="show.secondaryUrl" icon="i-lucide-circle-arrow-out-up-right" color="neutral" variant="outline">
           <a :href="show.secondaryUrl" target="_blank" rel="noopener nofollow">Learn More</a>
         </UButton>
         <AddToCalendar :show="show" />

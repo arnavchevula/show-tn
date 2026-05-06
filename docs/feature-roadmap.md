@@ -22,7 +22,12 @@ Two unblocked scrapers: **Smoke & Mirrors** (Dice widget — same pattern as Cob
 ### 6. User Accounts (Favorites / Reminders) — IN PROGRESS
 **Phase 6a (current):** localStorage-backed favorites — heart button on `EventCard`, persisted locally, no auth required. Validates the feature and gives users immediate value before any backend work.
 
-**Phase 6b:** Supabase Auth + SSO (Google first, Apple later). Migrate localStorage favorites to a `user_favorites` table, add a profile page. Reminders last — most infra: Twilio for SMS, Resend for email, Netlify scheduled function to dispatch day-of alerts.
+**Phase 6b:** Supabase Auth via phone OTP (Twilio). Steps in order:
+1. **`user_favorites` table** — `user_id uuid references auth.users(id)`, `event_id text`, primary key on both. RLS: users can only read/write their own rows.
+2. **`user_preferences` table** — `user_id uuid references auth.users(id)` (primary key), `phone text`, `email text`, `sms_alerts boolean`, `email_alerts boolean`. RLS: same pattern.
+3. **Replace `useFavorites`** — on login, merge any existing localStorage favorites into Supabase, then read/write from Supabase going forward. Keep localStorage as the unauthenticated fallback.
+4. **Auth UI** — sign-in modal triggering `supabase.auth.signInWithOtp({ phone })`. Supabase assigns a stable UUID per phone number so returning users resume their existing favorites and preferences automatically.
+5. **Reminders** — Netlify scheduled function dispatches day-of alerts using the Twilio integration already wired up for OTP.
 
 ### 7. Editorial
 Blocked on content and outreach, not engineering. Not a dev priority right now.

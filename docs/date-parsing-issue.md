@@ -121,6 +121,47 @@ const displayDate = computed(() => {
 
 The `filteredShowsWithDays` computed compares `show.parsedDate.getTime()` against `currentDate.value.getTime()`. Because `useAggregatedShows` pre-converts all `parsedDate` values using `new Date(year, month - 1, day)` (local time), both sides of the comparison are in local time and match correctly. The workaround was correct — it just wasn't applied consistently to `EventCard` when used outside the main listing context.
 
+## Scraper-Side UTC Bug: Jazz Showcase
+
+A third variant of this class of bug appeared in the `jazz-showcase.ts` scraper. The Jazz Showcase API returns event times as **UTC millisecond timestamps**. The scraper was using JavaScript's local-time methods (`getHours()`, `getDate()`) to extract date/time components before writing to the DB:
+
+```ts
+const startDt = new Date(e.startDate);
+const showHour = startDt.getHours();    // ❌ UTC hour on Netlify server
+```
+
+On the Netlify server (UTC), an 8pm CDT show (UTC-5 → 01:00 UTC next day) became `getHours() = 1` and `getDate()` returned the *next* day. Result: all Jazz Showcase shows were off by one day in the DB, and show times displayed as the UTC hour (e.g. "1am" instead of "8pm").
+
+### The fix: extract components in `America/Chicago` via `Intl.DateTimeFormat`
+
+```ts
+function getChicagoParts(ms: number) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Chicago',
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', hour12: false,
+    }).formatToParts(new Date(ms));
+    return {
+        year:    Number(parts.find(p => p.type === 'year')!.value),
+        month:   Number(parts.find(p => p.type === 'month')!.value) - 1,
+        day:     Number(parts.find(p => p.type === 'day')!.value),
+        hours:   Number(parts.find(p => p.type === 'hour')!.value) % 24,
+        minutes: Number(parts.find(p => p.type === 'minute')!.value),
+    };
+}
+```
+
+Then construct `nightDate` using `Date.UTC()` from those Chicago parts, so the server's local timezone never enters the calculation:
+
+```ts
+const cursor = new Date(Date.UTC(startParts.year, startParts.month, startParts.day));
+cursor.setUTCDate(cursor.getUTCDate() + 1); // increment also uses UTC methods
+```
+
+### General rule for venue scrapers
+
+If a venue's API returns **UTC timestamps** (milliseconds or ISO strings ending in `Z`), never use `getHours()` / `getDate()` / `setHours()` to extract or manipulate the event's local time — those methods use the server's timezone. Use `Intl.DateTimeFormat` with the venue's `timeZone` to get the true local components, then reconstruct with `Date.UTC()`.
+
 ## Summary
 
 | Location | `parsedDate` type at render time | Was broken? | Fix |

@@ -14,11 +14,25 @@ interface SquarespaceEvent {
     assetUrl?: string;
 }
 
-// Formats a millisecond timestamp into a readable time string like "9pm" or "8:30pm"
+// Extracts date/time components in Chicago local time from a UTC ms timestamp.
+// Necessary because Netlify servers run in UTC; without this, 8pm CDT becomes 1am UTC (next day).
+function getChicagoParts(ms: number) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Chicago',
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', hour12: false,
+    }).formatToParts(new Date(ms));
+    return {
+        year:    Number(parts.find(p => p.type === 'year')!.value),
+        month:   Number(parts.find(p => p.type === 'month')!.value) - 1, // 0-indexed
+        day:     Number(parts.find(p => p.type === 'day')!.value),
+        hours:   Number(parts.find(p => p.type === 'hour')!.value) % 24, // hour12:false can yield 24
+        minutes: Number(parts.find(p => p.type === 'minute')!.value),
+    };
+}
+
 function formatShowTime(ms: number): string {
-    const d = new Date(ms);
-    const hours = d.getHours();
-    const minutes = d.getMinutes();
+    const { hours, minutes } = getChicagoParts(ms);
     const ampm = hours >= 12 ? 'pm' : 'am';
     const h = hours % 12 || 12;
     const m = minutes === 0 ? '' : `:${String(minutes).padStart(2, '0')}`;
@@ -35,18 +49,15 @@ export default defineEventHandler(async (event) => {
         const shows: Event[] = [];
 
         for (const e of upcoming) {
-            const startDt = new Date(e.startDate);
-            const endDt = new Date(e.endDate);
-            const showHour = startDt.getHours();
-            const showMin = startDt.getMinutes();
+            const startParts = getChicagoParts(e.startDate);
+            const endParts = getChicagoParts(e.endDate);
             const showTimeStr = formatShowTime(e.startDate);
 
-            // Walk day-by-day from startDate to endDate (both inclusive),
-            // producing one show record per night for multi-night runs
-            const cursor = new Date(startDt);
-            cursor.setHours(showHour, showMin, 0, 0);
-            const lastNight = new Date(endDt);
-            lastNight.setHours(showHour, showMin, 0, 0);
+            // Walk day-by-day from Chicago start date to Chicago end date (both inclusive),
+            // producing one show record per night for multi-night runs.
+            // Use Date.UTC so the server's local timezone (UTC on Netlify) doesn't affect date arithmetic.
+            const cursor = new Date(Date.UTC(startParts.year, startParts.month, startParts.day));
+            const lastNight = new Date(Date.UTC(endParts.year, endParts.month, endParts.day));
 
             while (cursor <= lastNight) {
                 const nightDate = new Date(cursor);
@@ -72,7 +83,7 @@ export default defineEventHandler(async (event) => {
                     genreTags: ['jazz'],
                 } as Event);
 
-                cursor.setDate(cursor.getDate() + 1);
+                cursor.setUTCDate(cursor.getUTCDate() + 1);
             }
         }
 
