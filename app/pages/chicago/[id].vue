@@ -79,7 +79,7 @@ const displayDate = computed(() => {
         <UButton v-if="show.url" icon="i-lucide-ticket" size="md" color="neutral" variant="outline" class="w-fit">
           <a :href="show.url" target="_blank" rel="noopener nofollow">Tickets</a>
         </UButton>
-        <UButton v-if="show.secondaryUrl" icon="i-lucide-circle-arrow-out-up-right" color="neutral" variant="outline">
+        <UButton v-if="show.secondaryUrl" icon="i-lucide-circle-arrow-out-up-right" color="neutral" variant="outline" class="w-fit">
           <a :href="show.secondaryUrl" target="_blank" rel="noopener nofollow">Learn More</a>
         </UButton>
         <AddToCalendar :show="show" />

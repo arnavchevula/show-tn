@@ -39,6 +39,7 @@ export interface SelectorConfig {
     imageExtractor?: 'src' | 'style';  // Empty Bottle uses inline CSS
     urlBase?: string;           // For relative URLs that need a base
     titleExclude?: string[];    // Strings to remove from title (e.g., ['Buy Tickets'])
+    excludeTitles?: string[];   // Exact titles that mean the venue is closed — drop the event entirely
     fallbackUrl?: string;        // Static URL returned when no per-event link is found
     waitUntil?: 'domcontentloaded' | 'networkidle2';  // Page load strategy — use networkidle2 for JS-rendered sites
     datePreprocess?: (raw: string) => string;  // Transform raw date string before parsing

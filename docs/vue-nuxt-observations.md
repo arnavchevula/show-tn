@@ -55,6 +55,20 @@ The fix: add an optional `time` parameter to `generateStableId` that's appended 
 
 ---
 
+## `excludeTitles` drops venue-closed placeholders without polluting core logic
+
+**Files:** `server/scraper/types.ts`, `server/scraper/core.ts`, `server/config/kingston-mines.ts`
+
+Some venue calendars (e.g. Kingston Mines via Simple Calendar / Google Calendar backend) represent closed days as real calendar events with the title "Closed". Scraping these produces a junk event record that gets upserted into the DB.
+
+The wrong fix is a global `if (title === 'Closed') skip` rule in `core.ts` — that would silently drop a legit event from any venue that happens to have an act called "Closed".
+
+The right fix: `VenueConfig` has an optional `excludeTitles?: string[]` field. In `core.ts`, after extracting the title, any exact match against that list causes the element to be skipped via `return` (inside `.each()`). Because the list only exists on the config for venues that need it, other scrapers are unaffected. Kingston Mines sets `excludeTitles: ['Closed']`.
+
+The existing `titleExclude` field is different — it strips substrings from the title but keeps the event. `excludeTitles` drops the event entirely.
+
+---
+
 ## lack of QA data making me test in prod
 
 When I was testing the [id].vue pages for events I realized that in useAggregatedShows i'm grabbing from events but elsewhere i'm doing events-qa (based on env file) so when I was testing the event pages, I would navigate somewhere that didn't exist because I was using a prod id (querying useAggregatedShows with hardcoded 'events' parameter) and querying events-qa with it. So i just changed the events env table name to just 'events' ie using prod instead of qa.. but all the other tables for local dev (pending, archived) use their qa variants. Going forward once I have unit testing enabled I will have substantial QA data so I won't need to test in prod. Thankfully any write operations are only happening to qa for dev work. 

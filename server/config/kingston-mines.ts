@@ -41,6 +41,8 @@ export const kingstonMinesConfig: VenueConfig = {
         url: '',
     } as SelectorConfig,
 
+    excludeTitles: ['Closed'],
+
     waitUntil: 'domcontentloaded',
 
     fallbackUrl: 'https://kingstonmines.com/?v=0b3b97fa6688',

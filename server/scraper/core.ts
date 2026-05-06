@@ -33,6 +33,7 @@ export async function scrapeVenue(config: VenueConfig): Promise<ScrapeResult> {
         for (const selector of selectors) {
           $(selector).each((i, elm) => {
             const title = extractTitle($, elm, config);
+            if (config.excludeTitles?.includes(title)) return;
             const venue = extractVenue($, elm, config);
             const parsedDate = extractDate($, elm, config, dateParser);
             const doorsTime = extractShowTime($, elm, config);
