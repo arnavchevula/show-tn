@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useAggregatedShows } from '~/composables/useAggregatedShows';
 const { allShows, fetchAllVenues } = useAggregatedShows();
-const { favorites, load } = useFavorites();
+const { favorites, loadFavorites } = useFavorites();
 const renderFavorites = computed(() =>
     allShows.value.filter((show) => favorites.value.includes(show.id))
 )
 onMounted(async () => {
     await fetchAllVenues();
-    load();
+    loadFavorites();
 })
 </script>
 

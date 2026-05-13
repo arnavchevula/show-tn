@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
+const emit = defineEmits(['login'])
 const route = useRoute()
+const { user } = useAuth()
 
 const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Home',
@@ -69,6 +71,15 @@ const items = computed<NavigationMenuItem[]>(() => [{
           aria-label="GitHub"
         />
       </UTooltip>
+
+      <UButton
+          :color="user ? 'primary' : 'neutral'"
+          variant="ghost"
+          @click="emit('login')"
+          :icon="user ? 'i-lucide-circle-user' : 'i-lucide-user'"
+          :aria-label="user ? 'Account' : 'Login'"
+          :label="user ? 'Account' : 'Login'"
+        />
     </template>
 
     <template #body>

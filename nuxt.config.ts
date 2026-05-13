@@ -7,7 +7,10 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: process.env.NODE_ENV === 'development' },
-  modules: ['@nuxt/ui', '@nuxt/image', '@nuxt/content'],
+  modules: ['@nuxt/ui', '@nuxt/image', '@nuxt/content', '@nuxtjs/turnstile', '@nuxt/scripts'],
+  turnstile: {
+    siteKey: process.env.TURNSTILE_SITE_KEY || '1x00000000000000000000AA',
+  },
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'dark', // Can be 'system', 'light', or 'dark'
@@ -18,8 +21,13 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
   runtimeConfig: {
+    turnstile: {
+      secretKey: '1x0000000000000000000000000000000AA',
+    },
     taskSecret: null,
-    twilioRecoverCode: process.env.TWILIO_KEY || '', 
+    twilioRecoverCode: process.env.TWILIO_RECOVER_CODE_1995 || '', 
+    twilioAuthToken: process.env.TWILIO_AUTH_TOKEN_1995 || '', 
+    twilioAccountSid: process.env.TWILIO_ACCOUNT_SID_1995 || '', 
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
     supabaseSecretServer: process.env.SUPABASE_SECRET_SERVER,
@@ -30,6 +38,8 @@ export default defineNuxtConfig({
       supabaseApiKeyBrowser: process.env.SUPABASE_API_KEY_BROWSER,
       archiveDbName: process.env.ARCHIVE_DB_NAME || 'archived-events-qa',
       dbName: process.env.DB_NAME || 'events-qa',
+      userPreferencesDb: process.env.PREFERENCES_DB_NAME || 'user-preferences-qa',
+      userFavoritesDb: process.env.FAVORITES_DB_NAME || 'user-favorites-qa'
     }
   },
   nitro: {
