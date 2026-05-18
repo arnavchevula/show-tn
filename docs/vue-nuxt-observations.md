@@ -77,6 +77,8 @@ ALso this applies for creating an event too... because when you check if an even
 
 REMEMBER YOU LOGGED INTO TWILIO USING BURNER EMAIL arnavburnsred1995@gmail.com using gmail SSO, they suspended your arnav.chevula@gmail.com account
 AND YOU LOGGED INTO TURNSTILE CAPTCHA CLOUDFLARE USING GITCHUB SSO
+RESEND USES GITHUBSSO 
+IMPROVMX USES arnav.chevula@gmail.com
 ---
 
 ## Composables are not pure utils — they inherit the calling component's lifecycle
@@ -168,3 +170,40 @@ The `watch` compares user IDs, not object references. Supabase fires `TOKEN_REFR
 **The fix:** treat composables that manage shared global state as state + actions only. Move all side effects (`onMounted`, `watch`, subscriptions) up to the single place that should own them — in this case `default.vue`, which mounts exactly once. `useFavorites` now returns functions but registers no lifecycle hooks. `default.vue` calls `loadFavorites()` on mount and owns the `watch(user, ...)` that drives the merge-and-migrate flow.
 
 **Rule of thumb:** if a composable uses `useState` (shared Nuxt state) and could be called from a list-item component, never put `onMounted` or `watch` inside it. Those effects belong in a layout, a page, or a Nuxt plugin — somewhere with a known, bounded instance count.
+
+---
+
+## Supabase query row limit — set both in the dashboard and in the query
+
+**File:** `app/composables/useAggregatedShows.ts`
+
+PostgREST (which Supabase uses under the hood) has a server-side default of 1000 rows per response. Without an explicit limit override, any query that matches more than 1000 rows silently returns the first 1000 — no error, no warning. The missing rows simply don't appear on the frontend even though they're clearly present in the table.
+
+With 30+ venues each contributing multiple events over a 42-day window, the events query was hitting this ceiling. Certain events from various venues would randomly be absent on the frontend, which looked like a date parsing or upsert bug but was actually a silent truncation.
+
+The fix requires two changes:
+1. **Supabase dashboard** — Settings → API → Max Rows: raise the ceiling at the PostgREST level.
+2. **Client query** — add `.limit(5000)` (or whatever the new ceiling is) to the `.select()` call so the intent is explicit in code and not dependent on the dashboard setting staying in sync.
+
+The easiest diagnostic: log `eventsFromDb?.length` after the fetch. If it's exactly 1000, you're hitting the cap.
+
+---
+
+## `$fetch` throws on non-2xx — no manual status check needed
+
+**File:** `app/components/LoginModal.vue` (`verify()`)
+
+`$fetch` (Nuxt's built-in fetch wrapper) throws an error on any non-2xx response. This is different from the browser's native `fetch`, which only rejects on network failure and returns a response object for 4xx/5xx that you have to check manually with `if (!res.ok)`.
+
+Because `$fetch` throws, any code after the `await` is only reached on success — no `if (data.status !== 200)` guard is needed. For example, upserting a row into a preferences table after a successful OTP verification is safe to do on the very next line:
+
+```ts
+async function verify() {
+  const data = await $fetch('/api/auth/verify-otp', { ... })
+  setSession(data.session)        // only runs on success
+  await upsertPreferences(...)    // ditto
+  emit('close')
+}
+```
+
+If you need to show a user-facing error for a failed request, wrap the `$fetch` call in a `try/catch` — the caught error will contain the response status and body.

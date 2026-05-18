@@ -4,6 +4,7 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 const emit = defineEmits(['login'])
 const route = useRoute()
 const { user } = useAuth()
+const { favorites } = useFavorites()
 
 const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Home',
@@ -71,6 +72,16 @@ const items = computed<NavigationMenuItem[]>(() => [{
           aria-label="GitHub"
         />
       </UTooltip>
+
+      <UChip :text="favorites.length || undefined" size="3xl" color="primary" :show="favorites.length > 0">
+        <UButton
+          color="neutral"
+          variant="ghost"
+          to="/favorites"
+          icon="i-lucide-heart"
+          aria-label="Favorites"
+        />
+      </UChip>
 
       <UButton
           :color="user ? 'primary' : 'neutral'"

@@ -32,6 +32,8 @@
     "puppeteer-core": "^24.27.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "resend": "^6.12.3",
+    "twilio": "^6.0.2",
     "typescript": "^5.9.3",
     "uuid": "^13.0.0",
     "vue": "^3.5.22",

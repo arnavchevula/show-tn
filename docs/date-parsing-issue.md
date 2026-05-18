@@ -162,6 +162,45 @@ cursor.setUTCDate(cursor.getUTCDate() + 1); // increment also uses UTC methods
 
 If a venue's API returns **UTC timestamps** (milliseconds or ISO strings ending in `Z`), never use `getHours()` / `getDate()` / `setHours()` to extract or manipulate the event's local time — those methods use the server's timezone. Use `Intl.DateTimeFormat` with the venue's `timeZone` to get the true local components, then reconstruct with `Date.UTC()`.
 
+## Netlify Scheduled Function: send-reminders-function
+
+A fourth variant appeared in the scheduled reminder function. The function needs to find favorites whose `parsedDate` matches "tomorrow in Chicago time" and send alerts.
+
+### The broken code
+
+```js
+const tomorrow = new Date();
+tomorrow.setUTCHours(tomorrow.getUTCHours() - 5); // shift to CST
+tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+const tomorrowStr = tomorrow.toDateString(); // e.g. "Sat May 16 2026"
+
+// in filter:
+new Date(show.events.parsedDate).toDateString() === tomorrowStr
+```
+
+Two problems:
+1. `toDateString()` is locale/timezone-sensitive and produces a human string ("Sat May 16 2026") — brittle to compare.
+2. `new Date(show.events.parsedDate)` where `parsedDate` is a `YYYY-MM-DD` string parses as UTC midnight, but depending on when `tomorrowStr` was computed and what the server timezone is, the two `toDateString()` calls can land on different days.
+3. The hardcoded `-5` offset doesn't account for DST — Chicago is CDT (UTC-5) in summer and CST (UTC-6) in winter.
+
+### The fix: YYYY-MM-DD string comparison
+
+Since `parsedDate` is stored in the DB as a `YYYY-MM-DD` string, compute tomorrow in the same format and compare directly — no `Date` construction or `toDateString()` needed:
+
+```js
+// Get today in Chicago tz as YYYY-MM-DD (en-CA locale reliably outputs this format)
+const now = new Date();
+const todayChicagoStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(now);
+const [y, m, d] = todayChicagoStr.split('-').map(Number);
+// toISOString() reads UTC directly — no second Chicago round-trip that would re-introduce the offset
+const tomorrowStr = new Date(Date.UTC(y, m - 1, d + 1)).toISOString().split('T')[0];
+
+// in filter — direct string compare, no Date parsing at all:
+show.events.parsedDate === tomorrowStr
+```
+
+`timeZone: 'America/Chicago'` handles DST automatically. `Date.UTC(y, m-1, d+1)` handles month/year rollover. Comparing `YYYY-MM-DD` strings eliminates all timezone ambiguity in the comparison itself.
+
 ## Summary
 
 | Location | `parsedDate` type at render time | Was broken? | Fix |
@@ -171,3 +210,4 @@ If a venue's API returns **UTC timestamps** (milliseconds or ISO strings ending 
 | `chicago/[id].vue` (new tab / SSR) | `Date` (UTC, from server) | **Yes** | Keep as string; format with `Date.UTC` + `Intl` `timeZone: 'UTC'` |
 | `chicago/index.vue` filtering | `Date` (local) | No | Pre-converted by composable |
 | `EventCard.vue` (create-event flow) | raw string from API | **Yes** | Added `instanceof Date` check + `T00:00:00` suffix |
+| `send-reminders-function.mts` | YYYY-MM-DD string from DB join | **Yes** | Compute tomorrow with `Intl` + `en-CA` locale; compare strings directly |

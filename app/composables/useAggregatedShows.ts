@@ -2,7 +2,7 @@ import type { Event } from '../../types/event.d.ts';
 import { createClient } from '@supabase/supabase-js'
 
 export const useAggregatedShows = () => {
-    const { public: { supabaseUrl, supabaseApiKeyBrowser, userPreferencesDb, userFavoritesDb } } = useRuntimeConfig();
+    const { public: { supabaseUrl, supabaseApiKeyBrowser } } = useRuntimeConfig();
     const supabase = createClient(supabaseUrl as string, supabaseApiKeyBrowser as string)
     const allShows = useState<Event[]>("all-shows",()=>[]);
     const fetchAllVenues = async () => {
@@ -15,7 +15,8 @@ export const useAggregatedShows = () => {
         .from('events')
         .select()
         .gte('parsedDate', today.toISOString().split('T')[0])
-        .lte('parsedDate', weekFromNow.toISOString().split('T')[0]);
+        .lte('parsedDate', weekFromNow.toISOString().split('T')[0])
+        .limit(5000);
 
       const withParsedDates = eventsFromDb
         ?.filter((show) => show.parsedDate)

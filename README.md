@@ -19,6 +19,10 @@ Show TN pulls event listings from Chicago venue websites, stores them in Supabas
 | Database | Supabase (PostgreSQL) |
 | Scheduling | Netlify Scheduled Functions |
 | Language | TypeScript |
+| Reminders | Twilio | 
+| Auth | Twilio OTP + Supabase Auth + Cloudflare Turnstile | 
+| Email | Resend, ImprovMX + Gmail | 
+| Deployment & DNS | Netlify |
 
 ---
 

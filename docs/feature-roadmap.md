@@ -111,9 +111,22 @@ async function verify() {
 
 6. **Reminders** — Netlify scheduled function dispatches day-of alerts using the Twilio integration already wired up for OTP.
 
-6. Venue pages -> just filters on the current data and shows the upcoming shows for a specific venue and some background info on the venue IE maybe some history, address, some blurb from their website. 
+**`user_preferences` login flow:**
+- On login, upsert a preferences row with `{ user_id, phone, sms_alerts: true, email_alerts: true }` using `onConflict: 'user_id', ignoreDuplicates: true` — no-op if the row already exists, creates it with both alerts on for first-time users.
+- Always read back the row after the upsert and populate the preference refs from the result, so returning users see their actual saved settings.
+- `phone` can be pre-populated from `user.phone` on the Supabase auth user object (already available since they logged in via phone OTP) — no need to ask for it again.
+- RLS: SELECT, INSERT, and UPDATE policies scoped to `authenticated`, each checking `auth.uid() = user_id`. No DELETE policy needed.
+
+6. **Venue pages** — No new DB table needed. Venue metadata (address, neighborhood, website, description) is static enough to live in a `venues.ts` file in the app. Route: `/chicago/venues/[slug]` where slug is a URL-safe version of the venue name.
+- Filter upcoming events from the existing events table by `venue` field — no new queries needed
+- The scraper configs in `server/scraper/` already have `displayName`, `neighborhood`, `region`, `url`, and `fallbackUrl` per venue — extract these into a shared static file that both scraper configs and venue pages consume so the data lives in one place
+- A DB table only makes sense if venue owners manage their own pages (edit bio, upload photo) — that's a much bigger feature, skip for now
 
 7. Newsletter -> Ideally some sort of recommendation algorithm but for now could just do something like find the biggest shows and send them out in a monthly newsletter
+
+**Email branding (shelved — revisit when site has more traction):**
+- **Email body logo** — header SVG needs to be exported as a PNG (`public/logo.png` → `https://opener.fm/logo.png`) and dropped into the reminder email template in place of the current `OPENER.FM` text header.
+- **BIMI sender avatar** — shows the opener.fm logo next to "from:" in Gmail/Apple Mail inbox. Requires: (1) DMARC enforcement (`p=quarantine` or `p=reject`) on the domain, (2) a BIMI-spec SVG (square, no external references), (3) a `default._bimi` DNS TXT record pointing to the SVG. Optional: VMC certificate for full Gmail support. Full rabbit hole — do after DMARC is solid.
 
 ### 8. Public Events API
 Expose the Supabase events data via a thin Nitro wrapper so third-party developers and tools can query upcoming shows without needing Supabase credentials. Supabase already allows anonymous reads via the public anon key, so this is mostly a clean surface rather than new backend logic.
