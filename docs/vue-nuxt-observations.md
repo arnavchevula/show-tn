@@ -189,6 +189,110 @@ The easiest diagnostic: log `eventsFromDb?.length` after the fetch. If it's exac
 
 ---
 
+## `aspect-ratio` + `overflow-hidden` for consistent image cards
+
+**File:** `app/pages/chicago/venues/index.vue`
+
+Using `max-h-[200px]` on an image produces inconsistent card heights because the browser scales the image down to fit — short images won't reach the cap, tall images get cropped unpredictably. `aspect-[4/3]` (or `aspect-video` for 16:9) forces every image to the same proportional dimensions regardless of the source image's natural size, so every card in the grid is identical.
+
+Pair this with `overflow-hidden` on the image container and `object-cover w-full h-full` on the `<img>`. `object-cover` fills the box and crops rather than squishing, while `overflow-hidden` clips the image to the container boundary — essential when a hover scale (`group-hover:scale-105`) is applied, otherwise the scaled image bleeds outside the card and overlaps adjacent cards.
+
+---
+
+## `group` / `group-hover` for card-level hover interactions
+
+**File:** `app/pages/chicago/venues/index.vue`
+
+Adding `hover:scale-105` directly to an `<img>` only triggers when the cursor is over the image itself. For a card component you almost always want the interaction to respond to hovering anywhere on the card — including the text below the image.
+
+The Tailwind solution: add `group` to the container element and `group-hover:scale-105` (and `group-hover:brightness-75` etc.) to the child. Tailwind walks up the DOM to the nearest `group` ancestor and applies the style when that ancestor is hovered.
+
+---
+
+## CSS `@keyframes` entrance animations with staggered `animation-delay`
+
+**File:** `app/pages/chicago/venues/index.vue`
+
+For "play once on load" entrance animations, CSS `@keyframes` with `animation` is simpler than a Vue `onMounted` class toggle + `transition`. The animation fires automatically when the element renders — no JS state change needed.
+
+Key properties:
+- `animation-fill-mode: forwards` — holds the final keyframe state after the animation completes. Without it, the element snaps back to its initial state (e.g. `opacity: 0`) the moment the animation ends.
+- Stagger via `:style="{ animationDelay: \`${(index % 6) * 75}ms\` }"` — each card delays slightly based on its index. The `% 6` caps the cycle so cards repeat delays in groups of 6 rather than the 57th card waiting several seconds.
+- Multi-stop keyframes let you decouple position and opacity timing. Setting `opacity: 0.15` at `40%` while the transform is already most of the way there makes the card drop into place before it fully comes into focus — a more cinematic feel than both properties moving in lockstep.
+
+---
+
+## `cubic-bezier` easing for entrance animations
+
+**File:** `app/pages/chicago/venues/index.vue`
+
+`cubic-bezier(x1, y1, x2, y2)` defines the acceleration curve of a transition or animation — how fast or slow it moves at each point in time. The four values act as control points that bend the timing curve.
+
+- `ease-in` (`cubic-bezier(0.42, 0, 1, 1)`) — starts slow, ends fast. Feels like rushing and slamming into place. Wrong for entrances.
+- `ease-out` (`cubic-bezier(0, 0, 0.58, 1)`) — starts fast, decelerates. Feels natural for things settling into position.
+- `cubic-bezier(0.16, 1, 0.3, 1)` — an "expo out" curve. Very fast initial movement that dramatically decelerates at the end. Used here for the venue card entrance because it feels like the card snaps into place rather than drifting in. A good default for entrance animations that need to feel snappy but smooth.
+
+Easings.net is the easiest way to visualize and compare curves.
+
+---
+
+## Gradient overlay on images requires an absolutely positioned sibling div
+
+**File:** `app/pages/chicago/venues/[id].vue`
+
+`<img>` tags have no `::before` or `::after` pseudo-elements, so a CSS gradient cannot be applied directly on top of an image. The standard workaround is to wrap the image in a `relative` container and place an absolutely positioned `div` over it with the desired gradient:
+
+```html
+<div class="relative h-64 overflow-hidden">
+  <img src="..." class="w-full h-full object-cover" />
+  <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+</div>
+```
+
+The alternative — a `div` with `background-image` — avoids the extra element but loses `<img>` semantics and `alt` text, which hurts accessibility and SEO.
+
+---
+
+## JavaScript `Map` keys — objects are compared by reference, not value
+
+**File:** `app/pages/chicago/venues/[id].vue` (`initializeMap`)
+
+When using a `Map` to group events by date, using a `Date` object as the key silently breaks lookups. JavaScript compares object keys by reference, not value — two `new Date()` calls that represent the same moment are different objects in memory, so `map.get(date)` will always return `undefined` even if an identical date was previously `set`.
+
+The fix is to convert to a string key before storing or looking up:
+
+```js
+const key = show.parsedDate.toISOString().split('T')[0] // "2026-05-21"
+```
+
+Using the ISO date string (year-month-day) rather than `toDateString()` has the added benefit of being naturally sortable alphabetically, since the format is zero-padded and year-first.
+
+This same gotcha applies to plain objects used as `Map` keys, and to `===` comparisons between two `Date` objects — `new Date('2026-05-21') === new Date('2026-05-21')` is `false`.
+
+---
+
+## `@error` on `<img>` is missed on hard reload due to SSR hydration timing
+
+**File:** `app/pages/chicago/venues/[id].vue`
+
+Using `@error` on an `<img>` to swap a missing image for a fallback works correctly on client-side navigation, but silently fails on a hard page reload. On a full reload, the browser starts fetching the image as soon as it parses the server-rendered HTML — before Vue has hydrated and attached the `@error` listener. The error fires and gets missed, leaving a broken image.
+
+The fix is to also check in `onMounted` whether the image already failed. A loaded-but-broken image has `complete === true` and `naturalWidth === 0`:
+
+```ts
+const heroImg = ref<HTMLImageElement>()
+
+onMounted(() => {
+  if (heroImg.value && heroImg.value.complete && heroImg.value.naturalWidth === 0) {
+    heroImg.value.src = fallbackUrl
+  }
+})
+```
+
+Pair this with `ref="heroImg"` on the `<img>` and keep the `@error` handler for client-side navigation. Both are needed — `@error` handles SPA navigations, `onMounted` handles hard reloads.
+
+---
+
 ## `$fetch` throws on non-2xx — no manual status check needed
 
 **File:** `app/components/LoginModal.vue` (`verify()`)

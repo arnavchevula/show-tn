@@ -21,7 +21,9 @@
         <p class="text-xs">{{ props.show?.support }}</p>
         <span class="flex items-center gap-x-1 ">
           <UIcon name="i-lucide-map-pin" class="size-4 text-rose-200" />
-          <p class="text-md">{{ props.show?.venue }}</p>
+          <NuxtLink :to="`/chicago/venues/${props.show.venue.toLowerCase().replace(/\s+/g, '-')}`" class="hover:underline">
+            <p class="text-md">{{ props.show?.venue }}</p>
+          </NuxtLink>
         </span>
         <span class="flex items-center gap-x-1 ">
           <UIcon name="i-lucide-calendar-days" class="size-4 text-rose-200" />

@@ -137,7 +137,16 @@ Expose the Supabase events data via a thin Nitro wrapper so third-party develope
 - Rate-limit with a simple in-memory counter or Netlify's built-in rate limiting to avoid Supabase quota abuse
 - Document the endpoints in a `docs/api.md` with example responses
 
-### 9. Editorial
+### 9. Legal / DMCA
+Currently operating as a sole proprietorship with no corporate shield — liability is personal. Two items to address:
+
+- **DMCA takedown page** — a `/legal` or `/dmca` page with a contact email gives rights holders a path to request removal without escalating. Shows good faith.
+- **Terms of Use** — standard liability disclaimer. Doesn't protect against copyright claims for content you uploaded, but covers user-related liability.
+- **Venue outreach** — the most practical protection. Venues are being promoted for free; most will give implicit permission and may provide better assets if asked. Converts legal exposure into a relationship.
+
+Note: DMCA safe harbor (Section 512) protects platforms hosting *user-uploaded* content, not operator-scraped content. The event flyers are low risk (promotional material), but venue photos scraped from third-party sites carry more exposure. Consult a lawyer before significant growth.
+
+### 10. Editorial
 Blocked on content and outreach, not engineering. Not a dev priority right now.
 
 ## Throughline

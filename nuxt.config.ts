@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     geminiApiKey: process.env.GEMINI_API_KEY,
     supabaseStorageBucket: process.env.SUPABASE_STORAGE_BUCKET,
     public: {
+      supabaseStorageBucket: process.env.SUPABASE_STORAGE_BUCKET,
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseApiKeyBrowser: process.env.SUPABASE_API_KEY_BROWSER,
       archiveDbName: process.env.ARCHIVE_DB_NAME || 'archived-events-qa',

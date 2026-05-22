@@ -68,6 +68,7 @@
   35. Tortoise Supper Club (no event list)
   24. Chicago Theatre
   39. aliveOne (calendar, going to need a custom scraper)
+  40. everything on 19hz that isnt on opener.fm yet
   FROM DO312 AUDIT - NOT YET ADDED:
   - Bassline Chicago
   - Blue Chicago (https://www.bluechicago.com/Schedule.aspx)
