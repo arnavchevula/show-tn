@@ -53,7 +53,7 @@ const displayDate = computed(() => {
       <div class="flex flex-col gap-2 mb-6">
         <span class="flex items-center gap-x-2">
           <UIcon name="i-lucide-map-pin" class="size-4 text-rose-200 shrink-0" />
-          <NuxtLink :to="`/chicago/venues/${show.venue.toLowerCase().replace(/\s+/g, '-')}`" class="hover:underline">{{ show.venue }}</NuxtLink>
+          <NuxtLink :to="`/chicago/venues/${venueSlug(show.venue)}`" class="hover:underline">{{ show.venue }}</NuxtLink>
         </span>
         <span class="flex items-center gap-x-2">
           <UIcon name="i-lucide-calendar-days" class="size-4 text-rose-200 shrink-0" />

@@ -21,7 +21,7 @@
         <p class="text-xs">{{ props.show?.support }}</p>
         <span class="flex items-center gap-x-1 ">
           <UIcon name="i-lucide-map-pin" class="size-4 text-rose-200" />
-          <NuxtLink :to="`/chicago/venues/${props.show.venue.toLowerCase().replace(/\s+/g, '-')}`" class="hover:underline">
+          <NuxtLink :to="`/chicago/venues/${venueSlug(props.show.venue)}`" class="hover:underline">
             <p class="text-md">{{ props.show?.venue }}</p>
           </NuxtLink>
         </span>

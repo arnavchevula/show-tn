@@ -16,7 +16,7 @@ onMounted(async ()=> {
         heroImg.value.src = `${baseUrlImages}${venueInfo.value.slug}.webp`
     }
     await fetchAllVenues();
-    venueShows.value = allShows.value.filter((show)=>show.venue===venueInfo.value.name)
+    venueShows.value = allShows.value.filter((show) => venueSlug(show.venue) === venueInfo.value.slug)
     initializeMap();
 })
 function initializeMap() {

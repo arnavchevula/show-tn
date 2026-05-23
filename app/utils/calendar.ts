@@ -1,5 +1,8 @@
 import * as ics from 'ics'
 
+export const venueSlug = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-')
+
 export const parseShowTime = (show: any) => {
   const calendarDate = show.parsedDate instanceof Date
     ? show.parsedDate
