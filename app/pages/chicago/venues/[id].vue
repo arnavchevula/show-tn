@@ -41,8 +41,8 @@ function getDate(eventDate: string){
 
 <template>
 <div>
-    <div class="relative h-64 w-full overflow-hidden">
-        <img ref="heroImg" :src="`${baseUrlImages}${venueInfo.slug}-hero.webp`" @error="(e) => ((e.target as HTMLImageElement).src = `${baseUrlImages}${venueInfo.slug}.webp`)" :alt="venueInfo.name" class="w-full h-full object-cover rounded-md" />
+    <div class="relative h-64 w-full overflow-hidden rounded-md">
+        <img ref="heroImg" :src="`${baseUrlImages}${venueInfo.slug}-hero.webp`" @error="(e) => ((e.target as HTMLImageElement).src = `${baseUrlImages}${venueInfo.slug}.webp`)" :alt="venueInfo.name" class="absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
     </div>

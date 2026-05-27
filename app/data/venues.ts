@@ -30,7 +30,7 @@ export const venues: Venue[] = [
     address: '50 E Ida B Wells Dr, Chicago, IL 60605',
     website: 'https://www.auditoriumtheatre.org',
     eventsUrl: 'https://www.jamusa.com/events',
-    genres: [],
+    genres: ["pop"],
     photo: 'https://picsum.photos/seed/auditorium-theatre/800/500',
   },
   {
@@ -162,7 +162,7 @@ export const venues: Venue[] = [
     address: '1200 W Randolph St, Chicago, IL 60607',
     website: 'https://citywinery.com',
     eventsUrl: 'https://citywinery.com/pages/events/chicago',
-    genres: [],
+    genres: ["hip-hop/rap", "soul", "jazz"],
     photo: 'https://picsum.photos/seed/city-winery/800/500',
   },
   {
@@ -316,7 +316,7 @@ export const venues: Venue[] = [
     address: '1001 W Washington Blvd, Chicago, IL 60607',
     website: 'https://garciaschicago.live',
     eventsUrl: 'https://garciaschicago.live/shows',
-    genres: [],
+    genres: ['jazz', 'americana', 'soul'],
     photo: 'https://picsum.photos/seed/garcias/800/500',
   },
   {
@@ -382,7 +382,7 @@ export const venues: Venue[] = [
     address: '329 N Dearborn St, Chicago, IL 60654',
     website: 'https://chicago.houseofblues.com',
     eventsUrl: 'https://chicago.houseofblues.com/shows',
-    genres: [],
+    genres: ['indie', 'punk', 'hip-hop/rap', 'pop', 'rock'],
     photo: 'https://picsum.photos/seed/house-of-blues/800/500',
   },
   {
@@ -514,7 +514,7 @@ export const venues: Venue[] = [
     address: '2933 W Montrose Ave, Chicago, IL 60618',
     website: 'https://montrosesaloon.com',
     eventsUrl: 'https://montrosesaloon.com/events/',
-    genres: [],
+    genres: ['local', 'cover bands', 'indie'],
     photo: 'https://picsum.photos/seed/montrose-saloon/800/500',
   },
   {
@@ -628,7 +628,7 @@ export const venues: Venue[] = [
     photo: 'https://picsum.photos/seed/reggies/800/500',
   },
   {
-    slug: 'salt-shed',
+    slug: 'the-salt-shed',
     name: 'The Salt Shed',
     neighborhood: 'Bucktown',
     region: 'Northwest Side',

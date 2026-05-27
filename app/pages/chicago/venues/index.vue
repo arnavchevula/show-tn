@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {venues} from '~/data/venues';
+import {venues, type Venue} from '~/data/venues';
 const { public: { supabaseStorageBucket } } = useRuntimeConfig()
 
 const neighborhoodCount = computed(() => new Set(venues.map(v => v.neighborhood)).size);
@@ -8,6 +8,21 @@ const selectedRegion = ref('All');
 const filteredVenues = computed(() =>
   selectedRegion.value === 'All' ? venues : venues.filter(v => v.region === selectedRegion.value)
 );
+const groupedVenuesByLetter = computed(()=>{
+    return filteredVenues.value.reduce((prev: object,next: Venue)=>{
+        const firstLetter = next.name[0];
+        if (prev[firstLetter]) {
+            prev[firstLetter].push(next);
+        }
+        else {
+            prev[firstLetter] = [next];
+        }
+        return prev
+    },{})
+})
+function scrollToLetter(letter: string) {
+    document.getElementById(letter)?.scrollIntoView({ behavior: 'smooth' });
+}
 const baseUrlImages = `https://zylpuvjzvdyzfedpqqqh.supabase.co/storage/v1/object/public/${supabaseStorageBucket}/`
 </script>
 
@@ -43,8 +58,22 @@ const baseUrlImages = `https://zylpuvjzvdyzfedpqqqh.supabase.co/storage/v1/objec
             {{ region }}
         </button>
     </div>
-    <div class="lg:grid lg:grid-cols-3 xl:grid xl:grid-cols-4 md:grid md:grid-cols-2 gap-6 flex flex-col">
-        <div v-for="(venue, index) in filteredVenues" @click="navigateTo(`/chicago/venues/${venue.slug}`)"
+    <!-- mobile: fixed overlay scrollbar -->
+    <div class="fixed right-2 z-50 top-1/2 -translate-y-1/2 md:hidden">
+        <ul class="rounded-xl bg-slate-600 flex flex-col items-center justify-center px-1 py-1 opacity-60 cursor-pointer">
+            <li v-for="letter in Object.keys(groupedVenuesByLetter)" :key="letter" @click="scrollToLetter(letter)" class="text-xs leading-tight px-1">
+                {{ letter }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- desktop: layout column scrollbar -->
+    <div class="flex gap-6">
+    <div class="flex flex-col flex-1">
+        <div v-for="(venueList, letter) in groupedVenuesByLetter" :key="letter" class="flex flex-col md:flex-row gap-6 mb-6">
+            <h2 class="text-4xl font-bold text-slate-700 w-8 shrink-0 pt-1">{{ letter }}</h2>
+            <div :id="letter" class="lg:grid lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 grid grid-cols-1 gap-6 flex-1">
+                <div v-for="(venue, index) in venueList" @click="navigateTo(`/chicago/venues/${venue.slug}`)"
              class="card-enter"
              :style="{ animationDelay: `${(index % 6) * 75}ms` }">
             <div class="flex flex-col gap-2 rounded-xl  hover:shadow-xl hover:shadow-slate-800 transition duration-300 h-full">
@@ -65,6 +94,20 @@ const baseUrlImages = `https://zylpuvjzvdyzfedpqqqh.supabase.co/storage/v1/objec
                 </div>
             </div>
         </div>
+            </div>
+        </div>
+        
+
+    </div>
+
+    <!-- desktop: sticky sidebar scrollbar -->
+    <div class="hidden md:flex flex-col items-center sticky top-1/2 self-start -translate-y-1/2 h-fit">
+        <ul class="rounded-xl bg-slate-800 flex flex-col items-center px-2 py-2 gap-0.5 cursor-pointer">
+            <li v-for="letter in Object.keys(groupedVenuesByLetter)" :key="letter" @click="scrollToLetter(letter)" class="text-xs text-slate-400 hover:text-white transition-colors leading-tight w-full text-center">
+                {{ letter }}
+            </li>
+        </ul>
+    </div>
     </div>
 </div>
 </template>

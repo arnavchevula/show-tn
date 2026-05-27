@@ -311,3 +311,6 @@ async function verify() {
 ```
 
 If you need to show a user-facing error for a failed request, wrap the `$fetch` call in a `try/catch` — the caught error will contain the response status and body.
+
+
+A few of the venue details pages have this weird issue where when you resize the window using the dev tools toggle mobile / desktop view the image doesn't fill the full width of the page and the nav bar at the top also matches this incorrect width. It doesn't happen when you load but if you resize manually so i'm unsure whats happening but claude wasn't able to figure it out at at the moment. Currently happens on the Gman tavern, lemon and lincoln hall, podlasie, riviera venue pages. I actually think it has more to do with the overflow on the element below IE when the titles of the events are too long on mobile, the tickets link ends up getting pushed off the edge of the page and it creates extra space

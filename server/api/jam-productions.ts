@@ -61,9 +61,8 @@ export default defineEventHandler(async(event) => {
             const url = $(elm).find('a.tickets.onsalenow').attr('href');
             const neighborhood = extractNeighborhood(venue);
             const region = extractRegion(venue);
-
             shows.push({
-                id: generateStableId(venue, parsedDate, title),
+                id: generateStableId(venue, parsedDate, title, doorsTime || showTime),
                 header: header,
                 title:title,
                 venue: venue,
@@ -88,7 +87,8 @@ export default defineEventHandler(async(event) => {
         const tableName = process.env.DB_NAME || 'events-qa'
         const archiveTableName = process.env.ARCHIVE_DB_NAME || 'archived-events-qa'
         await db.from(archiveTableName).upsert(shows, { onConflict: 'id' });
-        await db.from(tableName).upsert(shows, { onConflict: 'id' });
+        const {data, error} = await db.from(tableName).upsert(shows, { onConflict: 'id' });
+        console.log(data, error)
         const newIds = shows.map(s => s.id);
         if (newIds.length > 0) {
             await db.from(tableName).delete().eq('source', 'jam-productions').not('id', 'in', `(${newIds.join(',')})`);
