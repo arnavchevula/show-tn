@@ -121,7 +121,7 @@ async function verify() {
 - Filter upcoming events from the existing events table by `venue` field — no new queries needed
 - The scraper configs in `server/scraper/` already have `displayName`, `neighborhood`, `region`, `url`, and `fallbackUrl` per venue — extract these into a shared static file that both scraper configs and venue pages consume so the data lives in one place
 - A DB table only makes sense if venue owners manage their own pages (edit bio, upload photo) — that's a much bigger feature, skip for now
-
+- Venue list page and details page take some time to load all the images... try to figure out a better way? resize all the things you can and then see if theres some better paradigm to follow ie lazy loading or skeleton frames etc
 7. Newsletter -> Ideally some sort of recommendation algorithm but for now could just do something like find the biggest shows and send them out in a monthly newsletter
 
 **Email branding (shelved — revisit when site has more traction):**
@@ -146,7 +146,17 @@ Currently operating as a sole proprietorship with no corporate shield — liabil
 
 Note: DMCA safe harbor (Section 512) protects platforms hosting *user-uploaded* content, not operator-scraped content. The event flyers are low risk (promotional material), but venue photos scraped from third-party sites carry more exposure. Consult a lawyer before significant growth.
 
-### 10. Editorial
+### 10. Tonight's Map
+Interactive map showing venues with events happening tonight. Use `@nuxtjs/leaflet` with cluster markers (via `Leaflet.markercluster`) — pins that are geographically close merge into a numbered circle and split apart on zoom. Sized dots or custom minimal markers are an alternative for a heatmap-like aesthetic while keeping interactivity.
+
+- Add lat/lng coordinates statically to `venues.ts` per venue
+- Filter tonight's events, group by venue, place one marker per venue
+- Popup on click shows venue name + tonight's shows
+- Wrap map component in `<ClientOnly>` — Leaflet requires `window` and breaks SSR
+
+
+
+### 11. Editorial
 Blocked on content and outreach, not engineering. Not a dev priority right now.
 
 ## Throughline

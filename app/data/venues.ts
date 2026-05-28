@@ -8,6 +8,9 @@ export interface Venue {
   eventsUrl: string
   genres: string[]
   photo: string
+  lat: number
+  lng: number
+  aliases?: string[]
 }
 
 export const venues: Venue[] = [
@@ -21,6 +24,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://andysjazzclub.com/music-calendar/',
     genres: ['jazz'],
     photo: 'https://picsum.photos/seed/andys-jazz-club/800/500',
+    lat: 41.8904,
+    lng: -87.6284,
   },
   {
     slug: 'auditorium-theatre',
@@ -32,6 +37,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jamusa.com/events',
     genres: ["pop"],
     photo: 'https://picsum.photos/seed/auditorium-theatre/800/500',
+    lat: 41.8777,
+    lng: -87.6239,
   },
   {
     slug: 'aragon-ballroom',
@@ -43,6 +50,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.bylinebankaragonballroom.com/shows',
     genres: ['rock', 'pop', 'indie'],
     photo: 'https://picsum.photos/seed/aragorn-ballroom/800/500',
+    lat: 41.9687,
+    lng: -87.6584,
   },
   {
     slug: 'avondale-music-hall',
@@ -54,6 +63,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.avondalemusichall.com/events-1',
     genres: ['hip-hop/rap', 'indie', 'electronic'],
     photo: 'https://picsum.photos/seed/avondale-music-hall/800/500',
+    lat: 41.9395,
+    lng: -87.7198,
   },
   {
     slug: 'beat-kitchen',
@@ -65,6 +76,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://beatkitchen.com',
     genres: ['indie', 'soul', 'hip-hop/rap', 'alternative', 'rock'],
     photo: 'https://picsum.photos/seed/beat-kitchen/800/500',
+    lat: 41.9397,
+    lng: -87.6831,
   },
   {
     slug: 'bookclub',
@@ -76,6 +89,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://bookclubchi.com/events/',
     genres: ['hip-hop/rap', 'indie', 'soul'],
     photo: 'https://picsum.photos/seed/bookclub/800/500',
+    lat: 41.9357,
+    lng: -87.6701,
   },
   {
     slug: 'bottom-lounge',
@@ -87,6 +102,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://bottomlounge.com/events/',
     genres: ['punk', 'metal', 'rock'],
     photo: 'https://picsum.photos/seed/bottom-lounge/800/500',
+    lat: 41.8856,
+    lng: -87.6607,
   },
   {
     slug: 'buddy-guys-legends',
@@ -98,6 +115,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://buddyguy.com/events/?view=list',
     genres: ['blues', 'jazz', 'rock'],
     photo: 'https://picsum.photos/seed/buddy-guys-legends/800/500',
+    lat: 41.8716,
+    lng: -87.6257,
   },
   {
     slug: 'burlington-bar',
@@ -109,6 +128,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.theburlingtonbar.com/',
     genres: ['metal', 'punk', 'emo', 'indie', 'rock'],
     photo: 'https://picsum.photos/seed/burlington-bar/800/500',
+    lat: 41.9241,
+    lng: -87.7191,
   },
   {
     slug: 'cafe-mustache',
@@ -120,6 +141,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.cafemustachechicago.com',
     genres: ['indie', 'soul', 'rock'],
     photo: 'https://picsum.photos/seed/cafe-mustache/800/500',
+    lat: 41.9216,
+    lng: -87.7037,
   },
   {
     slug: 'california-clipper',
@@ -131,6 +154,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://californiaclipper.com/chicago-the-california-clipper-events',
     genres: ['electronic', 'dance', 'jazz', 'indie', 'soul'],
     photo: 'https://picsum.photos/seed/california-clipper/800/500',
+    lat: 41.9001,
+    lng: -87.6969,
   },
   {
     slug: 'chop-shop',
@@ -142,6 +167,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://chopshopchi.com/calendar/index.html',
     genres: ['rock', 'indie', 'soul', 'hip-hop/rap', 'pop'],
     photo: 'https://picsum.photos/seed/chop-shop/800/500',
+    lat: 41.9099,
+    lng: -87.6833,
   },
   {
     slug: 'chicago-theatre',
@@ -153,6 +180,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jamusa.com/events',
     genres: [],
     photo: 'https://picsum.photos/seed/chicago-theatre/800/500',
+    lat: 41.8853,
+    lng: -87.6278,
   },
   {
     slug: 'city-winery',
@@ -164,6 +193,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://citywinery.com/pages/events/chicago',
     genres: ["hip-hop/rap", "soul", "jazz"],
     photo: 'https://picsum.photos/seed/city-winery/800/500',
+    lat: 41.8840,
+    lng: -87.6583,
   },
   {
     slug: 'clara',
@@ -175,6 +206,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.clarachicago.com/events',
     genres: ['jazz', 'experimental', 'soul'],
     photo: 'https://picsum.photos/seed/clara/800/500',
+    lat: 41.9099,
+    lng: -87.6832,
   },
   {
     slug: 'cobra-lounge',
@@ -186,6 +219,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://cobralounge.com/events/',
     genres: ['rock', 'metal', 'punk', 'emo'],
     photo: 'https://picsum.photos/seed/cobra-lounge/800/500',
+    lat: 41.8871,
+    lng: -87.6667,
   },
   {
     slug: 'coles',
@@ -197,6 +232,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://colesbarchicago.com/',
     genres: ['indie', 'punk', 'soul', 'hip-hop/rap', 'metal', 'rock', 'pop'],
     photo: 'https://picsum.photos/seed/coles/800/500',
+    lat: 41.9218,
+    lng: -87.7039,
   },
   {
     slug: 'color-club',
@@ -208,6 +245,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.colorclub.events/calendar',
     genres: ['indie', 'pop', 'experimental', 'jazz'],
     photo: 'https://picsum.photos/seed/color-club/800/500',
+    lat: 41.9547,
+    lng: -87.7168,
   },
   {
     slug: 'concord-music-hall',
@@ -219,6 +258,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://concordmusichall.com/calendar/',
     genres: ['electronic', 'rock', 'punk', 'metal', 'hip-hop/rap'],
     photo: 'https://picsum.photos/seed/concord-music-hall/800/500',
+    lat: 41.9178,
+    lng: -87.6901,
   },
   {
     slug: 'constellation',
@@ -230,6 +271,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://constellation-chicago.com/',
     genres: ['jazz', 'experimental'],
     photo: 'https://picsum.photos/seed/constellation/800/500',
+    lat: 41.9376,
+    lng: -87.6909,
   },
   {
     slug: 'cubby-bear',
@@ -241,6 +284,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.cubbybear.com/live-music',
     genres: ['rock', 'indie'],
     photo: 'https://picsum.photos/seed/cubby-bear/800/500',
+    lat: 41.9471,
+    lng: -87.6556,
   },
   {
     slug: 'dorians',
@@ -252,6 +297,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://throughtherecordshop.com/events/',
     genres: ['jazz', 'soul', 'hip-hop/rap'],
     photo: 'https://picsum.photos/seed/dorians/800/500',
+    lat: 41.9099,
+    lng: -87.6819,
   },
   {
     slug: 'elastic-arts',
@@ -263,6 +310,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://elasticarts.org/events',
     genres: ['jazz', 'experimental'],
     photo: 'https://picsum.photos/seed/elastic-arts/800/500',
+    lat: 41.9321,
+    lng: -87.7191,
   },
   {
     slug: 'empty-bottle',
@@ -274,6 +323,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.emptybottle.com',
     genres: ['indie', 'rock', 'punk', 'electronic'],
     photo: 'https://picsum.photos/seed/empty-bottle/800/500',
+    lat: 41.9003,
+    lng: -87.6906,
   },
   {
     slug: 'epiphany-arts-center',
@@ -285,6 +336,9 @@ export const venues: Venue[] = [
     eventsUrl: 'https://epiphanychi.com/tickets/',
     genres: ['jazz', 'soul', 'classical', 'americana'],
     photo: 'https://picsum.photos/seed/epiphany-arts-center/800/500',
+    lat: 41.8727,
+    lng: -87.6675,
+    aliases: ['epiphany-arts', 'epiphany-center-for-the-arts'],
   },
   {
     slug: 'esco',
@@ -296,6 +350,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/esco-chicago?vid=VN-9i0d',
     genres: ['dance', 'electronic', 'club', 'reggaeton'],
     photo: 'https://picsum.photos/seed/esco/800/500',
+    lat: 41.8837,
+    lng: -87.6468,
   },
   {
     slug: 'fulton-street-collective',
@@ -307,6 +363,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://fultonstreetcollective.com/events/',
     genres: ['jazz', 'experimental', 'orchestra'],
     photo: 'https://picsum.photos/seed/fulton-street-collective/800/500',
+    lat: 41.8899,
+    lng: -87.6774,
   },
   {
     slug: 'garcias',
@@ -318,6 +376,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://garciaschicago.live/shows',
     genres: ['jazz', 'americana', 'soul'],
     photo: 'https://picsum.photos/seed/garcias/800/500',
+    lat: 41.8826,
+    lng: -87.6541,
   },
   {
     slug: 'gman-tavern',
@@ -329,6 +389,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://gmantavern.com/events',
     genres: ['indie', 'rock', 'pop'],
     photo: 'https://picsum.photos/seed/gman-tavern/800/500',
+    lat: 41.9503,
+    lng: -87.6504,
   },
   {
     slug: 'gold-coast-social',
@@ -340,6 +402,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/gold-coast-social?vid=VN-ktgk',
     genres: ['dance', 'electronic', 'club', 'reggaeton'],
     photo: 'https://picsum.photos/seed/gold-coast-social/800/500',
+    lat: 41.9044,
+    lng: -87.6282,
   },
   {
     slug: 'green-mill',
@@ -351,6 +415,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://greenmilljazz.com/calendar/',
     genres: ['jazz'],
     photo: 'https://picsum.photos/seed/green-mill/800/500',
+    lat: 41.9679,
+    lng: -87.6574,
   },
   {
     slug: 'hideaway',
@@ -362,6 +428,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/hideaway-chicago?vid=VN-6du6',
     genres: ['dance', 'electronic', 'club'],
     photo: 'https://picsum.photos/seed/hideaway/800/500',
+    lat: 41.9044,
+    lng: -87.6283,
   },
   {
     slug: 'hideout',
@@ -373,6 +441,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.hideoutchicago.com/shows',
     genres: ['indie', 'country', 'alternative'],
     photo: 'https://picsum.photos/seed/hideout/800/500',
+    lat: 41.9136,
+    lng: -87.6698,
   },
   {
     slug: 'house-of-blues',
@@ -384,6 +454,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://chicago.houseofblues.com/shows',
     genres: ['indie', 'punk', 'hip-hop/rap', 'pop', 'rock'],
     photo: 'https://picsum.photos/seed/house-of-blues/800/500',
+    lat: 41.8876,
+    lng: -87.6302,
   },
   {
     slug: 'hungry-brain',
@@ -395,6 +467,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://hungrybrainchicago.com/',
     genres: ['jazz', 'experimental'],
     photo: 'https://picsum.photos/seed/hungry-brain/800/500',
+    lat: 41.9398,
+    lng: -87.6844,
   },
   {
     slug: 'icon-chicago',
@@ -406,6 +480,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/icon-chicago?vid=VN-p5l5',
     genres: ['dance', 'electronic', 'club', 'reggaeton'],
     photo: 'https://picsum.photos/seed/icon-chicago/800/500',
+    lat: 41.9210,
+    lng: -87.6659,
   },
   {
     slug: 'jazz-showcase',
@@ -417,6 +493,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jazzshowcase.com/nowplaying',
     genres: ['jazz'],
     photo: 'https://picsum.photos/seed/jazz-showcase/800/500',
+    lat: 41.8712,
+    lng: -87.6307,
   },
   {
     slug: 'joes-bar',
@@ -428,6 +506,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.joesbar.com/livemusic-events',
     genres: ['country', 'rock', 'punk'],
     photo: 'https://picsum.photos/seed/joes-bar/800/500',
+    lat: 41.9127,
+    lng: -87.6503,
   },
   {
     slug: 'kingston-mines',
@@ -439,6 +519,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://kingstonmines.com/?v=0b3b97fa6688',
     genres: ['blues'],
     photo: 'https://picsum.photos/seed/kingston-mines/800/500',
+    lat: 41.9268,
+    lng: -87.6490,
   },
   {
     slug: 'lemon',
@@ -450,6 +532,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.lemonchicago.net/events',
     genres: ['jazz', 'americana', 'soul'],
     photo: 'https://picsum.photos/seed/lemon/800/500',
+    lat: 41.8908,
+    lng: -87.6739,
   },
   {
     slug: 'martyrs',
@@ -461,6 +545,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jamusa.com/events',
     genres: ['rock', 'indie', 'alternative'],
     photo: 'https://picsum.photos/seed/martyrs/800/500',
+    lat: 41.9530,
+    lng: -87.6722,
   },
   {
     slug: 'lincoln-hall',
@@ -472,6 +558,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.lh-st.com/lincoln-hall',
     genres: ['indie', 'rock', 'pop', 'alternative'],
     photo: 'https://picsum.photos/seed/lincoln-hall/800/500',
+    lat: 41.9243,
+    lng: -87.6654,
   },
   {
     slug: 'metro',
@@ -483,6 +571,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://metrochicago.com/events',
     genres: ['indie', 'punk', 'hip-hop/rap', 'pop', 'rock'],
     photo: 'https://picsum.photos/seed/metro/800/500',
+    lat: 41.9504,
+    lng: -87.6505,
   },
   {
     slug: 'moes-cantina-river-north',
@@ -494,6 +584,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/moes-cantina-river-north?vid=VN-6qbm',
     genres: ['dance', 'electronic', 'club', 'reggaeton'],
     photo: 'https://picsum.photos/seed/moes-cantina-river-north/800/500',
+    lat: 41.8892,
+    lng: -87.6302,
   },
   {
     slug: 'moes-cantina-wrigleyville',
@@ -505,6 +597,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/moes-cantina-wrigleyville?vid=VN-1qn5',
     genres: ['dance', 'electronic', 'club', 'reggaeton'],
     photo: 'https://picsum.photos/seed/moes-cantina-wrigleyville/800/500',
+    lat: 41.9484,
+    lng: -87.6509,
   },
   {
     slug: 'montrose-saloon',
@@ -516,6 +610,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://montrosesaloon.com/events/',
     genres: ['local', 'cover bands', 'indie'],
     photo: 'https://picsum.photos/seed/montrose-saloon/800/500',
+    lat: 41.9613,
+    lng: -87.7068,
   },
   {
     slug: 'outset',
@@ -527,6 +623,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://outsetlive.com/events/',
     genres: ['pop', 'electronic', 'indie'],
     photo: 'https://picsum.photos/seed/outset/800/500',
+    lat: 41.9136,
+    lng: -87.6669,
   },
   {
     slug: 'park-west',
@@ -538,6 +636,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jamusa.com/events',
     genres: ['rock', 'pop', 'indie'],
     photo: 'https://picsum.photos/seed/park-west/800/500',
+    lat: 41.9185,
+    lng: -87.6381,
   },
   {
     slug: 'podlasie-club',
@@ -549,6 +649,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://ra.co/clubs/189215',
     genres: ['electronic', 'dance', 'club'],
     photo: 'https://picsum.photos/seed/podlasie-club/800/500',
+    lat: 41.9342,
+    lng: -87.7177,
   },
   {
     slug: 'prysm',
@@ -560,6 +662,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.prysmchicago.com/events',
     genres: ['electronic', 'dance'],
     photo: 'https://picsum.photos/seed/prysm/800/500',
+    lat: 41.9115,
+    lng: -87.6391,
   },
   {
     slug: 'punch-house',
@@ -571,6 +675,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.punchhousechicago.com/song-selectors',
     genres: ['electronic', 'dance', 'club', 'hip-hop/rap', 'reggaeton'],
     photo: 'https://picsum.photos/seed/punch-house/800/500',
+    lat: 41.8574,
+    lng: -87.6583,
   },
   {
     slug: 'radius',
@@ -582,6 +688,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.radius-chicago.com/',
     genres: ['electronic', 'dance'],
     photo: 'https://picsum.photos/seed/radius/800/500',
+    lat: 41.8530,
+    lng: -87.6489,
   },
   {
     slug: 'ramova-theatre',
@@ -593,6 +701,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://ramovachicago.com/',
     genres: ['hip-hop/rap', 'electronic', 'rock', 'metal', 'punk', 'soul'],
     photo: 'https://picsum.photos/seed/ramova-theatre/800/500',
+    lat: 41.8317,
+    lng: -87.6469,
   },
   {
     slug: 'reeds-local',
@@ -604,6 +714,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://reedslocal.com/events/',
     genres: ['local', 'cover bands', 'indie'],
     photo: 'https://picsum.photos/seed/reeds-local/800/500',
+    lat: 41.9396,
+    lng: -87.7098,
   },
   {
     slug: 'riviera-theatre',
@@ -615,6 +727,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jamusa.com/events',
     genres: ['rock', 'pop', 'hip-hop/rap'],
     photo: 'https://picsum.photos/seed/riviera-theatre/800/500',
+    lat: 41.9672,
+    lng: -87.6564,
   },
   {
     slug: 'reggies',
@@ -626,6 +740,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.reggieslive.com/',
     genres: ['rock', 'metal', 'punk', 'hip-hop/rap'],
     photo: 'https://picsum.photos/seed/reggies/800/500',
+    lat: 41.8534,
+    lng: -87.6274,
   },
   {
     slug: 'the-salt-shed',
@@ -637,6 +753,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.saltshedchicago.com/home#shows',
     genres: [],
     photo: 'https://picsum.photos/seed/salt-shed/800/500',
+    lat: 41.9069,
+    lng: -87.6668,
   },
   {
     slug: 'schubas',
@@ -648,6 +766,9 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.lh-st.com/schubas',
     genres: ['indie', 'rock', 'country', 'americana'],
     photo: 'https://picsum.photos/seed/schubas/800/500',
+    lat: 41.9381,
+    lng: -87.6639,
+    aliases: ['schubas-upstairs'],
   },
   {
     slug: 'sleeping-village',
@@ -659,6 +780,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://sleeping-village.com/events/',
     genres: ['indie', 'emo', 'alternative', 'rock'],
     photo: 'https://picsum.photos/seed/sleeping-village/800/500',
+    lat: 41.9396,
+    lng: -87.7224,
   },
   {
     slug: 'smartbar',
@@ -670,6 +793,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://smartbarchicago.com/events',
     genres: ['electronic', 'dance', 'lgbtq+'],
     photo: 'https://picsum.photos/seed/smartbar/800/500',
+    lat: 41.9504,
+    lng: -87.6503,
   },
   {
     slug: 'smoke-and-mirrors',
@@ -681,6 +806,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.smokeandmirrorschicago.com/#event',
     genres: ['electronic', 'dance', 'club'],
     photo: 'https://picsum.photos/seed/smoke-and-mirrors/800/500',
+    lat: 41.9178,
+    lng: -87.6899,
   },
   {
     slug: 'subterranean',
@@ -692,6 +819,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://subt.net',
     genres: ['punk', 'rock', 'metal', 'indie', 'hip-hop/rap'],
     photo: 'https://picsum.photos/seed/subterranean/800/500',
+    lat: 41.9099,
+    lng: -87.6825,
   },
   {
     slug: 'tack-room',
@@ -703,6 +832,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.tackroomchicago.com/livemusic',
     genres: ['electronic', 'dance', 'club', 'hip-hop/rap', 'reggaeton'],
     photo: 'https://picsum.photos/seed/tack-room/800/500',
+    lat: 41.8568,
+    lng: -87.6481,
   },
   {
     slug: 'thalia-hall',
@@ -714,6 +845,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.thaliahallchicago.com/',
     genres: ['indie', 'pop', 'alternative', 'rock'],
     photo: 'https://picsum.photos/seed/thalia-hall/800/500',
+    lat: 41.8567,
+    lng: -87.6480,
   },
   {
     slug: 'three-top-lounge',
@@ -725,6 +858,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.threetoploungechicago.com/',
     genres: ['indie', 'pop', 'alternative', 'rock'],
     photo: 'https://picsum.photos/seed/three-top-lounge/800/500',
+    lat: 41.9070,
+    lng: -87.6669,
   },
   {
     slug: 'tunnel',
@@ -736,6 +871,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://speakeasygo.com/tunnel-chicago?vid=VN-88wt',
     genres: ['dance', 'electronic', 'club', 'reggaeton'],
     photo: 'https://picsum.photos/seed/tunnel/800/500',
+    lat: 41.8892,
+    lng: -87.6304,
   },
   {
     slug: 'uncommon-ground',
@@ -747,6 +884,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.uncommonground.com/events-page',
     genres: ['indie', 'experimental'],
     photo: 'https://picsum.photos/seed/uncommon-ground/800/500',
+    lat: 41.9522,
+    lng: -87.6506,
   },
   {
     slug: 'united-center',
@@ -758,6 +897,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.unitedcenter.com/events',
     genres: [],
     photo: 'https://picsum.photos/seed/united-center/800/500',
+    lat: 41.8806,
+    lng: -87.6742,
   },
   {
     slug: 'vic-theatre',
@@ -769,6 +910,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.jamusa.com/events',
     genres: ['rock', 'pop', 'indie'],
     photo: 'https://picsum.photos/seed/vic-theatre/800/500',
+    lat: 41.9375,
+    lng: -87.6534,
   },
   {
     slug: 'whistler',
@@ -780,6 +923,8 @@ export const venues: Venue[] = [
     eventsUrl: 'https://whistlerchicago.com/calendar',
     genres: ['electronic', 'jazz', 'dance'],
     photo: 'https://picsum.photos/seed/whistler/800/500',
+    lat: 41.9226,
+    lng: -87.7050,
   },
   {
     slug: 'wild-hare',
@@ -791,7 +936,15 @@ export const venues: Venue[] = [
     eventsUrl: 'https://www.wildharemusic.com/lineup',
     genres: ['hip-hop/rap', 'reggae'],
     photo: 'https://picsum.photos/seed/wild-hare/800/500',
+    lat: 41.8864,
+    lng: -87.6544,
   },
 ]
 
+// O(1) venue lookup by slug — faster than venues.find() which scans the whole array each time
 export const venueBySlug = Object.fromEntries(venues.map(v => [v.slug, v])) as Record<string, Venue>
+
+// O(1) lookup for scraped venue names that don't match their slug exactly (e.g. "Schubas (Upstairs)" → schubas)
+export const venueByAlias = Object.fromEntries(
+  venues.flatMap(v => (v.aliases ?? []).map(alias => [alias, v]))
+) as Record<string, Venue>

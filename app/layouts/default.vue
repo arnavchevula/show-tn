@@ -21,11 +21,11 @@ watch(user, (newUser, oldUser) => {
 })
 </script>
 <template>
+    <Header @login="loginOpen = true"/>
     <div class="container mx-auto">
-      <Header @login="loginOpen = true"/>
       <slot />
-      <LoginModal :open="loginOpen" @close="loginOpen = false"/>                                        
-      <Footer /> 
+      <LoginModal :open="loginOpen" @close="loginOpen = false"/>
+      <Footer />
     </div>
   </template>
 

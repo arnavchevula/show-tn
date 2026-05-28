@@ -11,10 +11,29 @@ const items = computed<NavigationMenuItem[]>(() => [{
   to: '/',
   icon: 'i-lucide-book-open',
 }, {
-  label: 'Shows',
-  to: '/chicago',
-  icon: 'i-lucide-box',
-  active: route.path.startsWith('/chicago')
+  label: 'Chicago',
+  icon: 'i-lucide-map-pin',
+  active: route.path.startsWith('/chicago'),
+  children: [
+    {
+      label: 'Shows',
+      to: '/chicago',
+      icon: 'i-lucide-music',
+      description: 'Browse upcoming live music',
+    },
+    {
+      label: 'Venues',
+      to: '/chicago/venues',
+      icon: 'i-lucide-building-2',
+      description: 'Explore venues across the city',
+    },
+    {
+      label: 'Map',
+      to: '/chicago/map',
+      icon: 'i-lucide-map',
+      description: "See tonight's shows on a map",
+    },
+  ]
 },{
   label: 'About Us',
   to: '/about',
@@ -94,7 +113,7 @@ const items = computed<NavigationMenuItem[]>(() => [{
     </template>
 
     <template #body>
-      <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
+      <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5"/>
     </template>
   </UHeader>
 </template>

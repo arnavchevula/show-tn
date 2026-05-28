@@ -293,6 +293,109 @@ Pair this with `ref="heroImg"` on the `<img>` and keep the `@error` handler for 
 
 ---
 
+## `venueBySlug` and `venueByAlias` — O(1) venue lookups from a flat array
+
+**File:** `app/data/venues.ts`
+
+### `venueBySlug`
+
+```ts
+Object.fromEntries(venues.map(v => [v.slug, v]))
+```
+
+`venues.map(v => [v.slug, v])` iterates every venue and returns a 2-element "pair" for each one — the slug as the key, the full venue object as the value:
+
+```ts
+[
+  ["beat-kitchen", { slug: "beat-kitchen", name: "Beat Kitchen", lat: ..., ... }],
+  ["empty-bottle", { slug: "empty-bottle", name: "Empty Bottle", lat: ..., ... }],
+]
+```
+
+`Object.fromEntries()` collapses that list of pairs into a plain object where each pair becomes a key/value entry:
+
+```ts
+{
+  "beat-kitchen": { slug: "beat-kitchen", name: "Beat Kitchen", ... },
+  "empty-bottle": { slug: "empty-bottle", name: "Empty Bottle", ... },
+}
+```
+
+**Why:** `venues.find(v => v.slug === 'beat-kitchen')` scans the whole array on every call — O(n). `venueBySlug['beat-kitchen']` is an object property lookup — O(1) regardless of how many venues there are.
+
+---
+
+### `venueByAlias`
+
+```ts
+Object.fromEntries(venues.flatMap(v => (v.aliases ?? []).map(alias => [alias, v])))
+```
+
+Scraped venue names don't always match the slug format exactly. Some venues have alternate names in the data — "Schubas (Upstairs)" should resolve to the `schubas` venue, "Epiphany Arts" should resolve to `epiphany-arts-center`. The `aliases` field on each venue holds an array of those alternate slugified names.
+
+Step by step:
+1. `v.aliases ?? []` — if a venue has no aliases, use an empty array so nothing breaks
+2. `.map(alias => [alias, v])` — for each alias string, make a `[alias, venue]` pair
+3. `.flatMap(...)` — like `map` but flattens one level. Each venue produces *multiple* pairs (one per alias). `flatMap` combines them into one flat list instead of an array of arrays. Venues with no aliases contribute zero pairs.
+4. `Object.fromEntries(...)` — same as `venueBySlug`, collapses into a lookup object:
+
+```ts
+{
+  "schubas-upstairs": { slug: "schubas", name: "Schubas", ... },
+  "epiphany-arts": { slug: "epiphany-arts-center", name: "Epiphany Center For The Arts", ... },
+}
+```
+
+**Usage pattern in `getLocationPins`:** slugify `show.venue`, try `venueBySlug[slug]` first, fall back to `venueByAlias[slug]` if that's undefined. This handles both clean matches and known edge cases in O(1).
+
+---
+
+## Leaflet + `@nuxtjs/leaflet` — two-instance problem and correct setup
+
+**File:** `app/pages/chicago/map/index.client.vue`
+
+### The two-instance problem
+
+`@vue-leaflet/vue-leaflet` (which `@nuxtjs/leaflet` wraps) can operate in two modes controlled by the `use-global-leaflet` prop on `<LMap>`:
+
+- `use-global-leaflet="true"` — `LMap` reads Leaflet from `window.L`
+- `use-global-leaflet="false"` — `LMap` uses its own bundled Leaflet instance
+
+`leaflet.markercluster` always attaches to `window.L` (it expects Leaflet to be a global). If `LMap` is using its bundled instance (`false`) while `useLMarkerCluster` creates cluster groups via `window.L`, the two instances are incompatible — objects from one aren't recognized by the other. This produces a runtime crash: `TypeError: Cannot read properties of undefined (reading 'lat')` deep inside `LatLngBounds.intersects`, because `getBounds()` on a cluster group returns a bounds object from one Leaflet instance that the other instance can't read.
+
+### The fix
+
+Set `window.L` manually in `onMounted` **before** importing `leaflet.markercluster`, then use `use-global-leaflet="true"` so both `LMap` and `useLMarkerCluster` share the same instance:
+
+```ts
+onMounted(async () => {
+  window.L = await import('leaflet').then(m => m.default)
+  await import('leaflet.markercluster') // must come after window.L is set
+  await fetchAllVenues()
+})
+```
+
+Order matters: `leaflet.markercluster` reads `window.L` at import time. If it loads before `window.L` is set, you get `ReferenceError: L is not defined`. If `window.L` is set after markercluster loads, `MarkerClusterGroup is not a constructor`.
+
+### SSR — use `.client.vue`
+
+Leaflet requires browser globals (`window`, `document`). Suffix the file `.client.vue` to prevent Nuxt from server-rendering it entirely. Without this, the build crashes with `Cannot read properties of undefined (reading 'Default')` during SSR.
+
+### Watch timing — manual `unwatch()` over `{ once: true }`
+
+`useLMarkerCluster` needs both `pins.length > 0` (data loaded) and `map.value?.leafletObject` (map initialized). Using `{ once: true }` on the watch fires on the first change — which may happen before `leafletObject` is ready. The correct pattern is a manual unwatch that keeps watching until both conditions are true:
+
+```ts
+const unwatch = watch(getLocationPins, (pins) => {
+  if (pins.length > 0 && map.value?.leafletObject) {
+    useLMarkerCluster({ leafletObject: map.value.leafletObject, markers: ... })
+    unwatch()
+  }
+})
+```
+
+---
+
 ## `$fetch` throws on non-2xx — no manual status check needed
 
 **File:** `app/components/LoginModal.vue` (`verify()`)

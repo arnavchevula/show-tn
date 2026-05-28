@@ -7,7 +7,17 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: process.env.NODE_ENV === 'development' },
-  modules: ['@nuxt/ui', '@nuxt/image', '@nuxt/content', '@nuxtjs/turnstile', '@nuxt/scripts'],
+  modules: [
+    '@nuxt/ui',
+    '@nuxt/image',
+    '@nuxt/content',
+    '@nuxtjs/turnstile',
+    '@nuxt/scripts',
+    '@nuxtjs/leaflet'
+  ],
+  leaflet: {
+    markerCluster: true
+  },
   turnstile: {
     siteKey: process.env.TURNSTILE_SITE_KEY || '1x00000000000000000000AA',
   },
