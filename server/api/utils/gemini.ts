@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { Event } from "~~/types/event";
 const geminiApiKey = useRuntimeConfig().geminiApiKey;
 const client = new GoogleGenAI({ apiKey: geminiApiKey });
 
@@ -34,4 +35,25 @@ export async function processImage(buffer: Buffer, mimeType: string) {
     } catch (error) {
         
     }
+}
+
+export async function generateDescription(event: Event): Promise<string | null> {
+  try {
+    const response = await client.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [{
+        text: `Generate a 2-3 sentence background description for a live music event.
+Title: ${event.title}
+Support: ${event.support || 'none'}
+Venue: ${event.venue}
+Genre: ${event.genreTags?.join(', ') || 'unknown'}
+
+Focus on the artists. If you have no information about them, write something brief about the venue or the genre. Return only the description, no markdown.`
+      }]
+    })
+    return response.text?.trim() ?? null
+  } catch (error) {
+    console.error("Error generating description:", error)
+    return null
+  }
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { divIcon } from 'leaflet'
 import { venueSlug } from "~/utils/calendar"
 import { venueBySlug, venueByAlias } from '~/data/venues'
 import { useAggregatedShows } from '~/composables/useAggregatedShows'
@@ -35,36 +36,16 @@ const venueGroups = computed(() => {
 const drawerOpen = ref(false)
 const selectedVenue = ref<{ name: string; slug: string; address: string; shows: any[] } | null>(null)
 
-onMounted(async () => {
-  window.L = await import('leaflet').then((m) => m.default)
-  await fetchAllVenues()
-})
-
 const zoom = ref(11)
-const map = ref(null) as any
 
-const markerIcon = () =>
-  window.L.divIcon({
-    className: '',
-    html: `<div style="width:12px;height:12px;border-radius:50%;background:#f97316;border:2px solid rgba(255,255,255,0.8);box-shadow:0 0 8px rgba(249,115,22,0.7)"></div>`,
-    iconSize: [12, 12],
-    iconAnchor: [6, 6],
-  })
-
-const unwatch = watch(venueGroups, (groups) => {
-  if (groups.length > 0 && map.value?.leafletObject) {
-    const leaflet = map.value.leafletObject
-    for (const group of groups) {
-      window.L.marker([group.lat, group.lng], { icon: markerIcon() })
-        .on('click', () => {
-          selectedVenue.value = group
-          drawerOpen.value = true
-        })
-        .addTo(leaflet)
-    }
-    unwatch()
-  }
+const markerIcon = divIcon({
+  className: '',
+  html: `<div style="width:12px;height:12px;border-radius:50%;background:#f97316;border:2px solid rgba(255,255,255,0.8);box-shadow:0 0 8px rgba(249,115,22,0.7)"></div>`,
+  iconSize: [12, 12],
+  iconAnchor: [6, 6],
 })
+
+onMounted(fetchAllVenues)
 </script>
 
 <template>
@@ -87,13 +68,20 @@ const unwatch = watch(venueGroups, (groups) => {
       </div>
     </div>
     <div class="w-full rounded-xl overflow-hidden" style="height:600px">
-      <LMap ref="map" :zoom="zoom" :center="[41.8781, -87.6298]" :use-global-leaflet="true">
+      <LMap :zoom="zoom" :center="[41.8781, -87.6298]">
         <LTileLayer
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           subdomains="abcd"
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>"
           layer-type="base"
           name="CartoDB Dark Matter"
+        />
+        <LMarker
+          v-for="group in venueGroups"
+          :key="group.slug"
+          :lat-lng="[group.lat, group.lng]"
+          :icon="markerIcon"
+          @click="selectedVenue = group; drawerOpen = true"
         />
       </LMap>
     </div>

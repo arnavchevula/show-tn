@@ -1,0 +1,21 @@
+{
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  "volar.takeOverMode.enabled": true,
+  "emmet.includeLanguages": {
+    "vue": "html",
+    "vue-html": "html"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
