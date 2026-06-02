@@ -14,13 +14,18 @@ const items: NavigationMenuItem[] = [
   },
   {
     label: 'Contact',
-    to: 'https://mrarnav.netlify.app/',
-    target: '_blank'
+    to: '/contact',
+    target: '_self'
   },
   {
     label: 'Releases',
     to: 'https://github.com/arnavchevula/show-tn/tree/master',
     target: '_blank'
+  },
+  {
+    label: 'Legal',
+    to: '/legal',
+    target: '_self'
   }
 ]
 </script>

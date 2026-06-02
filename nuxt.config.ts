@@ -42,6 +42,7 @@ export default defineNuxtConfig({
     supabaseKey: process.env.SUPABASE_KEY,
     supabaseSecretServer: process.env.SUPABASE_SECRET_SERVER,
     geminiApiKey: process.env.GEMINI_API_KEY,
+    resendApiKey: process.env.RESEND_API_KEY,
     supabaseStorageBucket: process.env.SUPABASE_STORAGE_BUCKET,
     public: {
       supabaseStorageBucket: process.env.SUPABASE_STORAGE_BUCKET,
