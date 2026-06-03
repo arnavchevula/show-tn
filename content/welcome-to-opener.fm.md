@@ -1,11 +1,11 @@
 ---
-title: "Welcome to Opener.fm!"
+title: "Welcome to Opener.fm"
 author: "Arnav Chevula"
-date: "June 2, 2026"
-length: 5
-description: "A new outlet for Chicago's music scene"
+date: "June 3, 2026"
+length: 3
+description: "A new outlet for Chicago's music scene!"
 image: https://zylpuvjzvdyzfedpqqqh.supabase.co/storage/v1/object/public/images-qa/editorial/welcome-to-opener.fm.webp
-bio: "Jersey transplant, Chicago convert. Software engineer by trade,  aspiring neo soul musician by heart and C list celebrity. UIUC Alumni."
+bio: "Jersey native, Chicago adoptee. Software engineer by trade,  aspiring neo soul musician by heart and C list celebrity. UIUC Alumni."
 urls:
   {
     "instagram": "https://instagram/navviec",
@@ -15,19 +15,15 @@ urls:
   }
 ---
 
-Whenever I'd get bored and have no plans, i'd try to figure out if there were any cool shows happening. Usually this involved me grabbing my phone and opening up as many venue pages as I could and shuffling between multiple tabs to see if there was anything cool happening tonight. Or I'd casually check to see if some band I knew was coming in the future to a venue in the city. I thought I had remedied this situation by following all the venues on Instagram but I would find myself skipping through the stories and not actually retaining anything. I have found out about a ton of shows this way but I would still sometimes forget about them.
-
-In the depths of my unemployment I created this website as a side project and after debuting to some friends decided to release it. There are a few other versions of this type of aggregator for Chicago's scene that I have listed in the About page so if this one isn't quite your style feel free to check one of the other ones out.
+In the depths of my unemployment I created this website as a side project and after debuting to some friends decided to release it. There are a few other versions of this type of aggregator for Chicago's scene that I have listed in the [About](/about){target="\_blank"} page so if this one isn't quite your style feel free to check one of the other ones out!
 
 ## Features
 
-- Users can see shows up to 6 weeks out
-- Comprehensive filtering based on venue, neighborhood, region, genre and search.
-- Users can add these events to their calendar
-- Users can favorite events
-- Users can receieve email alerts for their favorited shows.
-- Promoters, booking agents and other service providers can upload their own events either by flyer or manually entering show details.
-- Users can see a map of all the events happening tonight in Chicago.
-- Users can read various articles about the Chicago scene.
-
-There are still things I really want to do with this site and I'm hoping to also make it some sort of music blog as well. Even if it doesnt work out its proof I did something at least plus it beats applying for jobs. This is my love letter to the city, such a beautiful place with beautiful people and a beautiful scene.
+- Events are aggregated in real time from 70+ Chicago venues, with coverage extending up to six weeks out.
+- Powerful filtering by venue, neighborhood, region, genre, and keyword search to help you find exactly what you're looking for.
+- Dedicated venue pages with full event listings, so you can follow the spots you love most.
+- An interactive map of all shows happening tonight across the city.
+- Save events to your personal favorites list and receive email reminders so you never miss a show.
+- One-click calendar export to add any event directly to your calendar.
+- Promoters, booking agents, and independent artists can submit events directly — either by uploading a flyer or entering details manually.
+- An editorial section featuring articles, interviews, and coverage of the Chicago music scene.

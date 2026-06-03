@@ -150,7 +150,7 @@ const copyLink = async () => {
         <NuxtImg
           v-if="show.image"
           :src="show.image"
-          class="rounded-md mb-6 md:mb-0 hover:grayscale shrink-0 w-full aspect-[4/3] md:aspect-[3/4] md:w-100 object-cover"
+          class="rounded-md mb-6 md:mb-0 hover:grayscale shrink-0 w-full aspect-[4/3] md:aspect-[3/4] md:w-100 object-cover transition duration-300"
         />
         <div>
           <div class="flex justify-between items-start">
