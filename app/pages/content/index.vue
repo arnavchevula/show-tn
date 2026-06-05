@@ -21,7 +21,7 @@ console.log(home);
         </p>
         <h1 class="text-5xl font-bold">Editorial</h1>
         <p class="text-slate-400 text-sm mt-1">
-          Read about Chicago's music scene.
+          Read about Chicago's music scene and more.
         </p>
       </div>
       <div>

@@ -27,3 +27,5 @@ In the depths of my unemployment I created this website as a side project and af
 - One-click calendar export to add any event directly to your calendar.
 - Promoters, booking agents, and independent artists can submit events directly — either by uploading a flyer or entering details manually.
 - An editorial section featuring articles, interviews, and coverage of the Chicago music scene.
+
+There are more features coming soon! If you have any requests or want to get in touch feel free to leave a message on the [contact](/contact){target="\_blank"} page

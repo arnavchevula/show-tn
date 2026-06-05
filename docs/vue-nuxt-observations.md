@@ -417,3 +417,24 @@ If you need to show a user-facing error for a failed request, wrap the `$fetch` 
 
 
 A few of the venue details pages have this weird issue where when you resize the window using the dev tools toggle mobile / desktop view the image doesn't fill the full width of the page and the nav bar at the top also matches this incorrect width. It doesn't happen when you load but if you resize manually so i'm unsure whats happening but claude wasn't able to figure it out at at the moment. Currently happens on the Gman tavern, lemon and lincoln hall, podlasie, riviera venue pages. I actually think it has more to do with the overflow on the element below IE when the titles of the events are too long on mobile, the tickets link ends up getting pushed off the edge of the page and it creates extra space
+
+---
+
+## Flexbox: `flex-grow`, `flex-shrink`, `flex-basis`, and `flex-1`
+
+**`flex-grow`** — how much the element expands to fill extra space. `flex-grow: 1` means "take my share of any leftover room."
+
+**`flex-shrink`** — how much the element compresses when there isn't enough space. `flex-shrink: 1` means shrink proportionally. Set to `0` to prevent squishing.
+
+**`flex-basis`** — the starting size before grow/shrink kick in. `auto` = use content size. `0` = start from nothing.
+
+**`flex-1`** is shorthand for `flex-grow: 1`, `flex-shrink: 1`, `flex-basis: 0`. The key difference from just `flex-grow: 1` is `flex-basis: 0` — elements start from zero and grow equally, rather than starting from their content size. Two sibling `flex-1` elements end up the same width; two `flex-grow: 1` elements stay proportional to their content.
+
+**Practical uses:**
+- `flex-1` — fill remaining space (most common case)
+- `shrink-0` — prevent an icon or image from squishing in a flex row
+- `flex-none` — don't grow or shrink, stay exactly content size
+
+**`flex-1` + `mt-auto` pattern for card layouts:** give the content wrapper `flex-1` so it fills the card's remaining height (requires `h-full` on the card, which gets its height from the grid row stretching all cells to match the tallest card). Then use `mt-auto` on the bottom section to push it to the bottom regardless of how much content is above it. Without `flex-1`, the content wrapper is only as tall as its content and `mt-auto` has nothing to push against.
+
+**Mac keyboard shortcut:** middle dot `·` (U+00B7, used as a separator) = **Option + Shift + 9**. Use this instead of a period `.` — a period sits at the baseline and looks low, while `·` is vertically centered.

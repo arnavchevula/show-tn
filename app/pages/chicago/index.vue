@@ -139,7 +139,7 @@ useHead({
 </script>
 
 <template>
-  <div class="container mx-auto px-2 sm:px-0"> 
+  <div class="container mx-auto px-2 sm:px-0">
     <div class="flex items-center justify-end mt-2">
       <NuxtLink to="/create-event">
         <UButton icon="i-lucide-plus-circle" variant="outline" color="neutral" label="Add Event" />
@@ -154,67 +154,75 @@ useHead({
       </div>
       <UButton icon="i-lucide-chevron-right" size="xl" color="neutral" variant="ghost" class="text-rose-200" :disabled="weekOffset === 5" @click="nextWeek" />
     </div>
-    <UInput v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full sm:flex-1'}" class="mb-2"/>
-
+    <UInput v-model="searchString" icon="i-lucide-search" size="md" variant="outline" placeholder="Search..." :ui="{root:'w-full sm:flex-1'}" class="mb-2" />
     <UCollapsible class="flex flex-col gap-2 w-full mb-2" v-model:open="open">
-    <UButton
-      label="Filters"
-      color="neutral"
-      variant="outline"
-      :trailing-icon = "open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
-      leading-icon="i-lucide-sliders-horizontal"
-      :ui="{label:'text-dimmed', trailingIcon:'text-dimmed', leadingIcon:'text-dimmed'}"
-      block 
-    />
-
-    <template #content>
-      <div class="flex flex-col items-baseline mb-2 sm:flex-row sm:gap-2">
-        <USelectMenu
-        v-model="selectedVenues"
-        :items="venues"
-        multiple
-        placeholder="All venues"
-        class="mb-2 w-full sm:w-auto sm:flex-1"
+      <UButton
+        label="Filters"
+        color="neutral"
+        variant="outline"
+        :trailing-icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+        leading-icon="i-lucide-sliders-horizontal"
+        :ui="{ label: 'text-dimmed', trailingIcon: 'text-dimmed', leadingIcon: 'text-dimmed' }"
+        block
       />
-      <USelectMenu
-        v-model="selectedRegions"
-        :items="regions"
-        multiple
-        placeholder="All regions"
-        class="mb-2 w-full sm:w-auto sm:flex-1"
-
-      />
-      <USelectMenu
-        v-model="selectedNeighborhoods"
-        :items="neighborhoods"
-        multiple
-        placeholder="All neighborhoods"
-        class="mb-2 w-full sm:w-auto sm:flex-1" 
-
-      />
-      <USelectMenu
-        v-model="selectedGenres"
-        :items="genreTags"
-        multiple
-        placeholder="All genres"
-        class="mb-2 w-full sm:w-auto sm:flex-1"
-
-      />
-    </div>    
-  </template>
-  </UCollapsible>
+      <template #content>
+        <div class="flex flex-col items-baseline mb-2 sm:flex-row sm:gap-2">
+          <USelectMenu
+            v-model="selectedVenues"
+            :items="venues"
+            multiple
+            placeholder="All venues"
+            class="mb-2 w-full sm:w-auto sm:flex-1"
+          />
+          <USelectMenu
+            v-model="selectedRegions"
+            :items="regions"
+            multiple
+            placeholder="All regions"
+            class="mb-2 w-full sm:w-auto sm:flex-1"
+          />
+          <USelectMenu
+            v-model="selectedNeighborhoods"
+            :items="neighborhoods"
+            multiple
+            placeholder="All neighborhoods"
+            class="mb-2 w-full sm:w-auto sm:flex-1"
+          />
+          <USelectMenu
+            v-model="selectedGenres"
+            :items="genreTags"
+            multiple
+            placeholder="All genres"
+            class="mb-2 w-full sm:w-auto sm:flex-1"
+          />
+        </div>
+      </template>
+    </UCollapsible>
     <div class="grid grid-cols-4 gap-2 mb-2 sm:flex sm:flex-row sm:gap-4">
-      <UButton v-for="day in visibleWeekDays" size="lg" class="flex-1 flex-col h-auto py-2 leading-tight gap-0" :active="day.getTime() === currentDate.getTime()" :key="day.getTime()" color="neutral" variant="outline" active-color="primary" @click="filterByDay(day)">
+      <UButton
+        v-for="day in visibleWeekDays"
+        :key="day.getTime()"
+        size="lg"
+        class="flex-1 flex-col h-auto py-2 leading-tight gap-0"
+        :active="day.getTime() === currentDate.getTime()"
+        color="neutral"
+        variant="outline"
+        active-color="primary"
+        @click="filterByDay(day)"
+      >
         <span class="text-xs font-normal opacity-60">{{ day.toLocaleDateString(undefined, { weekday: 'short' }) }}</span>
         <span>{{ day.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) }}</span>
       </UButton>
     </div>
     <div v-if="isLoading" class="flex items-center justify-center mt-[25%] px-2 sm:px-0">
-        <UProgress v-model="value"/>
+      <UProgress v-model="value" />
     </div>
-    <div v-else v-for="show in filteredShowsWithDaysAndSearch" :key="show.id" class="cursor-pointer" @click="navigateTo(`/chicago/${show.id}`)">
-      <EventCard :show="show" />
+    <div v-else :key="currentDate.getTime()" class="flex flex-col sm:grid-cols-2 sm:grid md:grid-cols-3 md:grid lg:grid-cols-4 lg:grid gap-8 mt-6 fade-in">
+      <div v-for="show in filteredShowsWithDaysAndSearch" :key="show.id" class="cursor-pointer" @click="navigateTo(`/chicago/${show.id}`)">
+        <ShowCard :show="show" />
+      </div>
     </div>
+
     <div v-if="filteredShowsWithDaysAndSearch.length === 0 && !isLoading" class="mt-4">
       <p>No shows match these filters. Please try again!</p>
     </div>
@@ -222,6 +230,15 @@ useHead({
     <div v-if="!isLoading" class="mt-6 text-sm text-slate-400">
       Don't see your show? <NuxtLink to="/create-event" class="underline hover:text-slate-200 transition-colors">Add it here.</NuxtLink>
     </div>
-
   </div>
 </template>
+
+<style scoped>
+@keyframes fadeIn {
+  0%   { opacity: 0;  }
+  100% { opacity: 1;   }
+}
+.fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+} 
+</style>

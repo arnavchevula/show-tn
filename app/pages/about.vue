@@ -41,8 +41,13 @@ const links = ref([
     :links="links"
   >
     <template #description>
-      I created this site to solve an issue I kept having. Who is playing a show tonight? I would have to check every venue website and see who is playing tonight to see. There are 50+ venues in Chicago so this quickly could become an annoying endeavor combined with having to keep track of everything made it impossible. Furthermore you might miss out on shows because you forget whats happening and then miss out on your favorite band. This is not an exhaustive list, there are many venues that are not included on this site. For a more comprehensive listing platform I would suggest
-      <NuxtLink to="https://www.chicagoshowcalendar.com/" target="_blank" class="underline">Chicago Show Calendar</NuxtLink>.
+      I created this site to solve an issue I kept having. Who is playing a show tonight? I would have to check every venue website and see who is playing tonight to see. There are 50+ venues in Chicago so this quickly could become an annoying endeavor combined with having to keep track of everything made it impossible. Furthermore you might miss out on shows because you forget whats happening and then miss out on your favorite band. This is not an exhaustive list, there are many venues that are not included on this site. For a more comprehensive listing, check out these other great resources:
+      <ul class="mt-2 space-y-1 list-disc list-inside">
+        <li><NuxtLink to="https://www.chicagoshowcalendar.com/" target="_blank" class="underline hover:text-white transition-colors">Chicago Show Calendar</NuxtLink></li>
+        <li><NuxtLink to="https://19hz.info/" target="_blank" class="underline hover:text-white transition-colors">19hz</NuxtLink></li>
+        <li><NuxtLink to="https://www.ohmyrockness.com/" target="_blank" class="underline hover:text-white transition-colors">Oh My Rockness</NuxtLink></li>
+        <li><NuxtLink to="https://musechitown.com/" target="_blank" class="underline hover:text-white transition-colors">Muse Chi Town</NuxtLink></li>
+      </ul>
     </template>
   </UPageSection>
     </UPage>
