@@ -8,8 +8,8 @@ export const montroseSaloonConfig: VenueConfig = {
     neighborhood: 'Ravenswood',
     waitUntil: 'networkidle2',
     selectors: {
-        eventList: 'div.tribe-common-g-row.tribe-events-calendar-list__event-row',
-        title: 'h3.tribe-events-calendar-list__event-title',
+        eventList: 'li.tribe-common-g-row.tribe-events-calendar-list__event-row',
+        title: 'h4.tribe-events-calendar-list__event-title',
         date: 'span.tribe-event-date-start', 
         day: '',
         month: '',
@@ -25,7 +25,7 @@ export const montroseSaloonConfig: VenueConfig = {
         price: '',
         description: '',
     } as SelectorConfig,
-    genreTags: [],
+    genreTags: ["local", "singer/songwriter", "cover bands"],
     imageExtractor: 'src',
     datePreprocess: (raw: string) => raw.split('|')[0].trim(),
     doorsTimeExtractor: ($: any, elm: any) => {
